@@ -32,6 +32,9 @@
 ### From the second time onwards
 - `docker compose up -d`
 
+### IDE Configuration (VS Code)
+This project includes a `sail-wrapper.sh` script that allows IDE extensions expecting Laravel Sail to work with our custom Docker Compose setup. VS Code settings are pre-configured in `.vscode/settings.json`.
+
 # Notes
 
 ### Laravel Versions
