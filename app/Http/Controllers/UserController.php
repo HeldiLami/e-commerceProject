@@ -27,31 +27,6 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        $validatedUser = $request->validate([
-            'name' => 'required|string|max:255',
-            'email'=>'required|email|unique:users',
-            'password'=>[
-                'required', 
-                'string',
-                Password::min(8)
-                ->letters()
-                ->numbers()
-                ->symbols()
-            ],
-        ]);
-
-        $validatedUser->password = Hash::make($validatedUser['password']);
-        $user = User::create($validatedUser);
-        $user->save();
-
-        //redirect to the user.index view with a success message
-    }
-
-    /**
      * Display the specified resource.
      */
     public function show(string $email)
