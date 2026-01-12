@@ -1,39 +1,35 @@
-@extends('layouts.front-layout')
+<x-layouts.front-layout title="Tracking - Amazon">
+    <x-slot name="css">
+        @vite(['resources/css/pages/tracking.css'])
+    </x-slot>
 
-@section('title', 'Tracking - Amazon')
+    <div class="order-tracking">
+        <a class="back-to-orders-link link-primary" href="{{ url('/orders') }}">
+            View all orders
+        </a>
 
-@push('css')
-    @vite(['resources/css/pages/tracking.css'])
-@endpush
+        <div class="delivery-date">Arriving on Monday, June 13</div>
 
-@section('content')
-<div class="order-tracking">
-    <a class="back-to-orders-link link-primary" href="{{ url('/orders') }}">
-        View all orders
-    </a>
+        <div class="product-info">Black and Gray Athletic Cotton Socks - 6 Pairs</div>
+        <div class="product-info">Quantity: 1</div>
 
-    <div class="delivery-date">Arriving on Monday, June 13</div>
+        <img class="product-image" src="{{ asset('images/products/athletic-cotton-socks-6-pairs.jpg') }}">
 
-    <div class="product-info">Black and Gray Athletic Cotton Socks - 6 Pairs</div>
-    <div class="product-info">Quantity: 1</div>
+        <div class="progress-labels-container">
+            <div class="progress-label">Preparing</div>
+            <div class="progress-label current-status">Shipped</div>
+            <div class="progress-label">Delivered</div>
+        </div>
 
-    <img class="product-image" src="{{ asset('images/products/athletic-cotton-socks-6-pairs.jpg') }}">
-
-    <div class="progress-labels-container">
-        <div class="progress-label">Preparing</div>
-        <div class="progress-label current-status">Shipped</div>
-        <div class="progress-label">Delivered</div>
+        <div class="progress-bar-container">
+            <div class="progress-bar"></div>
+        </div>
     </div>
 
-    <div class="progress-bar-container">
-        <div class="progress-bar"></div>
-    </div>
-</div>
-@endsection
-
-@push('scripts')
-<script>
-    const url = new URL(window.location.href);
-    console.log(url.searchParams.get('orderId'));
-</script>
-@endpush
+    <x-slot name="scripts">
+        <script>
+            const url = new URL(window.location.href);
+            console.log(url.searchParams.get('orderId'));
+        </script>
+    </x-slot>
+</x-layouts.front-layout>

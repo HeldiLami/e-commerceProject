@@ -1,16 +1,12 @@
-@extends('layouts.front-layout')
+<x-layouts.front-layout title="Amazon Project">
+    <x-slot name="css">
+        @vite(['resources/css/pages/amazon.css'])
+    </x-slot>
 
-@section('title', 'Amazon Project')
-
-@push('css')
-    @vite(['resources/css/pages/amazon.css'])
-@endpush
-
-@section('content')
     <div class="products-grid js-products-grid">
     </div>
-@endsection
 
-@push('scripts')
-  @vite(['resources/js/amazon.js'])
-@endpush
+    <x-slot name="scripts">
+        @vite(['resources/js/amazon.js'])
+    </x-slot>
+</x-layouts.front-layout>

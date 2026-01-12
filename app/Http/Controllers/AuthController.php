@@ -39,7 +39,7 @@ class AuthController extends Controller
     $user = User::create($validatedUser);
     Auth::login($user);
 
-    return redirect()->route('users.index');
+    return redirect()->route('home');
     }
 
     public function login(Request $request){
@@ -70,7 +70,7 @@ class AuthController extends Controller
       }
       Auth::login($user);
       $request->session()->regenerate();  
-      //   return redirect()->route('users.index');
+        return redirect()->route('home');
     }
 
     public function logout(Request $request){

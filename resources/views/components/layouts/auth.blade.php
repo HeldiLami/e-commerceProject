@@ -13,8 +13,8 @@
                 {{ $heading }}
             </h2>
             
-            @yield('content')
-
+            {{ $slot }}
+            
             @if(isset($footer))
                 <div class="mt-6 text-center text-sm text-gray-600">
                     {{ $footer }}

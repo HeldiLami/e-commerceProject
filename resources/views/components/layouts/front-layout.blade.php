@@ -1,7 +1,9 @@
+@props(['title' => 'Amazon'])
+
 <!DOCTYPE html>
 <html>
   <head>
-    <title>@yield('title', 'Amazon')</title>
+    <title>{{ $title }}</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -9,9 +11,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
-    @stack('css')
-    
     @vite(['resources/css/general.css', 'resources/css/amazon-header.css'])
+    
+    {{ $css ?? '' }}
     
     <script>
         // Global variable for asset base URL
@@ -34,24 +36,43 @@
       </div>
 
       <div class="amazon-header-right-section">
-        <a class="orders-link header-link" href="{{ url('/orders') }}">
-          <span class="returns-text">Returns</span>
-          <span class="orders-text">& Orders</span>
-        </a>
-
-        <a class="cart-link header-link" href="{{ url('/checkout') }}">
-          <img class="cart-icon" src="{{ asset('images/icons/cart-icon.png') }}">
-          <div class="cart-quantity js-cart-quantity">0</div>
-          <div class="cart-text">Cart</div>
-        </a>
-      </div>
+        @auth
+            <a class="orders-link header-link" href="{{ url('/orders') }}">
+                <span class="returns-text">Returns</span>
+                <span class="orders-text">& Orders</span>
+            </a>
+    
+            <a class="cart-link header-link" href="{{ url('/checkout') }}">
+                <img class="cart-icon" src="{{ asset('images/icons/cart-icon.png') }}">
+                <div class="cart-quantity js-cart-quantity">0</div>
+                <div class="cart-text">Cart</div>
+            </a>
+            
+            <form method="POST" action="{{ route('logout') }}" class="inline">
+                @csrf
+                <button type="submit" class="button-gold">
+                    Log Out
+                </button>
+            </form>
+        @endauth
+    
+        @guest
+            <a href="{{ route('show.login') }}" class="button-silver">
+              Sign in
+            </a>
+    
+            <a href="{{ route('show.registerUser') }}" class="button-gold">
+                <span >Sign Up</span>
+            </a>
+        @endguest
+    </div>
     </div>
 
     <div class="main">
-        @yield('content')
+        {{ $slot }}
     </div>
 
-    @stack('scripts')
+    {{ $scripts ?? '' }}
     
     @vite(['resources/js/utils/updateCartDisplay.js'])
   </body>
