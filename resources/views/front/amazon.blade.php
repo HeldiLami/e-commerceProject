@@ -12,5 +12,5 @@
 @endsection
 
 @push('scripts')
-    <script type="module" src="{{ asset('scripts/amazon.js') }}"></script>
+  @vite(['resources/js/amazon.js'])
 @endpush

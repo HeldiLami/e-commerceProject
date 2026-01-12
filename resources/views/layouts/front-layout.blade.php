@@ -12,6 +12,10 @@
     @stack('css')
     
     @vite(['resources/css/general.css', 'resources/css/amazon-header.css'])
+    
+    <script>
+        // Global variable for asset base URL
+    </script>
   </head>
   <body>
     <div class="amazon-header">
@@ -37,7 +41,7 @@
 
         <a class="cart-link header-link" href="{{ url('/checkout') }}">
           <img class="cart-icon" src="{{ asset('images/icons/cart-icon.png') }}">
-          <div class="cart-quantity">3</div>
+          <div class="cart-quantity js-cart-quantity">0</div>
           <div class="cart-text">Cart</div>
         </a>
       </div>
@@ -48,5 +52,7 @@
     </div>
 
     @stack('scripts')
+    
+    @vite(['resources/js/utils/updateCartDisplay.js'])
   </body>
 </html>

@@ -8,6 +8,8 @@ export default defineConfig({
             input: [
                 'resources/css/app.css', 
                 'resources/js/app.js',
+                'resources/js/amazon.js',
+                'resources/js/checkout.js',
                 'resources/css/general.css',
                 'resources/css/amazon-header.css',
                 'resources/css/pages/amazon.css',

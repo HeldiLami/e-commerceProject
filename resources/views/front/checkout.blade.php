@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Checkout</title>
+    <title>Checkout - Amazon</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -10,6 +10,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
     @vite(['resources/css/general.css', 'resources/css/pages/checkout/checkout-header.css', 'resources/css/pages/checkout/checkout.css'])
+    
+    <script>
+        // Global variable for asset base URL
+        window.assetBaseUrl = '{{ asset('') }}';
+    </script>
   </head>
   <body>
     <div class="checkout-header">
@@ -46,7 +51,7 @@
       </div>
     </div>
 
-    {{-- <script type="module" src="{{ asset('scripts/checkout.js') }}"></script> --}}
+    @vite(['resources/js/checkout.js'])
   </body>
 </html>
 

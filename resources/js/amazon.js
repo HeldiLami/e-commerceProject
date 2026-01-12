@@ -1,7 +1,6 @@
-import { cart, addToCart, updateCartQuantity } from "../data/cart.js";
-import { products, loadProducts } from "../data/products.js";
-import { formatCurrency } from "./utils/money.js";
-
+import { addToCart, updateCartQuantity } from "./data/cart.js";
+import { products, loadProducts } from "./data/products.js";
+import { getAssetUrl } from "./utils/assets.js";
 
 loadProducts(renderProductsGrid);
 
@@ -11,8 +10,7 @@ function renderProductsGrid(){
     productsHTML+=`
     <div class="product-container">
             <div class="product-image-container">
-              <img class="product-image"
-                src="${product.image}">
+              <img class="product-image" src="${product.image}">
             </div>
 
             <div class="product-name limit-text-to-2-lines">
@@ -20,8 +18,7 @@ function renderProductsGrid(){
             </div>
 
             <div class="product-rating-container">
-              <img class="product-rating-stars"
-                src="${product.getStarsUrl()}">
+              <img class="product-rating-stars" src="${product.getStarsUrl()}">
               <div class="product-rating-count link-primary">
                 ${product.rating.count}
               </div>
@@ -51,7 +48,7 @@ function renderProductsGrid(){
             <div class="product-spacer"></div>
 
             <div class="added-to-cart">
-              <img src="images/icons/checkmark.png">
+              <img src="${getAssetUrl('images/icons/checkmark.png')}">
               Added
             </div>
 
@@ -60,17 +57,20 @@ function renderProductsGrid(){
             </button>
           </div>`
   });
-  document.querySelector('.js-products-grid').innerHTML= productsHTML;
+  
+  const gridElement = document.querySelector('.js-products-grid');
+  if(gridElement) {
+      gridElement.innerHTML = productsHTML;
+  }
 
   updateCartQuantity('.js-cart-quantity');
 
   document.querySelectorAll('.js-add-to-cart')
     .forEach((button)=>{
       button.addEventListener('click', ()=>{
-        const productId= button.dataset.productId;
+        const productId = button.dataset.productId;
         addToCart(productId);
         updateCartQuantity('.js-cart-quantity');
-    
       });
     });
 }
