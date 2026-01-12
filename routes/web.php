@@ -4,9 +4,11 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('front.amazon');
-});
+//frontend views
+Route::view('/', 'front.amazon');
+Route::view('/orders', 'front.orders');
+Route::view('/checkout', 'front.checkout');
+Route::view('/tracking', 'front.tracking');
 
 Route::get('/register', [AuthController::class, 'showRegisterUser'])->name('show.registerUser');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
