@@ -15,7 +15,7 @@
     <div class="checkout-header">
       <div class="header-content">
         <div class="checkout-header-left-section">
-          <a href="{{ url('/amazon') }}">
+          <a href="{{ url('/') }}">
             <img class="amazon-logo" src="{{ asset('images/amazon-logo.png') }}">
             <img class="amazon-mobile-logo" src="{{ asset('images/amazon-mobile-logo.png') }}">
           </a>
@@ -23,7 +23,7 @@
 
         <div class="checkout-header-middle-section">
           Checkout (<a class="return-to-home-link"
-            href="{{ url('/amazon') }}"><span class="js-checkout-quantity"></span>
+            href="{{ url('/') }}"><span class="js-checkout-quantity"></span>
           </a>)
         </div>
 
