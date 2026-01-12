@@ -8,7 +8,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/register', [AuthController::class, 'showRegister'])->name('show.register');
+Route::get('/register', [AuthController::class, 'showRegisterUser'])->name('show.registerUser');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('show.login');

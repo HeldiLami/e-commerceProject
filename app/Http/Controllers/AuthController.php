@@ -11,8 +11,8 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    public function showRegister(){
-      return view('auth.register', ['isAdmin' => false]);
+    public function showRegisterUser(){
+      return view('auth.register-user');
     }
 
     public function showLogin(){
@@ -43,20 +43,34 @@ class AuthController extends Controller
     }
 
     public function login(Request $request){
-      $validatedUser = $request->validate([
-        'email'=>'required|email',
-        'password'=>'required|string', 
-        'is_admin'=>'boolean'
+      $request->validate([
+        'email' => 'required|email',
+        'password' => 'required|string',
+        'is_admin' => 'required|boolean'
       ]);
-      if(Auth::attempt($validatedUser)){
-        $request->session()->regenerate();
 
-        return redirect()->route('users.index');
-      } 
+      $user = User::where('email', $request->email)->first();
 
-      throw ValidationException::withMessages([
-        'credentials' => 'Sorry incorect credentials'
-      ]);
+      if(!$user){
+        throw ValidationException::withMessages([
+          'email' => 'The email isn\'t registered'
+        ]);
+      }
+
+      if ($request->boolean('is_admin') !== (bool) $user->is_admin) {
+        throw ValidationException::withMessages([
+          'email' => 'You are attempting to log in through the wrong portal.',
+        ]);
+    }
+
+      if(!Hash::check($request->password, $user->password)){
+        throw ValidationException::withMessages([
+         'password' => 'Password is incorrect'
+        ]);
+      }
+      Auth::login($user);
+      $request->session()->regenerate();  
+      //   return redirect()->route('users.index');
     }
 
     public function logout(Request $request){
