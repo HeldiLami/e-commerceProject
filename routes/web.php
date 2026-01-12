@@ -5,7 +5,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('front.amazon');
 });
 
 Route::get('/register', [AuthController::class, 'showRegisterUser'])->name('show.registerUser');

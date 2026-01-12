@@ -5,7 +5,17 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
     plugins: [
         laravel({
-            input: ['resources/css/app.css', 'resources/js/app.js'],
+            input: [
+                'resources/css/app.css', 
+                'resources/js/app.js',
+                'resources/css/general.css',
+                'resources/css/amazon-header.css',
+                'resources/css/pages/amazon.css',
+                'resources/css/pages/checkout/checkout-header.css',
+                'resources/css/pages/checkout/checkout.css',
+                'resources/css/pages/orders.css',
+                'resources/css/pages/tracking.css',
+            ],
             refresh: true,
         }),
         tailwindcss(),
