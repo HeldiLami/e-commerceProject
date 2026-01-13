@@ -17,6 +17,8 @@ export default defineConfig({
                 'resources/css/pages/checkout/checkout.css',
                 'resources/css/pages/orders.css',
                 'resources/css/pages/tracking.css',
+                'resources/css/pages/admin/sidebar.css',
+                'resources/js/admin/menuBtn.js',
             ],
             refresh: true,
         }),
