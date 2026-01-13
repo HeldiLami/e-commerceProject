@@ -22,26 +22,6 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::resource('users', UserController::class)->except('store' );
-
-// Route::post('/statistics', 'admin.statistics')->name('statistics');
-Route::get('/admin/statistics', function () {
-    return view('admin.statistics');
-});
-
-
-
-
-Route::get('/admin/users', function () {
-    $users = User::latest()->get();
-    return view('admin.users', ['users' => $users]);
-})->name('admin.users');
-
+Route::resource('users', UserController::class)->except('store');
 
 Route::get('/products', [ProductController::class, 'index']);
-
-
-Route::get('/admin/users', function () {
-    $users = User::latest()->get();
-    return view('admin.users', ['users' => $users]);
-})->name('admin.users');
