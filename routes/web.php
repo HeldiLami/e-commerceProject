@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 
@@ -19,7 +20,6 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-
 Route::resource('users', UserController::class)->except('store');
 
 
@@ -27,3 +27,6 @@ Route::get('/admin/users', function () {
     $users = User::latest()->get();
     return view('admin.users', ['users' => $users]);
 })->name('admin.users');
+
+
+Route::get('/products', [ProductController::class, 'index']);
