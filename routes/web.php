@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
+use App\Models\User;
 
 //frontend views
 Route::get('/', [ProductController::class, 'index'])->name('home');
@@ -31,3 +32,9 @@ Route::get('/admin/users', function () {
 
 
 Route::get('/products', [ProductController::class, 'index']);
+
+
+Route::get('/admin/users', function () {
+    $users = User::latest()->get();
+    return view('admin.users', ['users' => $users]);
+})->name('admin.users');
