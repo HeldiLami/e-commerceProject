@@ -45,9 +45,16 @@ export async function loadProductsFetch() {
 
     const productsData = await response.json();
 
-    products = productsData.map((productDetails) => {
-      return new Product(productDetails);
-    });
+        products = productsData.map((productDetails) => {
+            switch (productDetails.type) {
+                case "clothing":
+                    return new Clothing(productDetails);
+                case "appliance":
+                    return new Appliance(productDetails);
+                default:
+                    return new Product(productDetails);
+            }
+        });
 
     console.log('Products loaded');
   } catch (error) {
