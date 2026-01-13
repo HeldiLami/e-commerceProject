@@ -1,36 +1,39 @@
 <?php
-    use Illuminate\Database\Migrations\Migration;
-    use Illuminate\Database\Schema\Blueprint;
-    use Illuminate\Support\Facades\Schema;
 
-    return new class extends Migration {
-        public function up(): void
-        {
-            Schema::create('products', function (Blueprint $table) {
-                $table->uuid('id')->primary();
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-                $table->foreignId('user_id')
-                    ->constrained()
-                    ->cascadeOnDelete();
+return new class extends Migration {
+    public function up(): void
+    {
+        Schema::create('products', function (Blueprint $table) {
+            $table->uuid('id')->primary();
 
-                $table->string('name');
-                $table->string('image');
+            $table->foreignId('user_id')
+                ->constrained()
+                ->cascadeOnDelete();
 
-                $table->string('type')->default('product');
+            $table->string('name');
+            $table->string('image');
+            $table->string('type')->default('product');
 
-                $table->decimal('rating_stars', 2, 1)->nullable();
-                $table->integer('rating_count')->default(0);
+            $table->decimal('rating_stars', 2, 1)->nullable();
+            
+            $table->integer('rating_count')->default(0);
 
-                $table->integer('price_cents');
+            $table->integer('price_cents');
 
-                $table->json('keywords')->nullable();
+            $table->integer('quantity')->default(1); 
 
-                $table->timestamps();
-            });
-        }
+            $table->json('keywords')->nullable();
 
-        public function down(): void
-        {
-            Schema::dropIfExists('products');
-        }
-    };
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('products');
+    }
+};

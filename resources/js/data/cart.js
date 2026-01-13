@@ -94,15 +94,14 @@ export function updateDeliveryOption(productId, deliveryOptionId){
 }
 
 
-export function loadCart(fun) {
-  const xhr = new XMLHttpRequest();
-
-
-  xhr.addEventListener('load', () => {
-    console.log(xhr.response);
-    fun();
-  });
-
-  xhr.open('GET', 'https://supersimplebackend.dev/cart');
-  xhr.send();
+export async function loadCart() {
+  try {
+    const response = await fetch('https://supersimplebackend.dev/cart');
+    const cartData = await response.json(); 
+    cart = cartData;
+    saveToStorage();
+    console.log('Cart loaded from backend:', cart);
+  } catch (error) {
+    console.error('Unexpected error loading cart:', error);
+  }
 }
