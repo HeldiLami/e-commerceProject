@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Models\User;
 
 //frontend views
 Route::view('/', 'front.amazon')->name('home');
@@ -20,3 +21,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 Route::resource('users', UserController::class)->except('store');
+
+
+Route::get('/admin/users', function () {
+    $users = User::latest()->get();
+    return view('admin.users', ['users' => $users]);
+})->name('admin.users');
