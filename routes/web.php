@@ -9,6 +9,7 @@ Route::view('/', 'front.amazon')->name('home');
 Route::view('/orders', 'front.orders')->name('orders');
 Route::view('/checkout', 'front.checkout')->name('checkout');
 Route::view('/tracking', 'front.tracking')->name('tracking');
+Route::view('/sidebar', 'components.sidebar')->name('sidebar');
 
 Route::get('/register', [AuthController::class, 'showRegisterUser'])->name('show.registerUser');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
