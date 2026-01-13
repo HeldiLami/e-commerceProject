@@ -1,4 +1,4 @@
-import  { formatCurrency } from "../utils/money.js";
+import { formatCurrency } from "../utils/money.js";
 import { getAssetUrl } from "../utils/assets.js";
 
 export function getProduct(productId) {
