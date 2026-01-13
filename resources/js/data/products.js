@@ -2,17 +2,7 @@ import { formatCurrency } from "../utils/money.js";
 import { getAssetUrl } from "../utils/assets.js";
 
 export function getProduct(productId) {
-    let cartSummaryHTML = "";
-
-    let matchingProduct;
-
-    products.forEach((product) => {
-        if (product.id === productId) {
-            matchingProduct = product;
-        }
-    });
-
-    return matchingProduct;
+    return products.find((product) => product.id === productId);
 }
 
 class Product {
@@ -28,6 +18,7 @@ class Product {
         this.name = productDetails.name;
         this.rating = productDetails.rating;
         this.priceCents = productDetails.priceCents;
+        this.quantity = productDetails.quantity;
     }
 
     getStarsUrl() {
@@ -37,6 +28,9 @@ class Product {
     }
     getPrice() {
         return `$${formatCurrency(this.priceCents)}`;
+    }
+    getInventoryStatus() {
+        return this.quantity > 0 ? `${this.quantity} in stock` : "Out of Stock";
     }
     extraInfoHTML() {
         return "";
@@ -117,14 +111,7 @@ export async function loadProductsFetch() {
         const productsData = await response.json();
 
         products = productsData.map((productDetails) => {
-            switch (productDetails.type) {
-                case "clothing":
-                    return new Clothing(productDetails);
-                case "appliance":
-                    return new Appliance(productDetails);
-                default:
-                    return new Product(productDetails);
-            }
+            return new Product(productDetails);
         });
 
         console.log("Products loaded");
