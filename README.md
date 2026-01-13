@@ -119,6 +119,26 @@ This project includes a `sail-wrapper.sh` script that allows IDE extensions expe
 - Process
     - `vendor/bin/rector process`
 
+### Fixing File Permissions
+If you encounter permission errors (files owned by root), you can fix them using:
+
+**Quick fix for a specific file:**
+```bash
+sudo chown $(id -u):$(id -g) path/to/file
+```
+
+**Fix all root-owned files in the project:**
+```bash
+./fix-permissions.sh
+```
+
+**Or manually:**
+```bash
+sudo find . -not -path "*/vendor/*" -not -path "*/node_modules/*" -not -path "*/.git/*" -user root -exec chown $(id -u):$(id -g) {} \;
+```
+
+**Note:** The Docker entrypoint has been configured to automatically fix permissions on container startup. After rebuilding containers, new files should have correct ownership.
+
 # Alternatives
 - [Laravel Sail](https://laravel.com/docs/master/sail)
 - [Laravel Herd](https://herd.laravel.com/)

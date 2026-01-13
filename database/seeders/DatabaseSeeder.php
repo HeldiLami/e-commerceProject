@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Product;
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,11 +13,24 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Create admin users with products
+        $adminUsers = User::factory()
+            ->count(5)
+            ->admin()
+            ->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Create products for each admin user
+        foreach ($adminUsers as $adminUser) {
+            Product::factory()
+                ->count(rand(3, 8))
+                ->create([
+                    'user_id' => $adminUser->id,
+                ]);
+        }
+
+        // Create regular users without products
+        User::factory()
+            ->count(10)
+            ->create();
     }
 }
