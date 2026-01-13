@@ -1,0 +1,86 @@
+/* Statistics page */
+
+/* Page header (Statistics) */
+
+.page-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.page-header h1 {
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+  color: #131921; /* amazon dark */
+}
+
+.page-header h1::after {
+  content: "";
+  display: block;
+  width: 70px;
+  height: 4px;
+  background: #febd69; /* amazon yellow */
+  margin: 12px auto 0;
+  border-radius: 999px;
+}
+
+.page-header .sub {
+  font-size: 15px;
+  color: #555;
+  max-width: 520px;
+  margin: 12px auto 0;
+  line-height: 1.6;
+}
+
+.sub {
+  margin-top: 6px;
+  margin-bottom: 18px;
+  color: #555;
+  font-size: 14px;
+}
+
+.stats-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 1px 10px rgba(0,0,0,0.08);
+}
+
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.stats-table thead th {
+  background: #232f3e;
+  color: #ffffff;
+  text-align: left;
+  padding: 12px;
+  font-size: 13px;
+}
+
+.stats-table tbody td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.stats-table tbody tr:hover {
+  background: #fafafa;
+}
+
+.pill {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #fef0d8;
+  color: #7a4b00;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.num {
+  font-weight: 800;
+}

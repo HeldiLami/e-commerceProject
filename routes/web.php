@@ -20,3 +20,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 Route::resource('users', UserController::class)->except('store');
+
+// Route::post('/statistics', 'admin.statistics')->name('statistics');
+Route::get('/admin/statistics', function () {
+    return view('admin.statistics');
+});
+
