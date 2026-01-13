@@ -1,8 +1,6 @@
 import { addToCart, updateCartQuantity } from "./data/cart.js";
-import { products, loadProducts } from "./data/products.js";
+import { products, loadProductsFetch } from "./data/products.js";
 import { getAssetUrl } from "./utils/assets.js";
-
-loadProducts(renderProductsGrid);
 
 function renderProductsGrid(){
   let productsHTML='';
@@ -74,3 +72,6 @@ function renderProductsGrid(){
       });
     });
 }
+
+await loadProductsFetch();
+renderProductsGrid();
