@@ -5,8 +5,6 @@ services:
     ####################################################################################################
     php:
         build: .docker/php
-        # Add this line right here:
-        user: "${HOST_UID}:${HOST_GID}"
         ports:
             - 5173:5173
         volumes:
