@@ -29,7 +29,7 @@ Route::get('/products', [ProductController::class, 'index']);
 // Route::post('/statistics', 'admin.statistics')->name('statistics');
 Route::get('/admin/statistics', function () {
     return view('admin.statistics');
-});
+})->name('admin.statistics');
 
 
 
@@ -41,4 +41,17 @@ Route::get('/admin/users', function () {
 
 Route::get('/products', [ProductController::class, 'index']);
 
-Route::get('/products', [ProductController::class, 'index']);
+
+//TEST HELDI
+
+Route::get('/admin/dashboard', function () {
+    return view('admin.dashboard');
+});
+
+use App\Http\Controllers\StripePaymentController;
+
+Route::get('/checkout/card', [StripePaymentController::class, 'show'])->name('checkout.card');
+Route::post('/checkout/create-intent', [StripePaymentController::class, 'createIntent'])->name('checkout.intent');
+Route::post('/checkout/confirm', [StripePaymentController::class, 'markSucceeded'])->name('checkout.confirm');
+
+ 
