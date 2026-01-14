@@ -5,7 +5,6 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
-use App\Models\User;
 
 //frontend views
 Route::get('/', [ProductController::class, 'index'])->name('home');

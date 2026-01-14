@@ -1,5 +1,4 @@
 import { addToCart, updateCartQuantity } from "./data/cart.js";
-import { loadProductsFetch } from "./data/products.js";
 
 function setupAddToCart() {
   document.querySelectorAll('.js-add-to-cart')
@@ -12,5 +11,4 @@ function setupAddToCart() {
     });
 }
 
-await loadProductsFetch();
 setupAddToCart();
