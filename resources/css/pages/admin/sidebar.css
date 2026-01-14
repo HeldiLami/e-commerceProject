@@ -23,9 +23,8 @@ body {
     padding: 30px 20px;
     box-sizing: border-box;
     flex-shrink: 0;
-    
-    /* Tranzicion i lëmuar për mbylljen/hapjen */
-    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+    /* Pa tranzicion në ngarkim fillestar (shmang flicker) */
+    transition: none;
     overflow: hidden;
     white-space: nowrap;
 }
@@ -36,6 +35,11 @@ body {
 .sidebar.collapsed {
     width: 80px;
     padding: 30px 15px; /* Pak më pak padding kur është i mbyllur */
+}
+
+/* Aktivizo tranzicionet vetëm pasi të jetë gati DOM (shih menuBtn.js) */
+.sidebar.animate {
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
 }
 
 /* 2. Fshirja e elementeve tekstuale kur është i mbyllur */

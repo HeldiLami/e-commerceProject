@@ -45,6 +45,6 @@ Route::get('/products', [ProductController::class, 'index']);
 //TEST HELDI
 
 Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard'); // Kjo do të hapi resources/views/admin/dashboard.blade.php
+    return view('admin.dashboard');
 });
  

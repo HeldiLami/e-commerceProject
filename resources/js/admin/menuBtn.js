@@ -10,6 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
         sidebar.classList.add('collapsed');
     }
 
+    // 2b. Aktivizo animacionet vetëm pas aplikimit të gjendjes fillestare
+    //     Kjo shmang "flash" kur faqja ringarkohet dhe sidebar-i animon pa dashje.
+    requestAnimationFrame(() => {
+        sidebar.classList.add('animate');
+    });
+
     // 3. Event listener për klikimin e butonit
     if (toggleBtn) {
         toggleBtn.addEventListener('click', () => {
