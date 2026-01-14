@@ -1,13 +1,20 @@
-/* --- EXISTING STYLES --- */
+/* --- LAYOUT KRYESOR --- */
 
 body {
     margin: 0;
-    display: flex;
-    font-family: sans-serif;
+    padding: 0;
+    min-height: 100vh;
+    height: 100vh;
+    font-family: 'Inter', sans-serif;
+    background-color: #f4f7f6;
+    overflow: hidden;
 }
+
+/* --- SIDEBAR BASE --- */
 
 .sidebar {
     width: 280px;
+    min-height: 100vh;
     height: 100vh;
     background-color: #f4f4f4;
     border-right: 1px solid #e0e0e0;
@@ -15,21 +22,27 @@ body {
     flex-direction: column;
     padding: 30px 20px;
     box-sizing: border-box;
-    /* ADD THIS: Smooth transition for the toggle */
-    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+    flex-shrink: 0;
+    /* Pa tranzicion në ngarkim fillestar (shmang flicker) */
+    transition: none;
     overflow: hidden;
     white-space: nowrap;
 }
 
-/* --- NEW TOGGLE LOGIC --- */
+/* --- LOGJIKA E RE E TOGGLE (COLLAPSED) --- */
 
-/* 1. Shrink the sidebar width */
+/* 1. Zvogëlimi i gjerësisë së sidebar-it */
 .sidebar.collapsed {
     width: 80px;
-    padding: 30px 15px; /* Slightly less padding when small */
+    padding: 30px 15px; /* Pak më pak padding kur është i mbyllur */
 }
 
-/* 2. Hide the Menu Title, Search, and Nav Text when collapsed */
+/* Aktivizo tranzicionet vetëm pasi të jetë gati DOM (shih menuBtn.js) */
+.sidebar.animate {
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+}
+
+/* 2. Fshirja e elementeve tekstuale kur është i mbyllur */
 .sidebar.collapsed .sidebar-header h2,
 .sidebar.collapsed .search-wrapper,
 .sidebar.collapsed .nav-label,
@@ -37,7 +50,7 @@ body {
     display: none;
 }
 
-/* 3. Center the toggle icon and icons when collapsed */
+/* 3. Centrimi i ikonave kur është i mbyllur */
 .sidebar.collapsed .sidebar-header {
     justify-content: center;
 }
@@ -48,10 +61,10 @@ body {
 }
 
 .sidebar.collapsed .nav-icon {
-    margin-right: 0; /* Remove margin so icon stays centered */
+    margin-right: 0; /* Hiqet margjina që ikona të qëndrojë në qendër */
 }
 
-/* --- REST OF YOUR EXISTING CSS --- */
+/* --- KOMPONENTET E BRENDSHME --- */
 
 .sidebar-header {
     display: flex;
@@ -63,6 +76,7 @@ body {
 .sidebar-header h2 {
     margin: 0;
     font-size: 22px;
+    color: #333;
 }
 
 .search-wrapper {
@@ -76,6 +90,7 @@ body {
     border-radius: 8px;
     border: 1px solid #ddd;
     box-sizing: border-box;
+    background-color: #fff;
 }
 
 .search-icon {
@@ -96,6 +111,7 @@ body {
     color: #888;
     text-transform: uppercase;
     margin-bottom: 15px;
+    letter-spacing: 0.5px;
 }
 
 .nav-item {
@@ -106,24 +122,37 @@ body {
     color: #444;
     border-radius: 8px;
     margin-bottom: 5px;
+    transition: background 0.2s ease;
+}
+
+.nav-item:hover {
+    background-color: #ececec;
 }
 
 .nav-item.active {
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     font-weight: bold;
+    color: #2563eb; /* Ngjyra blu për item-in aktiv */
 }
 
 .nav-icon {
     width: 18px;
     height: 18px;
     margin-right: 12px;
-    flex-shrink: 0; /* Prevents icon from squishing */
+    flex-shrink: 0; /* Parandalon shtypjen e ikonës */
 }
+
+/* --- FOOTER DHE LOGOUT --- */
 
 .sidebar-footer {
     border-top: 1px solid #e0e0e0;
     padding-top: 20px;
+    margin-top: auto;
+}
+
+.logout-form {
+    margin: 0;
 }
 
 .logout-button {
@@ -135,10 +164,36 @@ body {
     text-align: left;
     display: flex;
     align-items: center;
+    padding: 10px;
+    color: #444;
+    border-radius: 8px;
+    transition: background 0.2s ease;
 }
 
+.logout-button:hover {
+    background-color: #fee2e2; /* Një nuancë e lehtë e kuqe për dalje */
+    color: #dc2626;
+}
+
+/* --- LAYOUT WRAPPER --- */
+
+.layout-wrapper {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    height: 100vh;
+}
+
+/* --- CONTENT AREA --- */
+
 .content-area {
-    flex-grow: 1;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    height: 100vh;
     padding: 40px;
-    transition: margin-left 0.3s ease;
+    background-color: #f4f7f6;
+    overflow-y: auto;
+    box-sizing: border-box;
 }
