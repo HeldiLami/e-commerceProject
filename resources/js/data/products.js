@@ -37,20 +37,18 @@ class Product {
     }
 }
 
-export let products = [];
-
 export async function loadProductsFetch() {
-    try {
-        const response = await fetch("https://supersimplebackend.dev/products");
+  try {
+    const response = await fetch('https://supersimplebackend.dev/products');
 
-        const productsData = await response.json();
+    const productsData = await response.json();
 
-        products = productsData.map((productDetails) => {
-            return new Product(productDetails);
-        });
+    products = productsData.map((productDetails) => {
+      return new Product(productDetails);
+    });
 
-        console.log("Products loaded");
-    } catch (error) {
-        console.log("Unexpected error");
-    }
+    console.log('Products loaded');
+  } catch (error) {
+    console.log('Unexpected error');
+  }
 }
