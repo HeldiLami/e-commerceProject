@@ -18,8 +18,7 @@ export default defineConfig({
                 'resources/css/pages/orders.css',
                 'resources/css/pages/tracking.css',
                 'resources/css/pages/admin/sidebar.css',
-                'resources/js/admin/menuBtn.js',
-                'resources/js/admin/users.js'
+                'resources/js/admin/menuBtn.js'
             ],
             refresh: true,
         }),
