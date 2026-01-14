@@ -6,7 +6,7 @@ use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 //frontend views
-Route::view('/', 'front.amazon')->name('home');
+Route::get('/', [ProductController::class, 'index'])->name('home');
 Route::view('/orders', 'front.orders')->name('orders');
 Route::view('/checkout', 'front.checkout')->name('checkout');
 Route::view('/tracking', 'front.tracking')->name('tracking');
@@ -20,6 +20,6 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::resource('users', UserController::class)->except('store');
+Route::resource('users', UserController::class)->except('store' );
 
 Route::get('/products', [ProductController::class, 'index']);
