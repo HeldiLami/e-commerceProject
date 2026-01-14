@@ -29,7 +29,7 @@ Route::get('/products', [ProductController::class, 'index']);
 // Route::post('/statistics', 'admin.statistics')->name('statistics');
 Route::get('/admin/statistics', function () {
     return view('admin.statistics');
-});
+})->name('admin.statistics');
 
 
 
@@ -41,7 +41,12 @@ Route::get('/admin/users', function () {
 
 Route::get('/products', [ProductController::class, 'index']);
 
-Route::get('/products', [ProductController::class, 'index']);
 
+//TEST HELDI
+
+Route::get('/admin/dashboard', function () {
+    return view('admin.dashboard');
+});
+ 
 Route::get('/product/{product}', [ProductController::class, 'show'])
     ->name('product.show');
