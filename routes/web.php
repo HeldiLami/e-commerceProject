@@ -47,4 +47,11 @@ Route::get('/products', [ProductController::class, 'index']);
 Route::get('/admin/dashboard', function () {
     return view('admin.dashboard');
 });
+
+use App\Http\Controllers\StripePaymentController;
+
+Route::get('/checkout/card', [StripePaymentController::class, 'show'])->name('checkout.card');
+Route::post('/checkout/create-intent', [StripePaymentController::class, 'createIntent'])->name('checkout.intent');
+Route::post('/checkout/confirm', [StripePaymentController::class, 'markSucceeded'])->name('checkout.confirm');
+
  
