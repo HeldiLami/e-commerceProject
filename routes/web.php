@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\User;
 
 //frontend views
-Route::view('/', 'front.amazon')->name('home');
+Route::get('/', [ProductController::class, 'index'])->name('home');
 Route::view('/orders', 'front.orders')->name('orders');
 Route::view('/checkout', 'front.checkout')->name('checkout');
 Route::view('/tracking', 'front.tracking')->name('tracking');
@@ -21,7 +21,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::resource('users', UserController::class)->except('store');
+Route::resource('users', UserController::class)->except('store' );
 
 // Route::post('/statistics', 'admin.statistics')->name('statistics');
 Route::get('/admin/statistics', function () {
