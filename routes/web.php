@@ -42,3 +42,6 @@ Route::get('/admin/users', function () {
 Route::get('/products', [ProductController::class, 'index']);
 
 Route::get('/products', [ProductController::class, 'index']);
+
+Route::get('/product/{product}', [ProductController::class, 'show'])
+    ->name('product.show');
