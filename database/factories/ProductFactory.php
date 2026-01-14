@@ -24,7 +24,9 @@ class ProductFactory extends Factory
             'name' => fake()->words(3, true),
             'image' => 'products/' . fake()->image(null, 640, 480, 'technics', false),
             'type' => fake()->randomElement(['product', 'clothing', 'appliance']),
-            'rating_stars' => fake()->randomFloat(1, 1, 5),
+            'rating_stars' => fake()->randomElement([
+                0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5
+            ]),
             'rating_count' => fake()->numberBetween(0, 500),
             'price_cents' => fake()->numberBetween(500, 10000),
             'keywords' => [fake()->word(), fake()->word(), fake()->word()],

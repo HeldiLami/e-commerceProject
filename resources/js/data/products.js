@@ -36,19 +36,3 @@ class Product {
         return "";
     }
 }
-
-export async function loadProductsFetch() {
-  try {
-    const response = await fetch('https://supersimplebackend.dev/products');
-
-    const productsData = await response.json();
-
-    products = productsData.map((productDetails) => {
-      return new Product(productDetails);
-    });
-
-    console.log('Products loaded');
-  } catch (error) {
-    console.log('Unexpected error');
-  }
-}

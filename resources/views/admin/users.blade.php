@@ -6,7 +6,7 @@
   <title>Admin • Users</title>
 
 @vite(['resources/css/pages/admin/users.css'])
-
+@vite('resources/js/admin/users.js')
 </head>
 
 <body>
@@ -88,7 +88,6 @@
     </section>
   </main>
 
-<script src="{{ asset('js/admin/users.js') }}" defer></script>
 
 
 </body>
