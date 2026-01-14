@@ -2,7 +2,7 @@ import { formatCurrency } from "../utils/money.js";
 import { getAssetUrl } from "../utils/assets.js";
 
 export function getProduct(productId) {
-  return products.find(product => product.id === productId);
+    return products.find((product) => product.id === productId);
 }
 
 class Product {

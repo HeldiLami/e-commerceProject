@@ -31,3 +31,14 @@ Route::get('/admin/statistics', function () {
     return view('admin.statistics');
 });
 
+
+
+Route::get('/admin/users', function () {
+    $users = User::latest()->get();
+    return view('admin.users', ['users' => $users]);
+})->name('admin.users');
+
+
+Route::get('/products', [ProductController::class, 'index']);
+
+Route::get('/products', [ProductController::class, 'index']);
