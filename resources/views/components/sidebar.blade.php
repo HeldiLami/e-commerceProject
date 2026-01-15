@@ -20,7 +20,7 @@
         </div>
 
         <nav class="nav-container">
-            <p class="nav-label">Tasks</p>
+            <p class="nav-label">Dashboard</p>
             
             <a href="{{ route('admin.users') }}" class="nav-item {{ request()->is('admin/users') ? 'active' : '' }}">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
