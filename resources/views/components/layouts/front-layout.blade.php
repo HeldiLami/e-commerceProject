@@ -6,6 +6,7 @@
     <title>{{ $title }}</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,7 +43,7 @@
                 <span class="orders-text">& Orders</span>
             </a>
     
-            <a class="cart-link header-link" href="{{ url('/checkout') }}">
+            <a class="cart-link header-link" href="{{ url('/cart') }}">
                 <img class="cart-icon" src="{{ asset('images/icons/cart-icon.png') }}">
                 <div class="cart-quantity js-cart-quantity">0</div>
                 <div class="cart-text">Cart</div>
