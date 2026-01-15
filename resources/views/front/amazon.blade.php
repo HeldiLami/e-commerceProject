@@ -21,7 +21,12 @@
 
 
                 <div class="product-rating-container">
-                    <img class="product-rating-stars" src="/images/ratings/rating-{{ $product->rating_stars * 10 }}.png">
+                    @php
+                        $avg = $product->rating_avg ?? 0;
+                        $roundedRating = round($avg * 2) / 2;
+                        $starsFile = (int) round($roundedRating * 10);
+                    @endphp
+                    <img class="product-rating-stars" src="{{ asset("images/ratings/rating-{$starsFile}.png") }}">
                     <div class="product-rating-count link-primary">
                         {{ $product->rating_count }}
                     </div>

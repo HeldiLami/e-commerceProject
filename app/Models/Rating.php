@@ -3,11 +3,13 @@
 
   use Illuminate\Database\Eloquent\Model;
   use Illuminate\Database\Eloquent\Concerns\HasUuids;
-  use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
   class Rating extends Model
   {
-      use HasUuids;
+    use HasFactory;      
+    use HasUuids;
 
       protected $keyType = 'string';
       public $incrementing = false;

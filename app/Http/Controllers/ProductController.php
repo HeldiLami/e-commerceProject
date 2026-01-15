@@ -12,7 +12,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
+        $products = Product::withAvg('ratings as rating_avg', 'stars')
+                       ->withCount('ratings as rating_count')
+                       ->get();
         return view('front.amazon', ['products' => $products]);
     }
 

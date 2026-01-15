@@ -9,8 +9,8 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('ratings', function (Blueprint $table) {
-            $table->id();
-
+            $table->uuid('id')->primary();
+            
             $table->foreignId('user_id')
                 ->constrained()
                 ->cascadeOnDelete();
