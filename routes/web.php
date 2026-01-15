@@ -80,3 +80,6 @@ Route::get('/checkout/cancel', [StripePaymentController::class, 'cancel'])
     ->name('checkout.cancel');
 
  
+
+Route::get('/product/{product}', [ProductController::class, 'show'])
+    ->name('product.show');
