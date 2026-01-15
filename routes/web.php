@@ -56,12 +56,14 @@ Route::get('/products', [ProductController::class, 'index']);
 
 //TEST HELDI
 
-Route::get('/admin/dashboard', function (Request $request) {
+Route::get('/auth/verify-email', function (Request $request) {
     if ($request->query('verified') == 1) {
         Log::info('User logged in');    
     }
     return redirect()->route('home');
 })->middleware(['auth', 'verified']);
+
+
 
 //TEST middleware
 // Route::get('/orders', function (){
