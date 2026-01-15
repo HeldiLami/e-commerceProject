@@ -10,7 +10,9 @@ use App\Http\Controllers\OrderController;
 
 //frontend views
 Route::get('/', [ProductController::class, 'index'])->name('home');
-Route::view('/orders', 'front.orders')->name('orders');
+Route::get('/orders', [OrderController::class, 'index'])
+    ->middleware('auth')
+    ->name('orders');
 Route::post('/orders', [OrderController::class, 'store'])->middleware('auth')->name('orders.store');
 Route::get('/cart', function () {
     $products = Product::all()->map(function ($product) {

@@ -9,6 +9,16 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
+    public function index(Request $request)
+    {
+        $orders = Order::with('products')
+            ->where('user_id', $request->user()->id)
+            ->latest()
+            ->get();
+
+        return view('front.orders', ['orders' => $orders]);
+    }
+
     public function store(Request $request)
     {
         $data = $request->validate([
