@@ -58,11 +58,11 @@
         @endauth
     
         @guest
-            <a href="{{ route('show.login') }}" class="button-silver">
+            <a href="{{ route('login') }}" class="button-silver">
               Sign in
             </a>
     
-            <a href="{{ route('show.registerUser') }}" class="button-gold">
+            <a href="{{ route('register') }}" class="button-gold">
                 <span >Sign Up</span>
             </a>
         @endguest
