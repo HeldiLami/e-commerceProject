@@ -13,6 +13,9 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
 use Laravel\Fortify\Fortify;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Auth;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -35,6 +38,10 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
         Fortify::redirectUserForTwoFactorAuthenticationUsing(RedirectIfTwoFactorAuthenticatable::class);
 
+        Event::listen(Registered::class, function ($event) {
+            Auth::logout();
+        });
+        
         Fortify::verifyEmailView(function () {
         return view('auth.verify-email');
     });

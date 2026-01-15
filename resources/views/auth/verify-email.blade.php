@@ -1,4 +1,4 @@
-<x-layouts.admin-layout>
+<x-layouts.auth>
     <div class="container">
         <h1>Verifikoni Email-in tuaj</h1>
         <p>Ju lutem klikoni linkun që ju dërguam në email për të vazhduar.</p>
@@ -12,4 +12,4 @@
             <button type="submit">Ridërgo Email-in</button>
         </form>
     </div>
-</x-layouts.admin-layout>
+</x-layouts.auth>

@@ -38,34 +38,31 @@
 
       <div class="amazon-header-right-section">
         @auth
-            <a class="orders-link header-link" href="{{ url('/orders') }}">
-                <span class="returns-text">Returns</span>
-                <span class="orders-text">& Orders</span>
-            </a>
-    
-            <a class="cart-link header-link" href="{{ url('/cart') }}">
-                <img class="cart-icon" src="{{ asset('images/icons/cart-icon.png') }}">
-                <div class="cart-quantity js-cart-quantity">0</div>
-                <div class="cart-text">Cart</div>
-            </a>
-            
-            <form method="POST" action="{{ route('logout') }}" class="inline js-logout-form">
-                @csrf
-                <button type="submit" class="button-gold">
-                    Log Out
-                </button>
-            </form>
+        @can('is-verified')
+          <a class="orders-link header-link" href="{{ url('/orders') }}">
+              <span class="returns-text">Returns</span>
+              <span class="orders-text">& Orders</span>
+          </a>
+  
+          <a class="cart-link header-link" href="{{ url('/cart') }}">
+              <img class="cart-icon" src="{{ asset('images/icons/cart-icon.png') }}">
+              <div class="cart-quantity js-cart-quantity">0</div>
+              <div class="cart-text">Cart</div>
+          </a>
+          
+          <form method="POST" action="{{ route('logout') }}" class="inline js-logout-form">
+              @csrf
+              <button type="submit" class="button-gold">
+                  Log Out
+              </button>
+          </form>
+          @endcan
         @endauth
     
-        @guest
-            <a href="{{ route('login') }}" class="button-silver">
-              Sign in
-            </a>
-    
-            <a href="{{ route('register') }}" class="button-gold">
-                <span >Sign Up</span>
-            </a>
-        @endguest
+        @if(auth()->guest() || auth()->user()->cannot('is-verified'))
+          <a href="{{ route('login') }}" class="button-silver">Sign in</a>
+          <a href="{{ route('register') }}" class="button-gold">Sign Up</a>
+        @endif
     </div>
     </div>
 
