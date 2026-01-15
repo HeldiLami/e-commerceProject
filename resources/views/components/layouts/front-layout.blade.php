@@ -30,7 +30,7 @@
       </div>
 
       <div class="amazon-header-middle-section">
-        <form class="search-form" method="GET" action="{{ url('/') }}">
+        <form class="search-form" method="GET" action="{{ route('products.search') }}">
           <input
             class="search-bar"
             type="text"

@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Log;
 
 //frontend views
 Route::get('/', [ProductController::class, 'index'])->name('home');
+Route::get('/search', [ProductController::class, 'search'])->name('products.search');
 Route::get('/orders', [OrderController::class, 'index'])
     ->middleware('auth')
     ->name('orders');
