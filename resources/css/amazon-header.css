@@ -67,6 +67,11 @@
   display: flex;
 }
 
+.search-form {
+  display: flex;
+  flex: 1;
+}
+
 .search-bar {
   flex: 1;
   width: 0;

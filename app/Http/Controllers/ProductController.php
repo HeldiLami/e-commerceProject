@@ -10,10 +10,20 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::all();
-        return view('front.amazon', ['products' => $products]);
+        $query = trim((string) $request->query('q', ''));
+
+        $products = Product::query()
+            ->when($query !== '', function ($builder) use ($query) {
+                $builder->where('name', 'like', '%' . $query . '%');
+            })
+            ->get();
+
+        return view('front.amazon', [
+            'products' => $products,
+            'query' => $query,
+        ]);
     }
 
     /**

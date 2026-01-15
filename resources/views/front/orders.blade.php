@@ -29,6 +29,11 @@
                                 <button type="submit" class="track-package-button button-primary">Pay now</button>
                             </form>
                         @endif
+                        <form method="POST" action="{{ route('orders.destroy', $order) }}">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="track-package-button button-secondary">Remove</button>
+                        </form>
                     </div>
 
                     <div class="order-header-right-section">
@@ -59,7 +64,7 @@
                             </button>
                         </div>
                         <div class="product-actions">
-                            <a href="{{ url('/tracking') }}">
+                            <a href="{{ route('tracking', ['order_id' => $order->id, 'product_id' => $product->id]) }}">
                                 <button class="track-package-button button-secondary">Track package</button>
                             </a>
                         </div>

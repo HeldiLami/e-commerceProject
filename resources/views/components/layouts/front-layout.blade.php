@@ -30,10 +30,18 @@
       </div>
 
       <div class="amazon-header-middle-section">
-        <input class="search-bar" type="text" placeholder="Search">
-        <button class="search-button">
-          <img class="search-icon" src="{{ asset('images/icons/search-icon.png') }}">
-        </button>
+        <form class="search-form" method="GET" action="{{ url('/') }}">
+          <input
+            class="search-bar"
+            type="text"
+            name="q"
+            value="{{ $query ?? '' }}"
+            placeholder="Search"
+          >
+          <button class="search-button" type="submit">
+            <img class="search-icon" src="{{ asset('images/icons/search-icon.png') }}">
+          </button>
+        </form>
       </div>
 
       <div class="amazon-header-right-section">

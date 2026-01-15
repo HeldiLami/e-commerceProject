@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use App\Models\Product;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\TrackingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -15,21 +17,15 @@ Route::get('/', [ProductController::class, 'index'])->name('home');
 Route::get('/orders', [OrderController::class, 'index'])
     ->middleware('auth')
     ->name('orders');
+Route::delete('/orders/{order}', [OrderController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('orders.destroy');
 Route::post('/orders', [OrderController::class, 'store'])->middleware('auth')->name('orders.store');
-Route::get('/cart', function () {
-    $products = Product::all()->map(function ($product) {
-        return [
-            'id' => $product->id,
-            'name' => $product->name,
-            'image' => asset($product->image),
-            'price_cents' => $product->price_cents,
-        ];
-    });
-
-    return view('front.cart', ['products' => $products]);
-})->name('cart');
+Route::get('/cart', [CartController::class, 'index'])->name('cart');
 Route::view('/checkout', 'front.checkout')->name('checkout');
-Route::view('/tracking', 'front.tracking')->name('tracking');
+Route::get('/tracking', [TrackingController::class, 'show'])
+    ->middleware('auth')
+    ->name('tracking');
 Route::view('/sidebar', 'components.sidebar')->name('sidebar');
 
 
