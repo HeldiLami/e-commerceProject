@@ -56,12 +56,14 @@ Route::get('/products', [ProductController::class, 'index']);
 
 //TEST HELDI
 
-Route::get('/admin/dashboard', function (Request $request) {
+Route::get('/auth/verify-email', function (Request $request) {
     if ($request->query('verified') == 1) {
         Log::info('User logged in');    
     }
     return redirect()->route('home');
 })->middleware(['auth', 'verified']);
+
+
 
 //TEST middleware
 // Route::get('/orders', function (){
@@ -83,3 +85,15 @@ Route::get('/checkout/cancel', [StripePaymentController::class, 'cancel'])
 
 Route::get('/product/{product}', [ProductController::class, 'show'])
     ->name('product.show');
+
+// use App\Http\Controllers\StripeWebhookController;
+
+// Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle'])
+//     ->name('stripe.webhook');
+
+    use App\Http\Controllers\StripeWebhookController;
+use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
+
+Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle'])
+    ->withoutMiddleware([ValidateCsrfToken::class])
+    ->name('stripe.webhook');
