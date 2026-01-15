@@ -6,16 +6,27 @@ use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class OrderController extends Controller
 {
-  public function store(Request $request)
-{
-    $data = $request->validate([
-        'items' => ['required', 'array', 'min:1'],
-        'items.*.product_id' => ['required', 'uuid', 'exists:products,id'],
-        'items.*.quantity' => ['required', 'integer', 'min:1'],
-    ]);
+    public function index(Request $request)
+    {
+        $orders = Order::with('products')
+            ->where('user_id', $request->user()->id)
+            ->latest()
+            ->get();
+
+        return view('front.orders', ['orders' => $orders]);
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'items' => ['required', 'array', 'min:1'],
+            'items.*.product_id' => ['required', 'uuid', 'exists:products,id'],
+            'items.*.quantity' => ['required', 'integer', 'min:1'],
+        ]);
 
     $items = $data['items'];
 
@@ -88,4 +99,15 @@ class OrderController extends Controller
     });
 }
 
+
+    public function destroy(Request $request, Order $order)
+    {
+        if ($order->user_id !== $request->user()->id) {
+            abort(403);
+        }
+
+        $order->delete();
+
+        return redirect()->route('orders')->with('status', 'Order removed.');
+    }
 }
