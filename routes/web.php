@@ -5,10 +5,25 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
+use App\Models\Product;
+use App\Http\Controllers\OrderController;
 
 //frontend views
 Route::get('/', [ProductController::class, 'index'])->name('home');
 Route::view('/orders', 'front.orders')->name('orders');
+Route::post('/orders', [OrderController::class, 'store'])->middleware('auth')->name('orders.store');
+Route::get('/cart', function () {
+    $products = Product::all()->map(function ($product) {
+        return [
+            'id' => $product->id,
+            'name' => $product->name,
+            'image' => asset($product->image),
+            'price_cents' => $product->price_cents,
+        ];
+    });
+
+    return view('front.cart', ['products' => $products]);
+})->name('cart');
 Route::view('/checkout', 'front.checkout')->name('checkout');
 Route::view('/tracking', 'front.tracking')->name('tracking');
 Route::view('/sidebar', 'components.sidebar')->name('sidebar');
@@ -47,6 +62,20 @@ Route::get('/products', [ProductController::class, 'index']);
 Route::get('/admin/dashboard', function () {
     return view('admin.dashboard');
 });
+
+use App\Http\Controllers\StripePaymentController;
+
+Route::post('/checkout/session', [StripePaymentController::class, 'createCheckoutSession'])
+    ->middleware('auth')
+    ->name('checkout.session');
+Route::get('/checkout/success', [StripePaymentController::class, 'success'])
+    ->middleware('auth')
+    ->name('checkout.success');
+Route::get('/checkout/cancel', [StripePaymentController::class, 'cancel'])
+    ->middleware('auth')
+    ->name('checkout.cancel');
+
  
+
 Route::get('/product/{product}', [ProductController::class, 'show'])
     ->name('product.show');
