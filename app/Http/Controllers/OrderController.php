@@ -20,84 +20,79 @@ class OrderController extends Controller
         return view('front.orders', ['orders' => $orders]);
     }
 
-  public function store(Request $request)
-{
-    $data = $request->validate([
-        'items' => ['required', 'array', 'min:1'],
-        'items.*.product_id' => ['required', 'uuid', 'exists:products,id'],
-        'items.*.quantity' => ['required', 'integer', 'min:1'],
-    ]);
-
-    $items = $data['items'];
-
-    return DB::transaction(function () use ($request, $items) {
-
-        $productIds = collect($items)->pluck('product_id')->unique()->values();
-
-        // ✅ LOCK produktet (që mos ketë konflikte)
-        $products = Product::whereIn('id', $productIds)
-            ->lockForUpdate()
-            ->get()
-            ->keyBy('id');
-
-        // ✅ 1) KONTROLLO STOCK
-        foreach ($items as $item) {
-            $product = $products->get($item['product_id']);
-
-            if (!$product) {
-                return response()->json([
-                    'message' => 'Product not found.'
-                ], 404);
-            }
-
-            $requestedQty = (int) $item['quantity'];
-
-            if ($requestedQty > (int) $product->quantity) {
-                return response()->json([
-                    'message' => "Nuk ka mjaftueshem sasi per {$product->name}. Ne stok: {$product->quantity}"
-                ], 422);
-            }
-        }
-
-        // ✅ 2) LLOGARIT TOTAL + PËRGATIT ORDER ITEMS
-        $totalCents = 0;
-        $orderItems = [];
-        $now = now();
-
-        foreach ($items as $item) {
-            $product = $products->get($item['product_id']);
-            $qty = (int) $item['quantity'];
-
-            $totalCents += $product->price_cents * $qty;
-
-            $orderItems[] = [
-                'order_id' => null,
-                'product_id' => $product->id,
-                'quantity' => $qty,
-                'unit_price_cents' => $product->price_cents,
-                'created_at' => $now,
-                'updated_at' => $now,
-            ];
-        }
-
-        // ✅ 3) KRIJO ORDER
-        $order = Order::create([
-            'user_id' => $request->user()->id,
-            'total_cents' => $totalCents,
-            'status' => 'pending',
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'items' => ['required', 'array', 'min:1'],
+            'items.*.product_id' => ['required', 'uuid', 'exists:products,id'],
+            'items.*.quantity' => ['required', 'integer', 'min:1'],
         ]);
+        $items = $data['items'];
 
-        foreach ($orderItems as &$orderItem) {
-            $orderItem['order_id'] = $order->id;
-        }
+        return DB::transaction(function () use ($request, $items) {
+            $productIds = collect($items)->pluck('product_id')->unique()->values();
 
-        DB::table('order_product')->insert($orderItems);
+            // Lock products to avoid stock conflicts.
+            $products = Product::whereIn('id', $productIds)
+                ->lockForUpdate()
+                ->get()
+                ->keyBy('id');
 
-        return response()->json([
-            'order_id' => $order->id,
-        ], 201);
-    });
-}
+            foreach ($items as $item) {
+                $product = $products->get($item['product_id']);
+
+                if (!$product) {
+                    return response()->json([
+                        'message' => 'Product not found.'
+                    ], 404);
+                }
+
+                $requestedQty = (int) $item['quantity'];
+
+                if ($requestedQty > (int) $product->quantity) {
+                    return response()->json([
+                        'message' => "Nuk ka mjaftueshem sasi per {$product->name}. Ne stok: {$product->quantity}"
+                    ], 422);
+                }
+            }
+
+            $totalCents = 0;
+            $orderItems = [];
+            $now = now();
+
+            foreach ($items as $item) {
+                $product = $products->get($item['product_id']);
+                $qty = (int) $item['quantity'];
+
+                $totalCents += $product->price_cents * $qty;
+
+                $orderItems[] = [
+                    'order_id' => null,
+                    'product_id' => $product->id,
+                    'quantity' => $qty,
+                    'unit_price_cents' => $product->price_cents,
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ];
+            }
+
+            $order = Order::create([
+                'user_id' => $request->user()->id,
+                'total_cents' => $totalCents,
+                'status' => 'pending',
+            ]);
+
+            foreach ($orderItems as &$orderItem) {
+                $orderItem['order_id'] = $order->id;
+            }
+
+            DB::table('order_product')->insert($orderItems);
+
+            return response()->json([
+                'order_id' => $order->id,
+            ], 201);
+        });
+    }
 
 
     public function destroy(Request $request, Order $order)

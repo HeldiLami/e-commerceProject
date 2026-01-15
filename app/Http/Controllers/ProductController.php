@@ -18,18 +18,10 @@ class ProductController extends Controller
 
     public function search(Request $request)
     {
-        $query = trim((string) $request->query('q', ''));
-
-        $products = Product::query()
-            ->when($query !== '', function ($builder) use ($query) {
-                $builder->where('name', 'like', '%' . $query . '%');
-            })
-            ->get();
-
-        return view('front.amazon', [
-            'products' => $products,
-            'query' => $query,
-        ]);
+        $products = Product::withAvg('ratings as rating_avg', 'stars')
+                       ->withCount('ratings as rating_count')
+                       ->get();
+        return view('front.amazon', ['products' => $products]);
     }
 
     /**
@@ -53,7 +45,21 @@ class ProductController extends Controller
      */
    public function show(Product $product)
     {
-        return view('front.product', ['product' => $product]);
+        $stats = $product->ratings()
+        ->selectRaw('AVG(stars) as average, COUNT(*) as count')
+        ->first();
+
+        $average = $stats->average ?? 0;
+        $count = $stats->count ?? 0;
+
+        $ratingStars = round($average * 2) / 2;
+
+
+        return view('front.product', [
+            'product' => $product,
+            'ratingStars' => $ratingStars,
+            'ratingCount' => $count
+        ]);    
     }
 
     /**

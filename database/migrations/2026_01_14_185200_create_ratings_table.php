@@ -3,37 +3,33 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB; // Shto këtë për DB::statement
 
 return new class extends Migration {
     public function up(): void
     {
         Schema::create('ratings', function (Blueprint $table) {
-            $table->id();
-
+            $table->uuid('id')->primary();
+            
             $table->foreignId('user_id')
                 ->constrained()
                 ->cascadeOnDelete();
 
-            $table->uuid('product_id');
-
-            // 1..5
-            $table->unsignedTinyInteger('stars');
-
-            $table->text('comment')->nullable();
-
-            $table->timestamps();
-
-            $table->foreign('product_id')
-                ->references('id')
-                ->on('products')
+            $table->foreignUuid('product_id') 
+                ->constrained()
                 ->cascadeOnDelete();
 
-            // 1 user = 1 review për 1 produkt
+            $table->decimal('stars', 2, 1);
+
+            $table->text('comment')->nullable();
+            $table->timestamps();
+
             $table->unique(['user_id', 'product_id']);
 
-            // opsionale: për query më të shpejta
             $table->index(['product_id', 'stars']);
         });
+
+        DB::statement('ALTER TABLE ratings ADD CONSTRAINT chk_rating_stars_half_step CHECK (MOD(stars * 10, 5) = 0 AND stars <= 5)');
     }
 
     public function down(): void
