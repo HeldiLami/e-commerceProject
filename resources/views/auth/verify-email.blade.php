@@ -1,15 +1,18 @@
 <x-layouts.auth>
-    <div class="container">
-        <h1>Verifikoni Email-in tuaj</h1>
+    <x-slot:heading>
+        Verifikoni Email-in tuaj
+    </x-slot:heading>
+
+    <div class="verify-container">
         <p>Ju lutem klikoni linkun që ju dërguam në email për të vazhduar.</p>
 
         @if (session('status') == 'verification-link-sent')
-            <div class="alert alert-success">Një link i ri u dërgua!</div>
+            <div class="pill">Një link i ri u dërgua!</div>
         @endif
 
         <form method="POST" action="{{ route('verification.send') }}">
             @csrf
-            <button type="submit">Ridërgo Email-in</button>
+            <button type="submit" class="link-button">Ridërgo Email-in</button>
         </form>
     </div>
 </x-layouts.auth>
