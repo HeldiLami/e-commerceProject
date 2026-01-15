@@ -9,63 +9,83 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
-    public function store(Request $request)
-    {
-        $data = $request->validate([
-            'items' => ['required', 'array', 'min:1'],
-            'items.*.product_id' => ['required', 'uuid', 'exists:products,id'],
-            'items.*.quantity' => ['required', 'integer', 'min:1'],
-        ]);
+  public function store(Request $request)
+{
+    $data = $request->validate([
+        'items' => ['required', 'array', 'min:1'],
+        'items.*.product_id' => ['required', 'uuid', 'exists:products,id'],
+        'items.*.quantity' => ['required', 'integer', 'min:1'],
+    ]);
 
-        $items = $data['items'];
+    $items = $data['items'];
+
+    return DB::transaction(function () use ($request, $items) {
+
         $productIds = collect($items)->pluck('product_id')->unique()->values();
-        $products = Product::whereIn('id', $productIds)->get()->keyBy('id');
 
+        // ✅ LOCK produktet (që mos ketë konflikte)
+        $products = Product::whereIn('id', $productIds)
+            ->lockForUpdate()
+            ->get()
+            ->keyBy('id');
+
+        // ✅ 1) KONTROLLO STOCK
+        foreach ($items as $item) {
+            $product = $products->get($item['product_id']);
+
+            if (!$product) {
+                return response()->json([
+                    'message' => 'Product not found.'
+                ], 404);
+            }
+
+            $requestedQty = (int) $item['quantity'];
+
+            if ($requestedQty > (int) $product->quantity) {
+                return response()->json([
+                    'message' => "Nuk ka mjaftueshem sasi per {$product->name}. Ne stok: {$product->quantity}"
+                ], 422);
+            }
+        }
+
+        // ✅ 2) LLOGARIT TOTAL + PËRGATIT ORDER ITEMS
         $totalCents = 0;
         $orderItems = [];
         $now = now();
 
         foreach ($items as $item) {
             $product = $products->get($item['product_id']);
-            if (!$product) {
-                continue;
-            }
+            $qty = (int) $item['quantity'];
 
-            $quantity = $item['quantity'];
-            $totalCents += $product->price_cents * $quantity;
+            $totalCents += $product->price_cents * $qty;
 
             $orderItems[] = [
                 'order_id' => null,
                 'product_id' => $product->id,
-                'quantity' => $quantity,
+                'quantity' => $qty,
                 'unit_price_cents' => $product->price_cents,
                 'created_at' => $now,
                 'updated_at' => $now,
             ];
         }
 
-        if (count($orderItems) === 0) {
-            return response()->json(['message' => 'No valid items found.'], 422);
+        // ✅ 3) KRIJO ORDER
+        $order = Order::create([
+            'user_id' => $request->user()->id,
+            'total_cents' => $totalCents,
+            'status' => 'pending',
+        ]);
+
+        foreach ($orderItems as &$orderItem) {
+            $orderItem['order_id'] = $order->id;
         }
 
-        $order = DB::transaction(function () use ($request, $orderItems, $totalCents) {
-            $order = Order::create([
-                'user_id' => $request->user()->id,
-                'total_cents' => $totalCents,
-                'status' => 'pending',
-            ]);
-
-            foreach ($orderItems as &$orderItem) {
-                $orderItem['order_id'] = $order->id;
-            }
-
-            DB::table('order_product')->insert($orderItems);
-
-            return $order;
-        });
+        DB::table('order_product')->insert($orderItems);
 
         return response()->json([
             'order_id' => $order->id,
         ], 201);
-    }
+    });
+}
+
 }
