@@ -10,6 +10,7 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/js/amazon.js',
                 'resources/js/cart.js',
+                'resources/js/orders.js',
                 'resources/js/checkout.js',
                 'resources/css/general.css',
                 'resources/css/amazon-header.css',

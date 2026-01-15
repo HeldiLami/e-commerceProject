@@ -74,6 +74,9 @@ use App\Http\Controllers\StripePaymentController;
 Route::post('/checkout/session', [StripePaymentController::class, 'createCheckoutSession'])
     ->middleware('auth')
     ->name('checkout.session');
+Route::post('/checkout/session/redirect', [StripePaymentController::class, 'redirectToCheckout'])
+    ->middleware('auth')
+    ->name('checkout.session.redirect');
 Route::get('/checkout/success', [StripePaymentController::class, 'success'])
     ->middleware('auth')
     ->name('checkout.success');

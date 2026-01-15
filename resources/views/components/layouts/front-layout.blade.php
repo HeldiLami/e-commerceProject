@@ -49,7 +49,7 @@
                 <div class="cart-text">Cart</div>
             </a>
             
-            <form method="POST" action="{{ route('logout') }}" class="inline">
+            <form method="POST" action="{{ route('logout') }}" class="inline js-logout-form">
                 @csrf
                 <button type="submit" class="button-gold">
                     Log Out
@@ -76,5 +76,14 @@
     {{ $scripts ?? '' }}
     
     @vite(['resources/js/utils/updateCartDisplay.js'])
+
+    <script>
+      const logoutForm = document.querySelector('.js-logout-form');
+      if (logoutForm) {
+        logoutForm.addEventListener('submit', () => {
+          localStorage.removeItem('cart');
+        });
+      }
+    </script>
   </body>
 </html>

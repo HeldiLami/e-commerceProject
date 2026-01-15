@@ -22,6 +22,13 @@
                             <div class="order-header-label">Status:</div>
                             <div>{{ $order->status === 'paid' ? 'paid' : 'not paid' }}</div>
                         </div>
+                        @if ($order->status !== 'paid')
+                            <form method="POST" action="{{ route('checkout.session.redirect') }}">
+                                @csrf
+                                <input type="hidden" name="order_id" value="{{ $order->id }}">
+                                <button type="submit" class="track-package-button button-primary">Pay now</button>
+                            </form>
+                        @endif
                     </div>
 
                     <div class="order-header-right-section">
@@ -41,7 +48,12 @@
                                 Arriving on: {{ $order->created_at->copy()->addWeek()->format('F d') }}
                             </div>
                             <div class="product-quantity">Quantity: {{ $product->pivot->quantity }}</div>
-                            <button class="buy-again-button button-primary">
+                            <button
+                                type="button"
+                                class="buy-again-button button-primary js-buy-again"
+                                data-product-id="{{ $product->id }}"
+                                data-quantity="{{ $product->pivot->quantity }}"
+                            >
                                 <img class="buy-again-icon" src="{{ asset('images/icons/buy-again.png') }}">
                                 <span class="buy-again-message">Buy it again</span>
                             </button>
@@ -67,4 +79,8 @@
             </div>
         @endforelse
     </div>
+
+    <x-slot name="scripts">
+        @vite(['resources/js/orders.js'])
+    </x-slot>
 </x-layouts.front-layout>

@@ -1,4 +1,11 @@
-import { cart, loadFromStorage, setCart, updateCartQuantity } from "./data/cart.js";
+import {
+  cart,
+  loadFromStorage,
+  removeFromCart,
+  setCart,
+  updateCartQuantity,
+  updateQuantity,
+} from "./data/cart.js";
 import { formatCurrency } from "./utils/money.js";
 
 let cartSnapshot = [];
@@ -62,8 +69,15 @@ function renderCart() {
         <div class="cart-item-details">
           <div class="cart-item-name">${product.name}</div>
           <div class="cart-item-price">$${formatCurrency(product.price_cents)}</div>
-          <div class="cart-item-quantity">Quantity: ${cartItem.quantity}</div>
+          <div class="cart-item-quantity">
+            <button class="quantity-button js-quantity-minus" data-product-id="${product.id}" type="button">-</button>
+            <span class="quantity-value">${cartItem.quantity}</span>
+            <button class="quantity-button js-quantity-plus" data-product-id="${product.id}" type="button">+</button>
+          </div>
         </div>
+        <button class="remove-button js-remove-item" data-product-id="${product.id}" type="button">
+          <span class="remove-icon">🗑</span>
+        </button>
       </div>
     `;
   });
@@ -185,6 +199,48 @@ function initCartPage() {
         return;
       }
       handlePlaceOrder(button);
+    });
+  }
+
+  const itemsContainer = document.querySelector(".js-cart-items");
+  if (itemsContainer) {
+    itemsContainer.addEventListener("click", (event) => {
+      const removeButton = event.target.closest(".js-remove-item");
+      if (removeButton) {
+        const productId = removeButton.dataset.productId;
+        removeFromCart(productId);
+        renderCart();
+        updateCartQuantity(".js-cart-quantity");
+        return;
+      }
+
+      const plusButton = event.target.closest(".js-quantity-plus");
+      if (plusButton) {
+        const productId = plusButton.dataset.productId;
+        const cartItem = cart.find((item) => item.productId === productId);
+        if (cartItem) {
+          updateQuantity(productId, cartItem.quantity + 1);
+          renderCart();
+          updateCartQuantity(".js-cart-quantity");
+        }
+        return;
+      }
+
+      const minusButton = event.target.closest(".js-quantity-minus");
+      if (minusButton) {
+        const productId = minusButton.dataset.productId;
+        const cartItem = cart.find((item) => item.productId === productId);
+        if (cartItem) {
+          const newQuantity = cartItem.quantity - 1;
+          if (newQuantity <= 0) {
+            removeFromCart(productId);
+          } else {
+            updateQuantity(productId, newQuantity);
+          }
+          renderCart();
+          updateCartQuantity(".js-cart-quantity");
+        }
+      }
     });
   }
 }
