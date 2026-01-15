@@ -7,12 +7,18 @@
         @foreach($products as $product)
             <div class="product-container">
                 <div class="product-image-container">
+                <a href="{{ route('product.show', $product) }}">
                     <img class="product-image" src="{{ asset($product->image) }}">
+                </a>
                 </div>
 
-                <div class="product-name limit-text-to-2-lines">
+
+               <div class="product-name limit-text-to-2-lines">
+                <a class="product-link" href="{{ route('product.show', $product) }}">
                     {{ $product->name }}
-                </div>
+                </a>
+               </div>
+
 
                 <div class="product-rating-container">
                     <img class="product-rating-stars" src="/images/ratings/rating-{{ $product->rating_stars * 10 }}.png">
