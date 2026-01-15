@@ -1,66 +1,71 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $orders = Order::with('products')->where('user_id', Auth::id())->get();
-        // return view('orders.index', compact('orders'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
-    }
+        $data = $request->validate([
+            'items' => ['required', 'array', 'min:1'],
+            'items.*.product_id' => ['required', 'uuid', 'exists:products,id'],
+            'items.*.quantity' => ['required', 'integer', 'min:1'],
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        $items = $data['items'];
+        $productIds = collect($items)->pluck('product_id')->unique()->values();
+        $products = Product::whereIn('id', $productIds)->get()->keyBy('id');
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+        $totalCents = 0;
+        $orderItems = [];
+        $now = now();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+        foreach ($items as $item) {
+            $product = $products->get($item['product_id']);
+            if (!$product) {
+                continue;
+            }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+            $quantity = $item['quantity'];
+            $totalCents += $product->price_cents * $quantity;
+
+            $orderItems[] = [
+                'order_id' => null,
+                'product_id' => $product->id,
+                'quantity' => $quantity,
+                'unit_price_cents' => $product->price_cents,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ];
+        }
+
+        if (count($orderItems) === 0) {
+            return response()->json(['message' => 'No valid items found.'], 422);
+        }
+
+        $order = DB::transaction(function () use ($request, $orderItems, $totalCents) {
+            $order = Order::create([
+                'user_id' => $request->user()->id,
+                'total_cents' => $totalCents,
+                'status' => 'pending',
+            ]);
+
+            foreach ($orderItems as &$orderItem) {
+                $orderItem['order_id'] = $order->id;
+            }
+
+            DB::table('order_product')->insert($orderItems);
+
+            return $order;
+        });
+
+        return response()->json([
+            'order_id' => $order->id,
+        ], 201);
     }
 }
