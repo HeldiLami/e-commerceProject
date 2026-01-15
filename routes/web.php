@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use App\Models\Product;
 use App\Http\Controllers\OrderController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 //frontend views
 Route::get('/', [ProductController::class, 'index'])->name('home');
@@ -28,11 +30,6 @@ Route::view('/checkout', 'front.checkout')->name('checkout');
 Route::view('/tracking', 'front.tracking')->name('tracking');
 Route::view('/sidebar', 'components.sidebar')->name('sidebar');
 
-// Route::get('/register', [AuthController::class, 'showRegisterUser'])->name('show.registerUser');
-// Route::post('/register', [AuthController::class, 'register'])->name('register');
-
-// Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-// Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -59,9 +56,12 @@ Route::get('/products', [ProductController::class, 'index']);
 
 //TEST HELDI
 
-Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard');
-})->middleware(['auth', 'verified'])->name('admin.dashboard');
+Route::get('/admin/dashboard', function (Request $request) {
+    if ($request->query('verified') == 1) {
+        Log::info('User logged in');    
+    }
+    return redirect()->route('home');
+})->middleware(['auth', 'verified']);
 
 //TEST middleware
 // Route::get('/orders', function (){

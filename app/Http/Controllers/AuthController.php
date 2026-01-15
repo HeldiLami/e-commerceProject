@@ -34,12 +34,8 @@ class AuthController extends Controller
         ], 
         'is_admin'=>'boolean'
     ]);
-
-    $validatedUser['password'] = Hash::make($validatedUser['password']);
-    $user = User::create($validatedUser);
-    Auth::login($user);
-
-    return redirect()->route('home');
+      $validatedUser['password'] = Hash::make($validatedUser['password']);
+      User::create($validatedUser);
     }
 
     public function login(Request $request){
@@ -70,7 +66,6 @@ class AuthController extends Controller
       }
       Auth::login($user);
       $request->session()->regenerate();  
-        return redirect()->route('home');
     }
 
     public function logout(Request $request){
@@ -80,5 +75,7 @@ class AuthController extends Controller
       $request->session()->invalidate();
       //regenerates CSRF token so requests from the prev sessions dont get accepted
       $request->session()->regenerateToken();
+
+      return redirect()->route('home');
     }
 }
