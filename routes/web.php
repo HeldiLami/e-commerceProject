@@ -83,3 +83,15 @@ Route::get('/checkout/cancel', [StripePaymentController::class, 'cancel'])
 
 Route::get('/product/{product}', [ProductController::class, 'show'])
     ->name('product.show');
+
+// use App\Http\Controllers\StripeWebhookController;
+
+// Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle'])
+//     ->name('stripe.webhook');
+
+    use App\Http\Controllers\StripeWebhookController;
+use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
+
+Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle'])
+    ->withoutMiddleware([ValidateCsrfToken::class])
+    ->name('stripe.webhook');

@@ -13,8 +13,13 @@
 
 <x-layouts.front-layout title="{{ $product->name }}">
   <x-slot name="css">
-    @vite(['resources/css/product.css'])
-  </x-slot>
+  @vite(['resources/css/product.css'])
+</x-slot>
+
+<x-slot name="scripts">
+  @vite(['resources/js/product-page.js'])
+</x-slot>
+
 
   <div style="margin-top: 100px;"></div>
 
@@ -52,20 +57,25 @@
         <div class="buybox">
           <div class="qty-row">
             <label for="qty">Qty</label>
-            <select id="qty" class="qty-select">
+           <select id="qty" class="qty-select js-product-qty">
               @for ($i=1; $i<=10; $i++)
                 <option value="{{ $i }}">{{ $i }}</option>
               @endfor
             </select>
+
           </div>
+          <button
+              class="button-primary w100 js-add-to-cart"
+              type="button"
+              data-product-id="{{ $product->id }}"
+            >
+              Add to Cart
+            </button>
 
-          <button class="button-primary w100" style="padding:5px;" type="button">
-            Add to Cart
-          </button>
+              <button class="button-gold w100 js-buy-now" type="button">
+                Buy Now
+              </button>
 
-          <button class="button-gold w100" type="button">
-            Buy Now
-          </button>
 
           <div class="note">Secure transaction • Amazon Clone</div>
         </div>
