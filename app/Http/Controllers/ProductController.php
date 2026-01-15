@@ -37,7 +37,21 @@ class ProductController extends Controller
      */
    public function show(Product $product)
     {
-        return view('front.product', ['product' => $product]);
+        $stats = $product->ratings()
+        ->selectRaw('AVG(stars) as average, COUNT(*) as count')
+        ->first();
+
+        $average = $stats->average ?? 0;
+        $count = $stats->count ?? 0;
+
+        $ratingStars = round($average * 2) / 2;
+
+
+        return view('front.product', [
+            'product' => $product,
+            'ratingStars' => $ratingStars,
+            'ratingCount' => $count
+        ]);    
     }
 
     /**

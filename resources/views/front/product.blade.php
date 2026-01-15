@@ -1,8 +1,7 @@
 @php
-  $ratingStars = (float) ($product->rating_stars ?? 0);
+  $ratingStars = (float) ($rating_stars ?? 0);
   $ratingFile = 'images/ratings/rating-' . ((int) round($ratingStars * 10)) . '.png';
 
-  // keywords mund të jetë JSON string ose null
   $keywords = $product->keywords;
   if (is_string($keywords)) {
     $decoded = json_decode($keywords, true);
@@ -33,7 +32,7 @@
 
         <div class="rating">
           <img class="stars" src="/{{ $ratingFile }}" alt="rating">
-          <span class="count">{{ (int) $product->rating_count }} ratings</span>
+          <span class="count">{{ (int) $ratingCount }} ratings</span>
         </div>
 
         <div class="price">
