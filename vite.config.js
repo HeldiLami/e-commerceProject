@@ -10,6 +10,7 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/js/amazon.js',
                 'resources/js/cart.js',
+                'resources/js/orders.js',
                 'resources/js/checkout.js',
                 'resources/css/general.css',
                 'resources/css/amazon-header.css',
@@ -20,8 +21,10 @@ export default defineConfig({
                 'resources/css/pages/orders.css',
                 'resources/css/pages/tracking.css',
                 'resources/css/pages/admin/sidebar.css',
+                'resources/css/pages/auth/verify-email.css',
                 'resources/js/admin/menuBtn.js',
-                'resources/js/utils/updateCartDisplay.js'
+                'resources/js/utils/updateCartDisplay.js',
+                'resources/css/pages/auth/verify-email.css'
             ],
             refresh: true,
         }),

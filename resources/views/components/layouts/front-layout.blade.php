@@ -30,10 +30,18 @@
       </div>
 
       <div class="amazon-header-middle-section">
-        <input class="search-bar" type="text" placeholder="Search">
-        <button class="search-button">
-          <img class="search-icon" src="{{ asset('images/icons/search-icon.png') }}">
-        </button>
+        <form class="search-form" method="GET" action="{{ url('/') }}">
+          <input
+            class="search-bar"
+            type="text"
+            name="q"
+            value="{{ $query ?? '' }}"
+            placeholder="Search"
+          >
+          <button class="search-button" type="submit">
+            <img class="search-icon" src="{{ asset('images/icons/search-icon.png') }}">
+          </button>
+        </form>
       </div>
 
       <div class="amazon-header-right-section">
@@ -50,7 +58,7 @@
               <div class="cart-text">Cart</div>
           </a>
           
-          <form method="POST" action="{{ route('logout') }}" class="inline">
+          <form method="POST" action="{{ route('logout') }}" class="inline js-logout-form">
               @csrf
               <button type="submit" class="button-gold">
                   Log Out
@@ -73,5 +81,14 @@
     {{ $scripts ?? '' }}
     
     @vite(['resources/js/utils/updateCartDisplay.js'])
+
+    <script>
+      const logoutForm = document.querySelector('.js-logout-form');
+      if (logoutForm) {
+        logoutForm.addEventListener('submit', () => {
+          localStorage.removeItem('cart');
+        });
+      }
+    </script>
   </body>
 </html>
