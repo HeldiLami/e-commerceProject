@@ -12,7 +12,7 @@
         <nav class="nav-container">
             <p class="nav-label">Management</p>
             
-            <a href="{{ route('users.show', auth()->id()) }}" 
+            <a href="{{ route('users.show', auth()->user()) }}" 
                class="nav-item {{ request()->routeIs('users.show') ? 'active' : '' }}">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="12" cy="12" r="10"></circle>
@@ -29,15 +29,6 @@
                     <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                 </svg>
                 <span class="nav-text">Edit Details</span>
-            </a>
-
-            <a href="#" class="nav-item">
-                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <path d="M16 10a4 4 0 0 1-8 0"></path>
-                </svg>
-                <span class="nav-text">My Products</span>
             </a>
         </nav>
         <div class= "sidebar-footer">

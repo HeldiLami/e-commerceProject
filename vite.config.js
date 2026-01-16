@@ -24,7 +24,9 @@ export default defineConfig({
                 'resources/css/pages/auth/verify-email.css',
                 'resources/js/admin/menuBtn.js',
                 'resources/js/utils/updateCartDisplay.js',
-                'resources/css/pages/auth/verify-email.css'
+                'resources/css/pages/auth/verify-email.css',
+                'resources/js/session-timeout.js',
+                'resources/css/user-page.css'
             ],
             refresh: true,
         }),
