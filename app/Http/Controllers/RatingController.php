@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Rating;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class RatingController extends Controller
 {
@@ -13,16 +14,12 @@ class RatingController extends Controller
     {
         $request->validate([
             'product_id' => 'required|exists:products,id',
-            'stars' => [
-                'required',
-                'numeric',
-                'min:1',
-                'max:5',
-                'regex:/^\d+(\.0|\.5)?$/',
-            ],
+            'stars' => 'required|numeric|min:0.5|max:5',
             'comment' => 'nullable|string|max:1000',
         ]);
-        $rating = Rating::updateOrCreate(
+    
+        // HasUuids will automatically handle the 'id' field
+        Rating::updateOrCreate(
             [
                 'user_id' => Auth::id(),
                 'product_id' => $request->product_id,
@@ -32,6 +29,8 @@ class RatingController extends Controller
                 'comment' => $request->comment,
             ]
         );
+    
+        return back()->with('success', 'Review saved successfully!');
     }
 
     public function destroy(Rating $rating)

@@ -45,11 +45,16 @@
                 </div>
 
                 <div class="product-spacer"></div>
-
+            @auth    
                 <button class="add-to-cart-button button-primary js-add-to-cart" 
                         data-product-id="{{ $product->id }}">
                     Add to Cart
                 </button>
+            @else
+                <a href="{{ route('login') }}" class="add-to-cart-button">
+                    Add to Cart
+                </a>
+            @endauth
             </div>
         @endforeach
     </div>

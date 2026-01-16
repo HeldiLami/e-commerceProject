@@ -207,3 +207,31 @@
 .button-gold:active, .button-silver:active {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) inset;
 }
+
+.amazon-header-left-section {
+  display: flex;
+  align-items: center; 
+}
+
+.header-user-avatar {
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.header-user-avatar:hover {
+  cursor:pointer
+}
+
+.header-user-avatar:active {
+  transform: scale(0.92);
+}
+
+.header-user-avatar img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #febd69;
+  padding: 1px;
+  object-fit: contain;
+}
