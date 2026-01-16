@@ -4,12 +4,13 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\TrackingController;
 use App\Http\Controllers\StripePaymentController;
-use App\Http\Controllers\StripeWebhookController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
+use App\Http\Controllers\StripeWebhookController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\RatingController;
+use App\Http\Controllers\TrackingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
@@ -54,6 +55,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/checkout/success', [StripePaymentController::class, 'success'])->name('checkout.success');
     Route::get('/checkout/cancel', [StripePaymentController::class, 'cancel'])->name('checkout.cancel');
 
+    //USER
+    Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+    Route::patch('/users/{user}', [UserController::class, 'update'])->name('users.update');
+    Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');  
+    Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
 
     // Auth Actions
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -65,6 +71,7 @@ Route::middleware(['auth'])->group(function () {
         return redirect()->route('home');
     })->middleware('verified');
 
+    Route::post('/ratings/store', [RatingController::class, 'store'])->name('ratings.store');
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
@@ -78,4 +85,5 @@ Route::middleware(['auth', 'admin'])->group(function () {
         $users = User::latest()->get();
         return view('admin.users', ['users' => $users]);
     })->name('admin.users');
-});
+});Route::get('/product/{product}', [ProductController::class, 'show'])
+    ->name('product.show');
