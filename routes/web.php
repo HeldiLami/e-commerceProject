@@ -55,8 +55,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/checkout/success', [StripePaymentController::class, 'success'])->name('checkout.success');
     Route::get('/checkout/cancel', [StripePaymentController::class, 'cancel'])->name('checkout.cancel');
 
-    // Admin & User Management
-    Route::resource('users', UserController::class)->except('store');
+    // Admin
     Route::view('/admin/statistics', 'admin.statistics')->name('admin.statistics');
     
     Route::get('/admin/users', function () {
@@ -65,10 +64,11 @@ Route::middleware(['auth'])->group(function () {
     })->name('admin.users');
 
     //USER
+    Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
     Route::patch('/users/{user}', [UserController::class, 'update'])->name('users.update');
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');  
     Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
-    
+
     // Auth Actions
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     
