@@ -6,3 +6,6 @@ import './checkout.js';
 import './admin/menuBtn.js';
 import './session-timeout.js';
 import './utils/updateCartDisplay.js';
+import '../css/amazon-header.css';
+import '../css/pages/amazon.css';
+
