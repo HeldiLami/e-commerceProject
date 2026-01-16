@@ -25,6 +25,12 @@ Route::get('/products', [ProductController::class, 'index']);
 Route::get('/product/{product}', [ProductController::class, 'show'])->name('product.show');
 Route::get('/search', [ProductController::class, 'search'])->name('products.search');
 
+Route::get('/register', [AuthController::class, 'showRegisterUser'])->name('show.registerUser');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+
+Route::get('/login', [AuthController::class, 'showLogin'])->name('show.login');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+
 // Webhook duhet të jetë publik dhe pa CSRF
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle'])
     ->withoutMiddleware([ValidateCsrfToken::class])
@@ -88,17 +94,3 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/ratings/store', [RatingController::class, 'store'])->name('ratings.store');
 });
-
-Route::middleware(['auth', 'admin'])->group(function () {
-    // Admin & User Management
-    Route::resource('users', UserController::class)->except('store');
-    Route::get('/admin/statistics', function () {
-        return view('admin.statistics');
-    })->name('admin.statistics');
-    
-    Route::get('/admin/users', function () {
-        $users = User::latest()->get();
-        return view('admin.users', ['users' => $users]);
-    })->name('admin.users');
-});Route::get('/product/{product}', [ProductController::class, 'show'])
-    ->name('product.show');
