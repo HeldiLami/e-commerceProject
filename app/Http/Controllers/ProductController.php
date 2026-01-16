@@ -54,6 +54,8 @@ class ProductController extends Controller
      */
    public function show(Product $product)
     {
+        $product->load(['ratings.user']);
+        
         $stats = $product->ratings()
         ->selectRaw('AVG(stars) as average, COUNT(*) as count')
         ->first();
