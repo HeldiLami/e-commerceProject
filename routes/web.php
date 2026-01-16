@@ -55,14 +55,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/checkout/success', [StripePaymentController::class, 'success'])->name('checkout.success');
     Route::get('/checkout/cancel', [StripePaymentController::class, 'cancel'])->name('checkout.cancel');
 
-    // Admin
-    Route::view('/admin/statistics', 'admin.statistics')->name('admin.statistics');
-    
-    Route::get('/admin/users', function () {
-        $users = User::latest()->get();
-        return view('admin.users', ['users' => $users]);
-    })->name('admin.users');
-
     //USER
     Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
     Route::patch('/users/{user}', [UserController::class, 'update'])->name('users.update');
@@ -82,5 +74,16 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/ratings/store', [RatingController::class, 'store'])->name('ratings.store');
 });
 
-Route::get('/product/{product}', [ProductController::class, 'show'])
+Route::middleware(['auth', 'admin'])->group(function () {
+    // Admin & User Management
+    Route::resource('users', UserController::class)->except('store');
+    Route::get('/admin/statistics', function () {
+        return view('admin.statistics');
+    })->name('admin.statistics');
+    
+    Route::get('/admin/users', function () {
+        $users = User::latest()->get();
+        return view('admin.users', ['users' => $users]);
+    })->name('admin.users');
+});Route::get('/product/{product}', [ProductController::class, 'show'])
     ->name('product.show');
