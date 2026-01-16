@@ -1,8 +1,6 @@
 <x-layouts.admin-layout>
-    {{-- Vendosja e titullit përmes slot-it --}}
     <x-slot:title>Admin • Statistics</x-slot>
 
-    {{-- Ngarkimi i CSS-it specifik për këtë faqe --}}
     @vite(['resources/css/pages/admin/statistics.css'])
     
     <div class="page-header">
