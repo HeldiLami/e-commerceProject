@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Http\Controllers\StripeWebhookController;
 use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\RatingController;
 use App\Http\Controllers\TrackingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -95,3 +96,7 @@ Route::get('/product/{product}', [ProductController::class, 'show'])
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle'])
     ->withoutMiddleware([ValidateCsrfToken::class])
     ->name('stripe.webhook');
+
+Route::post('/ratings/store', [RatingController::class, 'store'])
+    ->middleware('auth')
+    ->name('ratings.store');

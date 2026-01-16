@@ -15,13 +15,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
       protected $keyType = 'string';
       public $incrementing = false;
 
-      public function ratings(): HasMany
-      {
-          return $this->hasMany(Rating::class);
-      }
+      protected $fillable = [
+        'user_id',
+        'product_id',
+        'stars',
+        'comment'
+      ];
+
       public function user(): BelongsTo
       {
-          // This links the 'user_id' column in your ratings table to the User model
           return $this->belongsTo(User::class);
       }
   }

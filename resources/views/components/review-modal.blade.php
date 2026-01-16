@@ -7,8 +7,11 @@
             <span class="close-modal">&times;</span>
         </div>
         
-        <form action="{{ url('/products/'.$product->id.'/reviews') }}" method="POST">
+        <form action="{{ route('ratings.store') }}" method="POST">
             @csrf
+
+            <input type="hidden" name="product_id" value="{{ $product->id }}">
+            
             <div class="form-group">
                 <label class="modal-label">Overall rating</label>
                 <select name="stars" class="qty-select w100">
