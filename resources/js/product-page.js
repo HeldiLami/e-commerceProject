@@ -1,7 +1,7 @@
-import { loadFromStorage, addToCart, updateCartQuantity } from "./data/cart.js";
+import { loadCartFromStorage, addToCart, updateCartQuantity } from "./data/cart.js";
 
 function setupProductButtons() {
-  loadFromStorage();
+  loadCartFromStorage();
   updateCartQuantity(".js-cart-quantity");
 
   const addBtn = document.querySelector(".js-add-to-cart");

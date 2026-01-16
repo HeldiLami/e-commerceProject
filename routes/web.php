@@ -75,8 +75,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
-    // Admin & User Management
-    Route::resource('users', UserController::class)->except('store');
+    // User Management
     Route::get('/admin/statistics', function () {
         return view('admin.statistics');
     })->name('admin.statistics');

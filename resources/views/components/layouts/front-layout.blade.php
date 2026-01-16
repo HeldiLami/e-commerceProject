@@ -24,7 +24,7 @@
         </a>
 
         @can('is-verified')
-            <a href="{{ route('users.edit', auth()->id()) }}" class="header-user-avatar">
+            <a href="{{ route('users.show', auth()->id()) }}" class="header-user-avatar">
                 <img 
                   src="{{ asset('images/icons/default-user-icon.png') }}"
                   alt="User Avatar"
