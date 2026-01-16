@@ -30,6 +30,11 @@ Route::get('/tracking', [TrackingController::class, 'show'])
     ->name('tracking');
 Route::view('/sidebar', 'components.sidebar')->name('sidebar');
 
+Route::get('/register', [AuthController::class, 'showRegisterUser'])->name('show.registerUser');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+
+Route::get('/login', [AuthController::class, 'showLogin'])->name('show.login');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -50,6 +55,9 @@ Route::get('/admin/users', function () {
     return view('admin.users', ['users' => $users]);
 })->name('admin.users');
 
+Route::get('/admin', function () {
+    return view('admin.overview');
+})->middleware(['auth', 'admin'])->name('admin.overview');
 
 Route::get('/products', [ProductController::class, 'index']);
 

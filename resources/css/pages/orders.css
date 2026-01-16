@@ -85,6 +85,50 @@
   }
 }
 
+.order-remove-cell {
+  grid-column: 3;
+  justify-self: end;
+  align-self: end;
+}
+
+.order-remove-button {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid rgb(213, 217, 217);
+  background: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4a4a4a;
+}
+
+.order-remove-button:hover {
+  background: #f6f6f6;
+}
+
+.order-remove-icon {
+  width: 20px;
+  height: 20px;
+}
+
+@media (max-width: 800px) {
+  .order-remove-cell {
+    grid-column: 2;
+    justify-self: start;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 450px) {
+  .order-remove-cell {
+    grid-column: auto;
+    justify-self: start;
+    margin-bottom: 20px;
+  }
+}
+
 .order-details-grid {
   padding: 40px 25px;
   border: 1px solid rgb(213, 217, 217);
