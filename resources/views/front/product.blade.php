@@ -13,6 +13,7 @@
 <x-layouts.front-layout title="{{ $product->name }}">
   <x-slot name="css">
   @vite(['resources/css/product.css'])
+  @vite(['resources/css/pages/amazon.css'])
 </x-slot>
 
 <x-slot name="scripts">
@@ -63,6 +64,7 @@
             </select>
 
           </div>
+          @auth
           <button
               class="button-primary w100 js-add-to-cart"
               type="button"
@@ -70,6 +72,11 @@
             >
               Add to Cart
             </button>
+            @else
+              <a href="{{ route('login') }}" class="add-to-cart-button">
+                    Add to Cart
+                </a>
+            @endauth
 
               <button class="button-gold w100 js-buy-now" type="button">
                 Buy Now

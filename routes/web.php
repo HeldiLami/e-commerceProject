@@ -94,3 +94,16 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/ratings/store', [RatingController::class, 'store'])->name('ratings.store');
 });
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    // Admin & User Management
+    Route::get('/admin/statistics', function () {
+        return view('admin.statistics');
+    })->name('admin.statistics');
+    
+    Route::get('/admin/users', function () {
+        $users = User::latest()->get();
+        return view('admin.users', ['users' => $users]);
+    })->name('admin.users');
+});Route::get('/product/{product}', [ProductController::class, 'show'])
+    ->name('product.show');

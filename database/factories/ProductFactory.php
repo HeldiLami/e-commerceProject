@@ -22,7 +22,7 @@ class ProductFactory extends Factory
             'id' => (string) Str::uuid(), 
             'user_id' => User::factory(),
             'name' => fake()->words(3, true),
-            'image' => 'products/' . fake()->image(null, 640, 480, 'technics', false),
+            'image' => 'https://loremflickr.com/640/480/' . fake()->randomElement(['tech', 'fashion', 'appliance']),
             'type' => fake()->randomElement(['product', 'clothing', 'appliance']),
             'price_cents' => fake()->numberBetween(500, 10000),
             'keywords' => [fake()->word(), fake()->word(), fake()->word()],
