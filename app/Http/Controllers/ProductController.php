@@ -10,12 +10,27 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
-        $products = Product::withAvg('ratings as rating_avg', 'stars')
-                       ->withCount('ratings as rating_count')
-                       ->get();
+        $products = Product::all();
         return view('front.amazon', ['products' => $products]);
+    }
+
+    public function search(Request $request)
+    {
+        $query = trim((string) $request->query('q', ''));
+
+        $products = Product::withAvg('ratings as rating_avg', 'stars')
+            ->withCount('ratings as rating_count')
+            ->when($query !== '', function ($builder) use ($query) {
+                $builder->where('name', 'like', '%' . $query . '%');
+            })
+            ->get();
+
+        return view('front.amazon', [
+            'products' => $products,
+            'query' => $query,
+        ]);
     }
 
     /**
