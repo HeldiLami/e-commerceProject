@@ -25,6 +25,12 @@ Route::get('/products', [ProductController::class, 'index']);
 Route::get('/product/{product}', [ProductController::class, 'show'])->name('product.show');
 Route::get('/search', [ProductController::class, 'search'])->name('products.search');
 
+Route::get('/register', [AuthController::class, 'showRegisterUser'])->name('show.registerUser');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+
+Route::get('/login', [AuthController::class, 'showLogin'])->name('show.login');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+
 // Webhook duhet të jetë publik dhe pa CSRF
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle'])
     ->withoutMiddleware([ValidateCsrfToken::class])
