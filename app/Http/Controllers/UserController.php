@@ -40,7 +40,9 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //return the view user.edit
+        return view('users.edit', [
+            'user' => $user
+        ]);
     }
 
     /**
@@ -64,7 +66,6 @@ class UserController extends Controller
             unset($attributes['password']);
         }
         $user->update($attributes);
-
         //return redirect('/users/' . $user->id)->with('success', 'User updated!');
     }
 

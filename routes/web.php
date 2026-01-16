@@ -57,15 +57,18 @@ Route::middleware(['auth'])->group(function () {
 
     // Admin & User Management
     Route::resource('users', UserController::class)->except('store');
-    Route::get('/admin/statistics', function () {
-        return view('admin.statistics');
-    })->name('admin.statistics');
+    Route::view('/admin/statistics', 'admin.statistics')->name('admin.statistics');
     
     Route::get('/admin/users', function () {
         $users = User::latest()->get();
         return view('admin.users', ['users' => $users]);
     })->name('admin.users');
 
+    //USER
+    Route::patch('/users/{user}', [UserController::class, 'update'])->name('users.update');
+    Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');  
+    Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+    
     // Auth Actions
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     

@@ -15,18 +15,22 @@
     @vite(['resources/css/general.css', 'resources/css/amazon-header.css'])
     
     {{ $css ?? '' }}
-    
-    <script>
-        // Global variable for asset base URL
-    </script>
   </head>
   <body>
     <div class="amazon-header">
       <div class="amazon-header-left-section">
         <a href="{{ url('/') }}" class="header-link">
           <img class="amazon-logo" src="{{ asset('images/amazon-logo-white.png') }}">
-          <img class="amazon-mobile-logo" src="{{ asset('images/amazon-mobile-logo-white.png') }}">
         </a>
+
+        @can('is-verified')
+            <a href="{{ route('users.edit', auth()->id()) }}" class="header-user-avatar">
+                <img 
+                  src="{{ asset('images/icons/default-user-icon.png') }}"
+                  alt="User Avatar"
+                >
+            </a>
+        @endcan
       </div>
 
       <div class="amazon-header-middle-section">
