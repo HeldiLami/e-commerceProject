@@ -2,7 +2,7 @@ export let cart;
 
 loadCartFromStorage();
 
-function save() {
+export function save() {
   localStorage.setItem('cart', JSON.stringify(cart));
 }
 
