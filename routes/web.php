@@ -54,16 +54,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/checkout/success', [StripePaymentController::class, 'success'])->name('checkout.success');
     Route::get('/checkout/cancel', [StripePaymentController::class, 'cancel'])->name('checkout.cancel');
 
-    // Admin & User Management
-    Route::resource('users', UserController::class)->except('store');
-    Route::get('/admin/statistics', function () {
-        return view('admin.statistics');
-    })->name('admin.statistics');
-    
-    Route::get('/admin/users', function () {
-        $users = User::latest()->get();
-        return view('admin.users', ['users' => $users]);
-    })->name('admin.users');
 
     // Auth Actions
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -77,3 +67,15 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
+Route::middleware(['auth', 'admin'])->group(function () {
+    // Admin & User Management
+    Route::resource('users', UserController::class)->except('store');
+    Route::get('/admin/statistics', function () {
+        return view('admin.statistics');
+    })->name('admin.statistics');
+    
+    Route::get('/admin/users', function () {
+        $users = User::latest()->get();
+        return view('admin.users', ['users' => $users]);
+    })->name('admin.users');
+});
