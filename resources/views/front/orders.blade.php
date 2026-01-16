@@ -23,17 +23,12 @@
                             <div>{{ $order->status === 'paid' ? 'paid' : 'not paid' }}</div>
                         </div>
                         @if ($order->status !== 'paid')
-                            <form method="POST" action="{{ route('checkout.session.redirect') }}">
+                            <form method="POST" action="{{ route('checkout.session.redirect') }}" style="margin-right: 8px;">
                                 @csrf
                                 <input type="hidden" name="order_id" value="{{ $order->id }}">
                                 <button type="submit" class="track-package-button button-primary">Pay now</button>
                             </form>
                         @endif
-                        <form method="POST" action="{{ route('orders.destroy', $order) }}">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="track-package-button button-secondary">Remove</button>
-                        </form>
                     </div>
 
                     <div class="order-header-right-section">
@@ -69,6 +64,17 @@
                             </a>
                         </div>
                     @endforeach
+                    <div class="order-remove-cell">
+                        <form method="POST" action="{{ route('orders.destroy', $order) }}">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="order-remove-button" aria-label="Remove order">
+                                <svg class="order-remove-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M9 3h6l1 2h4v2H4V5h4l1-2zM6 9h12l-1 11H7L6 9zm3 2h2v7H9v-7zm4 0h2v7h-2v-7z" fill="currentColor"/>
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         @empty

@@ -75,8 +75,10 @@ function renderCart() {
             <button class="quantity-button js-quantity-plus" data-product-id="${product.id}" type="button">+</button>
           </div>
         </div>
-        <button class="remove-button js-remove-item" data-product-id="${product.id}" type="button">
-          <span class="remove-icon">🗑</span>
+        <button class="remove-button js-remove-item" data-product-id="${product.id}" type="button" aria-label="Remove item">
+          <svg class="remove-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M9 3h6l1 2h4v2H4V5h4l1-2zM6 9h12l-1 11H7L6 9zm3 2h2v7H9v-7zm4 0h2v7h-2v-7z" fill="currentColor"/>
+          </svg>
         </button>
       </div>
     `;
