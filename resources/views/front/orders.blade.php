@@ -50,7 +50,7 @@
                             <div class="product-quantity">Quantity: {{ $product->pivot->quantity }}</div>
                             <button
                                 type="button"
-                                class="buy-again-button button-primary js-buy-again"
+                                class="buy-again-button button-primary js-buy"
                                 data-product-id="{{ $product->id }}"
                                 data-quantity="{{ $product->pivot->quantity }}"
                             >

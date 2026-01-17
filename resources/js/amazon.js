@@ -1,6 +1,6 @@
 import { addToCart, updateCartQuantity } from "./data/cart.js";
 
-function setupAddToCart() {
+export function setupAddToCartButtons() {
   document.querySelectorAll('.js-add-to-cart')
     .forEach((button) => {
       button.addEventListener('click', () => {
@@ -13,4 +13,4 @@ function setupAddToCart() {
     });
 }
 
-setupAddToCart();
+setupAddToCartButtons();
