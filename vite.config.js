@@ -28,6 +28,7 @@ export default defineConfig({
                 'resources/css/admin/statistics.css',
                 'resources/css/admin/users.css',
                 'resources/css/user-page.css',
+                'resources/js/amazon-header.js'
             ],
             refresh: true,
         }),

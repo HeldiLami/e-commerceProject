@@ -85,15 +85,6 @@
 
     {{ $scripts ?? '' }}
     
-    @vite(['resources/js/utils/updateCartDisplay.js'])
-
-    <script>
-      const logoutForm = document.querySelector('.js-logout-form');
-      if (logoutForm) {
-        logoutForm.addEventListener('submit', () => {
-          localStorage.removeItem('cart');
-        });
-      }
-    </script>
+    @vite(['resources/js/utils/updateCartDisplay.js', 'resources/js/amazon-header.js'])
   </body>
 </html>
