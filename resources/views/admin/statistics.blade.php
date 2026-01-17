@@ -3,6 +3,19 @@
 
     @vite(['resources/css/pages/admin/statistics.css'])
     
+    <x-slot:title>Admin • Statistics</x-slot:title>
+
+    @vite(['resources/css/admin/statistics.css'])
+
+    @php
+        // $stats vjen nga controller (Collection)
+        $prettyType = function ($type) {
+            if (!$type) return 'Uncategorized';
+            $last = last(explode('/', $type));
+            return ucfirst(str_replace(['-', '_'], ' ', $last));
+        };
+    @endphp
+
     <div class="page-header">
         <h1>Statistics</h1>
         <h2 class="subtitle">Përmbledhje e shitjeve sipas kategorisë dhe produktit.</h2>
