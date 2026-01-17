@@ -4,7 +4,7 @@
   <div class="max-w-md w-full bg-white rounded-xl shadow-lg p-8">
     <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Create Account</h2>
     
-    <form action="{{ route('register') }}" method="POST" class="space-y-4">
+    <form action="{{ route('register') }}" method="POST" class="space-y-4 js-register-form">
       @csrf <div>
         <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
         <input 
@@ -58,7 +58,7 @@
 
       <input type="hidden" name="is_admin" value="0">
 
-      <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg transition-colors">
+      <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg transition-colors js-register-submit">
         Register
       </button>
     </form>
@@ -69,3 +69,15 @@
     </div>
   </div>
 </div>
+
+<script>
+  const registerForm = document.querySelector('.js-register-form');
+  const submitButton = document.querySelector('.js-register-submit');
+
+  if (registerForm && submitButton) {
+    registerForm.addEventListener('submit', () => {
+      submitButton.disabled = true;
+      submitButton.textContent = 'Registering...';
+    });
+  }
+</script>

@@ -6,17 +6,11 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/css/app.css', 
-                'resources/js/app.js',
-                'resources/js/amazon.js',
-                'resources/js/checkout.js',
+              'resources/css/app.css',
                 'resources/css/general.css',
                 'resources/css/amazon-header.css',
                 'resources/css/pages/amazon.css',
-                'resources/css/pages/checkout/checkout-header.css',
-                'resources/css/pages/checkout/checkout.css',
-                'resources/css/pages/orders.css',
-                'resources/css/pages/tracking.css',
+                'resources/js/app.js',
             ],
             refresh: true,
         }),

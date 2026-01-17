@@ -1,0 +1,81 @@
+<x-layouts.admin-layout>
+    {{-- Te layout-i duhet të kesh një <title>{{ $title ?? 'Default' }}</title> --}}
+    <x-slot:title>Admin • Users</x-slot>
+
+    @vite(['resources/css/pages/admin/users.css'])
+
+    <section class="panel">
+        <div class="panel__head">
+            <h1 class="title">Users</h1>
+            <p class="subtitle">Kërko një user dhe do shfaqet vetëm ai (frontend filter).</p>
+        </div>
+
+        <div class="panel__searchRow">
+            <label class="searchbar">
+                <span class="searchbar__hint">Search</span>
+                <input id="userSearchInput" type="text" placeholder="Kërko: Neim, Elis, Jon / email..." />
+                <button id="userSearchBtn" type="button">Search</button>
+            </label>
+        </div>
+
+        <div class="tableWrap" aria-label="Users table">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th class="right">Created</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="userCell">
+                                <div class="avatar" aria-hidden="true"></div>
+                                <div class="nameEmail">
+                                    <div class="name">Neim Sinaj</div>
+                                    <div class="email">neim.sinaj@example.com</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="pill pill--role">Admin</span></td>
+                        <td><span class="pill pill--ok">Active</span></td>
+                        <td class="right">2026-01-02</td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div class="userCell">
+                                <div class="avatar" aria-hidden="true"></div>
+                                <div class="nameEmail">
+                                    <div class="name">Elis Bobin</div>
+                                    <div class="email">elis.bobin@example.com</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="pill pill--role">Manager</span></td>
+                        <td><span class="pill pill--warn">Pending</span></td>
+                        <td class="right">2025-12-18</td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div class="userCell">
+                                <div class="avatar" aria-hidden="true"></div>
+                                <div class="nameEmail">
+                                    <div class="name">Jon Doe</div>
+                                    <div class="email">jon.doe@example.com</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="pill pill--role">User</span></td>
+                        <td><span class="pill pill--bad">Blocked</span></td>
+                        <td class="right">2025-10-09</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</x-layouts.admin-layout>
