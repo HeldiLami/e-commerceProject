@@ -85,6 +85,6 @@
 
     {{ $scripts ?? '' }}
     
-    @vite(['resources/js/utils/updateCartDisplay.js', 'resources/js/amazon-header.js'])
+    @vite(['resources/js/utils/updateCartDisplay.js'])
   </body>
 </html>
