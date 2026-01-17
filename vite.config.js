@@ -28,6 +28,8 @@ export default defineConfig({
                 'resources/js/orders.js',
                 'resources/js/checkout.js',
                 'resources/js/session-timeout.js',
+                'resources/js/data/cart.js',
+                'resources/js/utils/money.js',
                 'resources/js/utils/updateCartDisplay.js',
                 'resources/js/admin/menuBtn.js',
             ],
@@ -36,12 +38,12 @@ export default defineConfig({
         tailwindcss(),
     ],
     server: {
-        host: '0.0.0.0',
-        port: 5173,
+        host: '127.0.0.1',
+        port: 5174,
         strictPort: true,
         hmr: {
-            host: 'localhost',
-            port: 5173,
+            host: '127.0.0.1',
+            port: 5174,
         },
         watch: {
             usePolling: true,
