@@ -6,7 +6,10 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/css/app.css', 
+              'resources/css/app.css',
+                'resources/css/general.css',
+                'resources/css/amazon-header.css',
+                'resources/css/pages/amazon.css',
                 'resources/js/app.js',
                 'resources/js/amazon.js',
                 'resources/js/cart.js',
