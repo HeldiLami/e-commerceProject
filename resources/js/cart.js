@@ -9,11 +9,24 @@ import {
 import { formatCurrency } from "./utils/money.js";
 
 let cartSnapshot = [];
+const CART_CLEAR_FLAG = "cart_clear_after_order";
 
 
 function refreshUI() {
   renderCart();
   updateCartQuantity(".js-cart-quantity");
+}
+
+function clearCartIfFlagged() {
+  if (localStorage.getItem(CART_CLEAR_FLAG) === "1") {
+    setCart([]);
+    localStorage.removeItem(CART_CLEAR_FLAG);
+  }
+}
+
+function syncCartFromStorage() {
+  loadCartFromStorage();
+  refreshUI();
 }
 
 function renderCart() {
@@ -120,7 +133,15 @@ async function handlePlaceOrder(button) {
     }
 
     localStorage.removeItem("cart");
-    window.location.href = sessionData.checkoutUrl;
+    localStorage.setItem(CART_CLEAR_FLAG, "1");
+    setCart([]);
+    refreshUI();
+    if (statusElement) {
+      statusElement.textContent = "Redirecting to payment...";
+    }
+    requestAnimationFrame(() => {
+      window.location.href = sessionData.checkoutUrl;
+    });
   } catch (error) {
     if (statusElement) {
       statusElement.textContent = error.message || "Order could not be created.";
@@ -131,8 +152,8 @@ async function handlePlaceOrder(button) {
 }
 
 function initCartPage() {
-  loadCartFromStorage();
-  refreshUI();
+  clearCartIfFlagged();
+  syncCartFromStorage();
 
   const summaryContainer = document.querySelector(".js-cart-summary");
   if (summaryContainer) {
@@ -177,6 +198,34 @@ if (document.readyState === "loading") {
 } else {
   initCartPage();
 }
+
+window.addEventListener("pageshow", (event) => {
+  const navigation = performance.getEntriesByType("navigation")[0];
+  const isBackForward = event.persisted || (navigation && navigation.type === "back_forward");
+  if (!isBackForward) {
+    return;
+  }
+
+  if (localStorage.getItem(CART_CLEAR_FLAG) === "1") {
+    localStorage.removeItem(CART_CLEAR_FLAG);
+    setCart([]);
+    refreshUI();
+    window.location.reload();
+    return;
+  }
+
+  syncCartFromStorage();
+});
+
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible") {
+    syncCartFromStorage();
+  }
+});
+
+window.addEventListener("focus", () => {
+  syncCartFromStorage();
+});
 
 function getCartItemHtml(product, cartItem) {
   const imageUrl = product.image.startsWith("http")
