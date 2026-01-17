@@ -13,7 +13,6 @@ class StripeWebhookController extends Controller
     public function handle(Request $request)
     {
         $endpointSecret = config('services.stripe.webhook_secret');
-
         $payload = $request->getContent();
         $sigHeader = $request->header('Stripe-Signature');
 
@@ -23,11 +22,8 @@ class StripeWebhookController extends Controller
             return response('Invalid signature', 400);
         }
 
-        // ✅ kur pagesa perfundon
         if ($event->type === 'checkout.session.completed') {
             $session = $event->data->object;
-
-            // ✅ ne session vendos metadata order_id kur e krijon checkout session
             $orderId = $session->metadata->order_id ?? null;
 
             if ($orderId) {
@@ -41,12 +37,11 @@ class StripeWebhookController extends Controller
     private function finalizeOrderAndDecreaseStock($orderId)
     {
         DB::transaction(function () use ($orderId) {
-                    $order = Order::lockForUpdate()->find($orderId);
+            $order = Order::lockForUpdate()->find($orderId);
             if (!$order) return;
 
             if ($order->status === 'paid') return;
 
-            // ✅ merr items nga pivot table direkt
             $items = DB::table('order_product')
                 ->where('order_id', $orderId)
                 ->get();
@@ -58,7 +53,7 @@ class StripeWebhookController extends Controller
                 if ($product->quantity < $item->quantity) {
                     $order->status = 'failed';
                     $order->save();
-                    return; // ndalo
+                    return;
                 }
 
                 $product->quantity -= $item->quantity;
@@ -67,8 +62,6 @@ class StripeWebhookController extends Controller
 
             $order->status = 'paid';
             $order->save();
-
+        });
     }
-    }}
-
-
+}

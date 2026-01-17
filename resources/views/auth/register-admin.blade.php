@@ -4,7 +4,7 @@
       Create Account
   </x-slot:heading>
 
-  <form action="{{ route('register') }}" method="POST" class="space-y-4">
+  <form action="{{ route('register') }}" method="POST" class="space-y-4 js-register-form">
       @csrf 
       
       {{-- Hidden input ensures all registrations from this form are Admins --}}
@@ -65,7 +65,7 @@
           />
       </div>
 
-      <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg transition-colors">
+      <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg transition-colors js-register-submit">
           Register
       </button>
   </form>
@@ -76,3 +76,15 @@
   </x-slot:footer>
 
 </x-layouts.auth>
+
+<script>
+  const registerForm = document.querySelector('.js-register-form');
+  const submitButton = document.querySelector('.js-register-submit');
+
+  if (registerForm && submitButton) {
+    registerForm.addEventListener('submit', () => {
+      submitButton.disabled = true;
+      submitButton.textContent = 'Registering...';
+    });
+  }
+</script>

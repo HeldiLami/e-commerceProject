@@ -18,10 +18,6 @@ return new class extends Migration {
             $table->string('image');
             $table->string('type')->default('product');
 
-            $table->decimal('rating_stars', 2, 1)->nullable();
-            
-            $table->integer('rating_count')->default(0);
-
             $table->integer('price_cents');
 
             $table->integer('quantity')->default(1); 

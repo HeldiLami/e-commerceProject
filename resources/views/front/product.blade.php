@@ -1,8 +1,7 @@
 @php
-  $ratingStars = (float) ($product->rating_stars ?? 0);
-  $ratingFile = 'images/ratings/rating-' . ((int) round($ratingStars * 10)) . '.png';
-
-  // keywords mund të jetë JSON string ose null
+  $starsValue = (float) ($ratingStars ?? 0);  
+  $ratingFile = 'images/ratings/rating-' . ((int) round($starsValue * 10)) . '.png';
+  
   $keywords = $product->keywords;
   if (is_string($keywords)) {
     $decoded = json_decode($keywords, true);
@@ -14,6 +13,7 @@
 <x-layouts.front-layout title="{{ $product->name }}">
   <x-slot name="css">
   @vite(['resources/css/product.css'])
+  @vite(['resources/css/pages/amazon.css'])
 </x-slot>
 
 <x-slot name="scripts">
@@ -37,8 +37,8 @@
         <h1 class="title">{{ $product->name }}</h1>
 
         <div class="rating">
-          <img class="stars" src="/{{ $ratingFile }}" alt="rating">
-          <span class="count">{{ (int) $product->rating_count }} ratings</span>
+          <img class="stars" src="{{ asset($ratingFile) }}"  alt="rating">
+          <span class="count">{{ (int) $ratingCount }} ratings</span>
         </div>
 
         <div class="price">
@@ -64,6 +64,7 @@
             </select>
 
           </div>
+          @auth
           <button
               class="button-primary w100 js-add-to-cart"
               type="button"
@@ -71,6 +72,11 @@
             >
               Add to Cart
             </button>
+            @else
+              <a href="{{ route('login') }}" class="add-to-cart-button">
+                    Add to Cart
+                </a>
+            @endauth
 
               <button class="button-gold w100 js-buy-now" type="button">
                 Buy Now
@@ -89,5 +95,55 @@
         @endif
       </div>
     </div>
+
+    <div class="reviews-section">
+      <hr class="section-divider">
+      
+      <div class="reviews-header">
+        <h2 class="reviews-main-title">Customer Reviews</h2>
+        <button id="openReviewBtn" class="button-review">
+            Write review
+        </button>
+      </div>
+
+      <x-review-modal :product="$product" />
+
+      <div class="reviews-grid">
+        <div class="reviews-summary">
+          <div class="summary-header">
+            <img class="stars-large" src="{{ asset($ratingFile) }}" alt="rating">
+            <span class="average-text">{{ number_format($starsValue, 1) }} out of 5</span>
+          </div>
+          <p class="total-count">{{ $ratingCount }} global ratings</p>  
+        </div>
+    
+        <div class="reviews-list">
+          <h3>Top reviews</h3>
+          
+          @forelse($product->ratings as $review)
+            <div class="review-item">
+              <div class="user-info">
+                <img src="{{ asset('images/icons/default-user-icon.png') }}" class="avatar">
+                <span class="username">{{ $review->user->name }}</span>
+              </div>
+              
+              <div class="review-rating">
+                <img src="{{ asset('images/ratings/rating-' . ((int) round($review->stars * 10)) . '.png') }}" class="stars-small">
+              </div>
+              
+              <div class="review-date">Reviewed on {{ $review->created_at->format('M d, Y') }}</div>
+              
+              <div class="review-body">
+                <p>{{ $review->comment }}</p>
+              </div>
+            </div>
+          @empty
+            <p class="no-reviews">No reviews yet. Be the first to review this product!</p>
+          @endforelse
+        </div>
+      </div>
+    </div>
   </div>
+
+
 </x-layouts.front-layout>

@@ -1,15 +1,13 @@
-import { loadFromStorage, addToCart, updateCartQuantity } from "./data/cart.js";
+import { loadCartFromStorage, addToCart, updateCartQuantity } from "./data/cart.js";
 
 function setupProductButtons() {
-  loadFromStorage();
+  loadCartFromStorage();
   updateCartQuantity(".js-cart-quantity");
 
-  // ✅ Add To Cart (me quantity)
   const addBtn = document.querySelector(".js-add-to-cart");
   if (addBtn) {
     addBtn.addEventListener("click", () => {
       const productId = addBtn.dataset.productId;
-
       const qtySelect = document.querySelector(".js-product-qty");
       const quantity = qtySelect ? Number(qtySelect.value) : 1;
 
@@ -18,7 +16,6 @@ function setupProductButtons() {
     });
   }
 
-  // ✅ Buy Now (VETEM redirect, pa shtuar ne cart)
   const buyBtn = document.querySelector(".js-buy-now");
   if (buyBtn) {
     buyBtn.addEventListener("click", (e) => {
@@ -26,6 +23,38 @@ function setupProductButtons() {
       window.location.href = "/cart";
     });
   }
+
+  setupReviewModal();
+}
+
+function setupReviewModal() {
+  const modal = document.getElementById("reviewModal");
+  const openBtn = document.getElementById("openReviewBtn");
+  const closeBtn = document.querySelector(".close-modal");
+
+  if (openBtn && modal) {
+    openBtn.addEventListener("click", () => {
+      modal.style.display = "block";
+      document.body.style.overflow = "hidden"; 
+    });
+
+    if (closeBtn) {
+      closeBtn.addEventListener("click", () => {
+        closeModal(modal);
+      });
+    }
+
+    window.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        closeModal(modal);
+      }
+    });
+  }
+}
+
+function closeModal(modalElement) {
+  modalElement.style.display = "none";
+  document.body.style.overflow = "auto";
 }
 
 setupProductButtons();

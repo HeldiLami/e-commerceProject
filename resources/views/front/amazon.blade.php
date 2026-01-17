@@ -1,6 +1,6 @@
 <x-layouts.front-layout title="Amazon Project">
     <x-slot name="css">
-        @vite(['resources/css/pages/amazon.css'])
+        @vite(['resources/css/amazon-header.css'])
     </x-slot>
 
     <div class="products-grid js-products-grid">
@@ -21,7 +21,12 @@
 
 
                 <div class="product-rating-container">
-                    <img class="product-rating-stars" src="/images/ratings/rating-{{ $product->rating_stars * 10 }}.png">
+                    @php
+                        $avg = $product->rating_avg ?? 0;
+                        $roundedRating = round($avg * 2) / 2;
+                        $starsFile = (int) round($roundedRating * 10);
+                    @endphp
+                    <img class="product-rating-stars" src="{{ asset("images/ratings/rating-{$starsFile}.png") }}">
                     <div class="product-rating-count link-primary">
                         {{ $product->rating_count }}
                     </div>
@@ -40,11 +45,16 @@
                 </div>
 
                 <div class="product-spacer"></div>
-
+            @auth    
                 <button class="add-to-cart-button button-primary js-add-to-cart" 
                         data-product-id="{{ $product->id }}">
                     Add to Cart
                 </button>
+            @else
+                <a href="{{ route('login') }}" class="add-to-cart-button">
+                    Add to Cart
+                </a>
+            @endauth
             </div>
         @endforeach
     </div>

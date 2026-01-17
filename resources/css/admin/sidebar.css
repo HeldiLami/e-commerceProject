@@ -197,3 +197,12 @@ body {
     overflow-y: auto;
     box-sizing: border-box;
 }
+
+
+.menu-toggle-icon:hover{
+    cursor:pointer;
+}
+
+.menu-toggle-icon:active{
+    transform: scale(90%);
+}

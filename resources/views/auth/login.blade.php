@@ -12,7 +12,6 @@
   <form action="{{ route('login') }}" method="POST" class="space-y-4">
       @csrf 
 
-      <input type="hidden" name="is_admin" value="0">
       <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
           <input 
@@ -28,7 +27,7 @@
       <div>
           <div class="flex items-center justify-between mb-1">
               <label class="block text-sm font-medium text-gray-700">Password</label>
-              <a href="#" class="text-xs text-indigo-600 hover:text-indigo-500">Forgot password?</a>
+              <a href="{{ route('password.request') }}" class="text-xs text-indigo-600 hover:text-indigo-500">Forgot password?</a>
           </div>
           <input 
               type="password" 
