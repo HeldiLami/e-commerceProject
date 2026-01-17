@@ -2,7 +2,7 @@
     {{-- Te layout-i duhet të kesh një <title>{{ $title ?? 'Default' }}</title> --}}
     <x-slot:title>Admin • Users</x-slot>
 
-    @vite(['resources/css/pages/admin/users.css'])
+    @vite(['resources/css/admin/users.css'])
 
     <section class="panel">
         <div class="panel__head">

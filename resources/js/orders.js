@@ -1,11 +1,10 @@
 import { addToCart, updateCartQuantity } from "./data/cart.js";
 
-function setupBuyAgain() {
-  document.querySelectorAll(".js-buy-again").forEach((button) => {
+export function setupBuyButton() {
+  document.querySelectorAll(".js-buy").forEach((button) => {
     button.addEventListener("click", () => {
       const productId = button.dataset.productId;
       const quantity = Number(button.dataset.quantity) || 1;
-
       addToCart(productId, quantity);
       updateCartQuantity(".js-cart-quantity");
       window.location.href = "/cart";
@@ -13,4 +12,4 @@ function setupBuyAgain() {
   });
 }
 
-setupBuyAgain();
+setupBuyButton();

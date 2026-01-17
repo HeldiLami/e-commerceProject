@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -35,14 +36,18 @@ class AuthController extends Controller
         'is_admin'=>'boolean'
     ]);
       $validatedUser['password'] = Hash::make($validatedUser['password']);
-      User::create($validatedUser);
+      $user = User::create($validatedUser);
+      Auth::login($user);
+      $request->session()->regenerate();
+      $user->sendEmailVerificationNotification();
+
+      return redirect()->route('verification.notice');
     }
 
     public function login(Request $request){
       $request->validate([
         'email' => 'required|email',
-        'password' => 'required|string',
-        'is_admin' => 'required|boolean'
+        'password' => 'required|string'
       ]);
 
       $user = User::where('email', $request->email)->first();
@@ -53,12 +58,6 @@ class AuthController extends Controller
         ]);
       }
 
-      if ($request->boolean('is_admin') !== (bool) $user->is_admin) {
-        throw ValidationException::withMessages([
-          'email' => 'You are attempting to log in through the wrong portal.',
-        ]);
-    }
-
       if(!Hash::check($request->password, $user->password)){
         throw ValidationException::withMessages([
          'password' => 'Password is incorrect'
@@ -66,6 +65,16 @@ class AuthController extends Controller
       }
       Auth::login($user);
       $request->session()->regenerate();  
+
+      if ($user instanceof MustVerifyEmail && ! $user->hasVerifiedEmail()) {
+        return redirect()->route('verification.notice');
+      }
+
+      if ($user->is_admin) {
+        return redirect('/admin');
+      }
+
+      return redirect()->route('home');
     }
 
     public function logout(Request $request){

@@ -1,6 +1,6 @@
 import {
   cart,
-  loadFromStorage,
+  loadCartFromStorage,
   removeFromCart,
   setCart,
   updateCartQuantity,
@@ -9,96 +9,55 @@ import {
 import { formatCurrency } from "./utils/money.js";
 
 let cartSnapshot = [];
+const CART_CLEAR_FLAG = "cart_clear_after_order";
+
+
+function refreshUI() {
+  renderCart();
+  updateCartQuantity(".js-cart-quantity");
+}
+
+function clearCartIfFlagged() {
+  if (localStorage.getItem(CART_CLEAR_FLAG) === "1") {
+    setCart([]);
+    localStorage.removeItem(CART_CLEAR_FLAG);
+  }
+}
+
+function syncCartFromStorage() {
+  loadCartFromStorage();
+  refreshUI();
+}
 
 function renderCart() {
   const products = Array.isArray(window.cartProductsData) ? window.cartProductsData : [];
   const productMap = new Map(products.map((product) => [product.id, product]));
-
   const itemsContainer = document.querySelector(".js-cart-items");
   const summaryContainer = document.querySelector(".js-cart-summary");
-  if (!itemsContainer || !summaryContainer) {
-    return;
-  }
+
+  if (!itemsContainer || !summaryContainer) return;
 
   const validItems = cart.filter((item) => productMap.has(item.productId) && item.quantity > 0);
-  if (validItems.length !== cart.length) {
-    setCart(validItems);
-  }
+  if (validItems.length !== cart.length) setCart(validItems);
   cartSnapshot = validItems;
 
   if (validItems.length === 0) {
     itemsContainer.innerHTML = `<div class="cart-empty">Your cart is empty.</div>`;
-    summaryContainer.innerHTML = `
-      <div class="cart-summary-card">
-        <div class="summary-row">
-          <span>Items</span>
-          <span>0</span>
-        </div>
-        <div class="summary-row summary-total">
-          <span>Total</span>
-          <span>$0.00</span>
-        </div>
-        <button class="place-order-button button-primary" type="button" disabled>
-          Place order
-        </button>
-      </div>
-    `;
+    summaryContainer.innerHTML = getSummaryHtml(0, 0, true);
     return;
   }
 
   let totalQuantity = 0;
   let totalCents = 0;
-  let itemsHtml = "";
+  
+  itemsContainer.innerHTML = validItems.map(item => {
+    const product = productMap.get(item.productId);
+    totalQuantity += item.quantity;
+    totalCents += product.price_cents * item.quantity;
+    return getCartItemHtml(product, item);
+  }).join('');
 
-  validItems.forEach((cartItem) => {
-    const product = productMap.get(cartItem.productId);
-    if (!product) {
-      return;
-    }
-
-    totalQuantity += cartItem.quantity;
-    totalCents += product.price_cents * cartItem.quantity;
-
-    const imageUrl = product.image.startsWith("http")
-      ? product.image
-      : `${window.location.origin}/${product.image.replace(/^\/+/, "")}`;
-
-    itemsHtml += `
-      <div class="cart-item">
-        <img class="cart-item-image" src="${imageUrl}" alt="${product.name}">
-        <div class="cart-item-details">
-          <div class="cart-item-name">${product.name}</div>
-          <div class="cart-item-price">$${formatCurrency(product.price_cents)}</div>
-          <div class="cart-item-quantity">
-            <button class="quantity-button js-quantity-minus" data-product-id="${product.id}" type="button">-</button>
-            <span class="quantity-value">${cartItem.quantity}</span>
-            <button class="quantity-button js-quantity-plus" data-product-id="${product.id}" type="button">+</button>
-          </div>
-        </div>
-        <button class="remove-button js-remove-item" data-product-id="${product.id}" type="button">
-          <span class="remove-icon">🗑</span>
-        </button>
-      </div>
-    `;
-  });
-
-  itemsContainer.innerHTML = itemsHtml;
-  summaryContainer.innerHTML = `
-    <div class="cart-summary-card">
-      <div class="summary-row">
-        <span>Items</span>
-        <span>${totalQuantity}</span>
-      </div>
-      <div class="summary-row summary-total">
-        <span>Total</span>
-        <span>$${formatCurrency(totalCents)}</span>
-      </div>
-      <button class="place-order-button button-primary js-place-order" type="button">
-        Place order
-      </button>
-      <div class="cart-status js-cart-status" aria-live="polite"></div>
-    </div>
-  `;
+  summaryContainer.innerHTML = getSummaryHtml(totalQuantity, totalCents);
 }
 
 async function handlePlaceOrder(button) {
@@ -147,9 +106,7 @@ async function handlePlaceOrder(button) {
           if (errorData && errorData.message) {
             errorText = errorData.message;
           }
-        } catch (parseError) {
-          // Ignore JSON parse errors
-        }
+        } catch (parseError) {}
       }
       throw new Error(errorText);
     }
@@ -176,7 +133,15 @@ async function handlePlaceOrder(button) {
     }
 
     localStorage.removeItem("cart");
-    window.location.href = sessionData.checkoutUrl;
+    localStorage.setItem(CART_CLEAR_FLAG, "1");
+    setCart([]);
+    refreshUI();
+    if (statusElement) {
+      statusElement.textContent = "Redirecting to payment...";
+    }
+    requestAnimationFrame(() => {
+      window.location.href = sessionData.checkoutUrl;
+    });
   } catch (error) {
     if (statusElement) {
       statusElement.textContent = error.message || "Order could not be created.";
@@ -187,9 +152,8 @@ async function handlePlaceOrder(button) {
 }
 
 function initCartPage() {
-  loadFromStorage();
-  renderCart();
-  updateCartQuantity(".js-cart-quantity");
+  clearCartIfFlagged();
+  syncCartFromStorage();
 
   const summaryContainer = document.querySelector(".js-cart-summary");
   if (summaryContainer) {
@@ -203,44 +167,28 @@ function initCartPage() {
   }
 
   const itemsContainer = document.querySelector(".js-cart-items");
-  if (itemsContainer) {
+  if (itemsContainer){
     itemsContainer.addEventListener("click", (event) => {
-      const removeButton = event.target.closest(".js-remove-item");
-      if (removeButton) {
-        const productId = removeButton.dataset.productId;
-        removeFromCart(productId);
-        renderCart();
-        updateCartQuantity(".js-cart-quantity");
-        return;
-      }
-
-      const plusButton = event.target.closest(".js-quantity-plus");
-      if (plusButton) {
-        const productId = plusButton.dataset.productId;
-        const cartItem = cart.find((item) => item.productId === productId);
-        if (cartItem) {
+      const target = event.target;
+      // Gjejmë butonin më të afërt që ka data-product-id
+      const btn = target.closest('[data-product-id]');
+      if (!btn) return;
+  
+      const productId = btn.dataset.productId;
+      const cartItem = cart.find(i => i.productId === productId);
+  
+      if (target.closest(".js-remove-item")) {
+          removeFromCart(productId);
+      } else if (target.closest(".js-quantity-plus")) {
           updateQuantity(productId, cartItem.quantity + 1);
-          renderCart();
-          updateCartQuantity(".js-cart-quantity");
-        }
-        return;
+      } else if (target.closest(".js-quantity-minus")) {
+          const newQty = cartItem.quantity - 1;
+          newQty <= 0 ? removeFromCart(productId) : updateQuantity(productId, newQty);
+      } else {
+          return; 
       }
-
-      const minusButton = event.target.closest(".js-quantity-minus");
-      if (minusButton) {
-        const productId = minusButton.dataset.productId;
-        const cartItem = cart.find((item) => item.productId === productId);
-        if (cartItem) {
-          const newQuantity = cartItem.quantity - 1;
-          if (newQuantity <= 0) {
-            removeFromCart(productId);
-          } else {
-            updateQuantity(productId, newQuantity);
-          }
-          renderCart();
-          updateCartQuantity(".js-cart-quantity");
-        }
-      }
+  
+      refreshUI();
     });
   }
 }
@@ -249,4 +197,76 @@ if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", initCartPage);
 } else {
   initCartPage();
+}
+
+window.addEventListener("pageshow", (event) => {
+  const navigation = performance.getEntriesByType("navigation")[0];
+  const isBackForward = event.persisted || (navigation && navigation.type === "back_forward");
+  if (!isBackForward) {
+    return;
+  }
+
+  if (localStorage.getItem(CART_CLEAR_FLAG) === "1") {
+    localStorage.removeItem(CART_CLEAR_FLAG);
+    setCart([]);
+    refreshUI();
+    window.location.reload();
+    return;
+  }
+
+  syncCartFromStorage();
+});
+
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible") {
+    syncCartFromStorage();
+  }
+});
+
+window.addEventListener("focus", () => {
+  syncCartFromStorage();
+});
+
+function getCartItemHtml(product, cartItem) {
+  const imageUrl = product.image.startsWith("http")
+    ? product.image
+    : `${window.location.origin}/${product.image.replace(/^\/+/, "")}`;
+
+  return `
+    <div class="cart-item">
+      <img class="cart-item-image" src="${imageUrl}" alt="${product.name}">
+      <div class="cart-item-details">
+        <div class="cart-item-name">${product.name}</div>
+        <div class="cart-item-price">$${formatCurrency(product.price_cents)}</div>
+        <div class="cart-item-quantity">
+          <button class="quantity-button js-quantity-minus" data-product-id="${product.id}">-</button>
+          <span class="quantity-value">${cartItem.quantity}</span>
+          <button class="quantity-button js-quantity-plus" data-product-id="${product.id}">+</button>
+        </div>
+      </div>
+      <button class="remove-button js-remove-item" data-product-id="${product.id}">
+        <span class="remove-icon">🗑</span>
+      </button>
+    </div>
+  `;
+}
+
+function getSummaryHtml(totalQuantity, totalCents, isEmpty = false) {
+  return `
+    <div class="cart-summary-card">
+      <div class="summary-row">
+        <span>Items</span>
+        <span>${totalQuantity}</span>
+      </div>
+      <div class="summary-row summary-total">
+        <span>Total</span>
+        <span>$${formatCurrency(totalCents)}</span>
+      </div>
+      <button class="place-order-button button-primary ${!isEmpty ? 'js-place-order' : ''}" 
+              type="button" ${isEmpty ? 'disabled' : ''}>
+        Place order
+      </button>
+      <div class="cart-status js-cart-status" aria-live="polite"></div>
+    </div>
+  `;
 }

@@ -1,30 +1,16 @@
-import { loadFromStorage, addToCart, updateCartQuantity } from "./data/cart.js";
+import { loadCartFromStorage, updateCartQuantity } from "./data/cart.js";
+import "./amazon.js";
+import "./orders.js"
 
 function setupProductButtons() {
-  loadFromStorage();
+  loadCartFromStorage();
   updateCartQuantity(".js-cart-quantity");
-
-  const addBtn = document.querySelector(".js-add-to-cart");
-  if (addBtn) {
-    addBtn.addEventListener("click", () => {
-      const productId = addBtn.dataset.productId;
-      const qtySelect = document.querySelector(".js-product-qty");
-      const quantity = qtySelect ? Number(qtySelect.value) : 1;
-
-      addToCart(productId, quantity);
-      updateCartQuantity(".js-cart-quantity");
-    });
-  }
-
-  const buyBtn = document.querySelector(".js-buy-now");
-  if (buyBtn) {
-    buyBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      window.location.href = "/cart";
-    });
-  }
-
   setupReviewModal();
+  //addToCartButton button inicializohet direkte nga amazon.js 
+  //e hoqa se psj inicializohej 2 here dhe jepte do jepte dyfishin
+  //nuk eshte zgjidhja me e mire besoj 
+
+  //same thing per setupBuyButton
 }
 
 function setupReviewModal() {

@@ -90,20 +90,26 @@
 }
 
 .remove-button {
-  border: 1px solid #efdfdf;
-  background: #fff5f5;
-  border-radius: 10px;
-  padding: 8px 12px;
+  border: 2px solid rgb(213, 217, 217);
+  background: #fff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  padding: 0;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4a4a4a;
 }
 
 .remove-button:hover {
-  background: #ffecec;
+  background: #f6f6f6;
 }
 
 .remove-icon {
-  font-size: 16px;
-  line-height: 1;
+  width: 18px;
+  height: 18px;
 }
 
 .cart-summary-card {
@@ -135,7 +141,7 @@
   padding: 14px 16px;
   font-size: 16px;
   border-radius: 999px;
-  box-shadow: 0 6px 14px rgba(254, 189, 105, 0.35);
+  box-shadow: none;
 }
 
 .cart-status {

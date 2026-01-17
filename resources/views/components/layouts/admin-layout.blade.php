@@ -9,7 +9,7 @@
     <title>Admin Dashboard</title>
 
     @vite([
-        'resources/css/pages/admin/sidebar.css', 
+        'resources/css/admin/sidebar.css', 
         'resources/js/admin/menuBtn.js',
         'resources/js/session-timeout.js'
     ])
