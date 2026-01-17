@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -64,6 +65,10 @@ class AuthController extends Controller
       }
       Auth::login($user);
       $request->session()->regenerate();  
+
+      if ($user instanceof MustVerifyEmail && ! $user->hasVerifiedEmail()) {
+        return redirect()->route('verification.notice');
+      }
 
       if ($user->is_admin) {
         return redirect('/admin');
