@@ -7,7 +7,6 @@
   <form action="{{ route('register') }}" method="POST" class="space-y-4 js-register-form">
       @csrf 
       
-      {{-- Hidden input ensures all registrations from this form are Admins --}}
       <input type="hidden" name="is_admin" value="1">
 
       <div>
@@ -74,17 +73,7 @@
       Already have an account? 
       <a href="{{ route('login') }}" class="text-indigo-600 hover:text-indigo-500 font-medium">Sign In</a>
   </x-slot:footer>
-
+  <x-slot:scripts>
+    @vite('resources/js/admin/registerForm.js')
+  </x-slot:scripts>
 </x-layouts.auth>
-
-<script>
-  const registerForm = document.querySelector('.js-register-form');
-  const submitButton = document.querySelector('.js-register-submit');
-
-  if (registerForm && submitButton) {
-    registerForm.addEventListener('submit', () => {
-      submitButton.disabled = true;
-      submitButton.textContent = 'Registering...';
-    });
-  }
-</script>

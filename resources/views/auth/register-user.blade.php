@@ -70,14 +70,6 @@
   </div>
 </div>
 
-<script>
-  const registerForm = document.querySelector('.js-register-form');
-  const submitButton = document.querySelector('.js-register-submit');
-
-  if (registerForm && submitButton) {
-    registerForm.addEventListener('submit', () => {
-      submitButton.disabled = true;
-      submitButton.textContent = 'Registering...';
-    });
-  }
-</script>
+<x-slot:scripts>
+  @vite('resources/js/admin/registerForm.js')
+</x-slot:scripts>

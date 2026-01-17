@@ -23,5 +23,7 @@
             @endif
         </div>
     </div>
+
+    {{ $scripts ?? '' }}
 </body>
 </html>
