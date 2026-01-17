@@ -1,7 +1,7 @@
 <x-layouts.admin-layout>
     <x-slot:title>Admin • Statistics</x-slot>
 
-    @vite(['resources/css/pages/admin/statistics.css'])
+    @vite(['resources/css/admin/statistics.css'])
     
     <x-slot:title>Admin • Statistics</x-slot:title>
 
