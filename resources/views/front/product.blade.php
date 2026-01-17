@@ -57,7 +57,7 @@
         <div class="buybox">
           <div class="qty-row">
             <label for="qty">Qty</label>
-           <select id="qty" class="qty-select js-product-qty">
+           <select id="qty" class="qty-select js-quantity-selector-{{ $product->id }}">
               @for ($i=1; $i<=10; $i++)
                 <option value="{{ $i }}">{{ $i }}</option>
               @endfor
@@ -73,16 +73,18 @@
               Add to Cart
             </button>
             @else
-              <a href="{{ route('login') }}" class="add-to-cart-button">
+              <a href="{{ route('login') }}" class="add-to-cart-button" >
                     Add to Cart
                 </a>
             @endauth
 
-              <button class="button-gold w100 js-buy-now" type="button">
+              <button 
+                class="button-gold w100 js-buy" 
+                type="button"
+                data-product-id="{{ $product->id }}"
+              >
                 Buy Now
               </button>
-
-
           <div class="note">Secure transaction • Amazon Clone</div>
         </div>
 

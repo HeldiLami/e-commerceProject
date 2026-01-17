@@ -1,19 +1,4 @@
 @import 'tailwindcss';
-@import './general.css';
-@import './amazon-header.css';
-@import './pages/amazon.css';
-@import './pages/cart.css';
-@import './pages/orders.css';
-@import './pages/tracking.css';
-@import './pages/checkout/checkout.css';
-@import './pages/checkout/checkout-header.css';
-@import './pages/auth/verify-email.css';
-@import './admin/sidebar.css';
-@import './admin/statistics.css';
-@import './admin/users.css';
-@import './user-page.css';
-
-
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';

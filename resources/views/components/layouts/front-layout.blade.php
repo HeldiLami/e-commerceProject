@@ -7,7 +7,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    @vite(['resources/js/app.js', 'resources/js/session-timeout.js'])
+    @vite(['resources/js/session-timeout.js'])
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -85,15 +85,6 @@
 
     {{ $scripts ?? '' }}
     
-    @vite(['resources/js/utils/updateCartDisplay.js'])
-
-    <script>
-      const logoutForm = document.querySelector('.js-logout-form');
-      if (logoutForm) {
-        logoutForm.addEventListener('submit', () => {
-          localStorage.removeItem('cart');
-        });
-      }
-    </script>
+    @vite(['resources/js/utils/updateCartDisplay.js', 'resources/js/amazon-header.js'])
   </body>
 </html>

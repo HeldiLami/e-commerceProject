@@ -3,6 +3,19 @@
 
     @vite(['resources/css/admin/statistics.css'])
     
+    <x-slot:title>Admin • Statistics</x-slot:title>
+
+    @vite(['resources/css/admin/statistics.css'])
+
+    @php
+        // $stats vjen nga controller (Collection)
+        $prettyType = function ($type) {
+            if (!$type) return 'Uncategorized';
+            $last = last(explode('/', $type));
+            return ucfirst(str_replace(['-', '_'], ' ', $last));
+        };
+    @endphp
+
     <div class="page-header">
         <h1>Statistics</h1>
         <h2 class="subtitle">Përmbledhje e shitjeve sipas kategorisë dhe produktit.</h2>
@@ -17,27 +30,21 @@
                     <th>Numri i shitjeve</th>
                 </tr>
             </thead>
+
             <tbody>
-                <tr>
-                    <td><span class="pill">Electronics</span></td>
-                    <td>2 Slot Toaster - Black</td>
-                    <td class="num">2197</td>
-                </tr>
-                <tr>
-                    <td><span class="pill">Clothing</span></td>
-                    <td>Adults Plain Cotton T-Shirt (2 Pack)</td>
-                    <td class="num">56</td>
-                </tr>
-                <tr>
-                    <td><span class="pill">Home &amp; Kitchen</span></td>
-                    <td>6 Piece White Dinner Plate Set</td>
-                    <td class="num">37</td>
-                </tr>
-                <tr>
-                    <td><span class="pill">Sports</span></td>
-                    <td>Intermediate Size Basketball</td>
-                    <td class="num">127</td>
-                </tr>
+                @forelse($stats as $row)
+                    <tr>
+                        <td><span class="pill">{{ $prettyType($row->category_type) }}</span></td>
+                        <td>{{ $row->product_name }}</td>
+                        <td class="num">{{ $row->sales_count }}</td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="3" style="text-align:center; padding: 16px;">
+                            Nuk ka të dhëna për momentin.
+                        </td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
     </div>
