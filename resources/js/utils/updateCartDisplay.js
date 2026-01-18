@@ -1,4 +1,4 @@
-import { updateCartQuantity } from "../data/cart.js";
+import { updateCartQuantity } from "../cart.js";
 
 // Update cart quantity display on page load
 function updateCartDisplay() {
@@ -12,4 +12,3 @@ if (document.readyState === 'loading') {
   // DOM is already loaded
   updateCartDisplay();
 }
-

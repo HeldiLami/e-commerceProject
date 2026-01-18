@@ -22,12 +22,16 @@ use App\Models\User;
 | RRUGËT PUBLIKE (pa login)
 |--------------------------------------------------------------------------
 */
-Route::get('/', [ProductController::class, 'index'])->name('home');
-Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-Route::get('/product/{product}', [ProductController::class, 'show'])->name('product.show');
-Route::get('/search', [ProductController::class, 'search'])->name('products.search');
 
-// Stripe webhook publik (pa CSRF)
+//routet per userat
+Route::middleware(['user'])->group(function () {
+    Route::get('/', [ProductController::class, 'index'])->name('home');
+    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+    Route::get('/product/{product}', [ProductController::class, 'show'])->name('product.show');
+    Route::get('/search', [ProductController::class, 'search'])->name('products.search');
+});
+
+// Stripe webhook publik (pa CSRF)?
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle'])
     ->withoutMiddleware([ValidateCsrfToken::class])
     ->name('stripe.webhook');
@@ -38,19 +42,19 @@ Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle'])
 | RRUGËT E MBROJTURA (auth)
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'user'])->group(function () {
 
-    // Orders
+    // Orders?
     Route::get('/orders', [OrderController::class, 'index'])->name('orders');
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
     Route::delete('/orders/{order}', [OrderController::class, 'destroy'])->name('orders.destroy');
 
-    // Cart & Tracking
+    // Cart & Tracking?
     Route::get('/cart', [CartController::class, 'index'])->name('cart');
     Route::get('/tracking', [TrackingController::class, 'show'])->name('tracking');
     Route::view('/checkout', 'front.checkout')->name('checkout');
 
-    // Stripe Payments
+    // Stripe Payments?
     Route::post('/checkout/session', [StripePaymentController::class, 'createCheckoutSession'])->name('checkout.session');
     Route::post('/checkout/session/redirect', [StripePaymentController::class, 'redirectToCheckout'])->name('checkout.session.redirect');
     Route::get('/checkout/success', [StripePaymentController::class, 'success'])->name('checkout.success');
