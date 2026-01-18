@@ -1,4 +1,4 @@
-import { addToCart, updateCartQuantity } from "./data/cart.js";
+import { addToCart, updateCartQuantity } from "./cart.js";
 
 export function setupBuyButton() {
   document.querySelectorAll(".js-buy").forEach((button) => {

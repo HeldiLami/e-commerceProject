@@ -1,4 +1,4 @@
-import { loadCartFromStorage, updateCartQuantity } from "./data/cart.js";
+import { loadCartFromStorage, updateCartQuantity } from "./cart.js";
 import "./amazon.js";
 import "./orders.js"
 

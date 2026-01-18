@@ -10,7 +10,7 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $products = Product::withAvg('ratings as rating_avg', 'stars')
             ->withCount('ratings as rating_count')
