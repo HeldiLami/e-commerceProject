@@ -1,7 +1,6 @@
 <x-layouts.user-layout title="Edit Profile">
     <x-slot name="css">
         @vite(['resources/css/pages/edit-profile.css'])
-        @vite(['resources/js/edit-profile.js'])
     </x-slot>
 
     <div class="profile-card">
@@ -107,6 +106,6 @@
     </div>
 
     <x-slot name="scripts">
-        @vite(['resources/js/users/edit-profile.js'])
+        @vite(['resources/js/edit-profile.js'])
     </x-slot>
 </x-layouts.user-layout>

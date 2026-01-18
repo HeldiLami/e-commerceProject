@@ -84,7 +84,7 @@ Route::middleware(['auth', 'admin'])
     ->group(function () {
 
     Route::get('/', function () {
-        return view('admin.users');
+        return redirect()->route('admin.users');
     })->name('overview');
 
     Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics');
