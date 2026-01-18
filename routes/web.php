@@ -96,4 +96,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         $users = User::latest()->get();
         return view('admin.users', ['users' => $users]);
     })->name('users');
+    
+    // ✅ USERS nga controller (DB)
+    Route::get('/users', [UserController::class, 'index'])->name('users');
+    Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+    // Products (Admin)
+    Route::get('/products/create', [ProductController::class, 'adminCreate'])->name('products.create');
+    Route::post('/products', [ProductController::class, 'adminStore'])->name('products.store');
 });
