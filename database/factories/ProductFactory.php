@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -20,7 +19,6 @@ class ProductFactory extends Factory
     {
         return [
             'id' => (string) Str::uuid(), 
-            'user_id' => User::factory(),
             'name' => fake()->words(3, true),
             'image' => 'https://loremflickr.com/640/480/' . fake()->randomElement(['tech', 'fashion', 'appliance']),
             'type' => fake()->randomElement(['product', 'clothing', 'appliance']),

@@ -18,7 +18,6 @@ class RatingController extends Controller
             'comment' => 'nullable|string|max:1000',
         ]);
     
-        // HasUuids will automatically handle the 'id' field
         Rating::updateOrCreate(
             [
                 'user_id' => Auth::id(),
@@ -52,7 +51,7 @@ class RatingController extends Controller
             ->first();
 
         return [
-            'average' => round($stats->average * 2) / 2, // Rrumbullakim ne 0.5 me te afert
+            'average' => round($stats->average * 2) / 2,
             'count'   => (int) $stats->count
         ];
     }

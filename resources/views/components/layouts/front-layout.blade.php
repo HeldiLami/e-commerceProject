@@ -51,12 +51,12 @@
       <div class="amazon-header-right-section">
         @auth
           @can('is-verified')
-            <a class="orders-link header-link" href="{{ route('orders.index') }}">
+            <a class="orders-link header-link" href="{{ route('orders') }}">
               <span class="returns-text">Returns</span>
               <span class="orders-text">& Orders</span>
             </a>
       
-            <a class="cart-link header-link" href="{{ route('cart.index') }}">
+            <a class="cart-link header-link" href="{{ route('cart') }}">
               <img class="cart-icon" src="{{ asset('images/icons/cart-icon.png') }}">
               <div class="cart-quantity js-cart-quantity">0</div>
               <div class="cart-text">Cart</div>
