@@ -57,9 +57,6 @@ Route::middleware(['auth'])->group(function () {
     // Users
     Route::resource('users', UserController::class)->only(['show','edit','update','destroy']);
 
-    // Logout
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
     // Verify email callback (nëse e përdor)
     Route::get('/auth/verify-email', function (Request $request) {
         if ($request->query('verified') == 1) {
@@ -68,7 +65,6 @@ Route::middleware(['auth'])->group(function () {
         return redirect()->route('home');
     })->middleware('verified');
 
-    // Ratings
     Route::post('/ratings/store', [RatingController::class, 'store'])->name('ratings.store');
 });
 
