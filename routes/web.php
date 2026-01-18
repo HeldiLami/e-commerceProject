@@ -62,9 +62,6 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/users/{user}', [UserController::class, 'update'])->name('users.update');
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 
-    // Logout
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
     // Verify email callback (nëse e përdor)
     Route::get('/auth/verify-email', function (Request $request) {
         if ($request->query('verified') == 1) {
@@ -73,7 +70,6 @@ Route::middleware(['auth'])->group(function () {
         return redirect()->route('home');
     })->middleware('verified');
 
-    // Ratings
     Route::post('/ratings/store', [RatingController::class, 'store'])->name('ratings.store');
 });
 
