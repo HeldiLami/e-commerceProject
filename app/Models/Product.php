@@ -14,7 +14,7 @@ class Product extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
-    protected $guarded = ['id'];
+    protected $guarded = [];
 
     protected $casts = [
         'keywords' => 'array',
