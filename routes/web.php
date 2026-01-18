@@ -78,7 +78,10 @@ Route::middleware(['auth', 'user'])->group(function () {
 | ADMIN (auth + admin)
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'admin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
 
     Route::get('/', function () {
         return view('admin.users');
@@ -86,5 +89,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics');
 
-    Route::get('/users', [UserController::class, 'index'])->name('users');
-});
+        // ✅ USERS (vetëm nga controller)
+        Route::get('/users', [UserController::class, 'index'])->name('users');
+        Route::get('/users/{user}/edit', [UserController::class, 'adminEdit'])->name('users.edit');
+        Route::patch('/users/{user}', [UserController::class, 'adminUpdate'])->name('users.update');
+        Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+
+        // ✅ Products (Admin)
+        Route::get('/products/create', [ProductController::class, 'adminCreate'])->name('products.create');
+        Route::post('/products', [ProductController::class, 'adminStore'])->name('products.store');
+    });

@@ -1,0 +1,248 @@
+.usersEditWrap{
+  max-width: 950px;
+  margin: 0 auto;
+}
+
+.panel__head{
+  margin-bottom: 12px;
+}
+
+.title{
+  margin: 0 0 6px 0;
+}
+
+.subtitle{
+  margin: 0;
+  opacity: .75;
+}
+
+/* Alerts */
+.alert{
+  border-radius: 12px;
+  padding: 12px;
+  margin: 12px 0;
+  border: 1px solid transparent;
+}
+.alert--success{ background:#e8fff1; border-color:#9be7b4; }
+.alert--error{ background:#ffecec; border-color:#ffb3b3; }
+
+.alert__list{
+  margin: 0;
+  padding-left: 18px;
+}
+
+/* Card */
+.card{
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.card__titleRow{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.card__title{
+  margin: 0;
+  font-size: 18px;
+}
+
+.linkBack{
+  text-decoration: none;
+  opacity: .8;
+}
+.linkBack:hover{ opacity: 1; }
+
+/* Form */
+.grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.field{
+  display:grid;
+  gap: 6px;
+}
+
+.field label{
+  font-size: 14px;
+  opacity: .9;
+}
+
+.field input,
+.field select{
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  outline: none;
+  background: #fff;
+}
+
+.field input:focus,
+.field select:focus{
+  border-color: #bbb;
+}
+
+.hint{
+  font-size: 12px;
+  opacity: .65;
+}
+
+.field__error{
+  color: #b00020;
+  font-size: 12px;
+}
+
+.is-error{
+  border-color: #ff7b7b !important;
+}
+
+/* Actions */
+.actions{
+  display:flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.btn{
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px 14px;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn--primary{
+  background: #111;
+  border-color: #111;
+  color: #fff;
+}
+
+.btn--primary:hover{ opacity: .92; }
+
+.btn--ghost:hover{
+  background: #f6f6f6;
+}
+
+/* Danger zone */
+.dangerZone{
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid #eee;
+  display:flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.dangerZone__title{
+  font-weight: 700;
+  color: #b00020;
+}
+
+.dangerZone__text{
+  font-size: 13px;
+  opacity: .75;
+}
+
+.btn--danger{
+  border-color: #b00020;
+  color: #b00020;
+}
+.btn--danger:hover{
+  background: #ffecec;
+}
+
+@media (max-width: 820px){
+  .grid{ grid-template-columns: 1fr; }
+  .actions{ flex-direction: column; align-items: stretch; }
+  .dangerZone{ flex-direction: column; align-items: stretch; }
+}
+
+/* --- FIX: mos u ngjeshin/mbivendosen --- */
+.grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 18px;
+  align-items: start; /* mos i qendro vertikalisht */
+}
+
+.field{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.field label{
+  line-height: 1.2;
+}
+
+/* bëji input/select me të njëjtën lartësi */
+.field input,
+.field select{
+  height: 44px;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border-radius: 12px;
+}
+
+/* password + confirm të mos duken si “ngjiten” */
+#password,
+#password_confirmation{
+  height: 44px;
+}
+
+/* hapësirë fikse për hint/error që mos e shtyjnë grid-in */
+.hint{
+  min-height: 16px; /* rezervon vend edhe kur s’ka tekst */
+  margin-top: 2px;
+  line-height: 1.2;
+}
+
+.field__error{
+  min-height: 16px;
+  line-height: 1.2;
+}
+
+/* në mobile */
+@media (max-width: 820px){
+  .grid{ grid-template-columns: 1fr; }
+}
+
+.photoPreview{
+  margin-top: 10px;
+  padding: 12px;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  background: #fafafa;
+}
+
+.photoPreview__placeholder{
+  height: 160px;
+  display: none;
+  place-items: center;
+  color: #777;
+  background: #f0f0f0;
+  border-radius: 12px;
+}
+
+.photoPreview__img{
+  width: 100%;
+  max-height: 220px;
+  object-fit: contain;
+  border-radius: 12px;
+  display: block;
+}
