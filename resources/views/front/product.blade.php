@@ -1,7 +1,4 @@
 @php
-  $starsValue = (float) ($ratingStars ?? 0);  
-  $ratingFile = 'images/ratings/rating-' . ((int) round($starsValue * 10)) . '.png';
-  
   $keywords = $product->keywords;
   if (is_string($keywords)) {
     $decoded = json_decode($keywords, true);
@@ -38,7 +35,7 @@
 
         <div class="rating">
           <img class="stars" src="{{ $product->stars_image }}"  alt="rating">
-          <span class="count">{{ (int) $ratingCount }} ratings</span>
+          <span class="count">{{ $product->rating_count }} ratings</span>
         </div>
 
         <div class="price">
@@ -85,13 +82,12 @@
               >
                 Buy Now
               </button>
-          <div class="note">Secure transaction • Amazon Clone</div>
         </div>
 
         @if(count($keywords))
-          <div class="keywords">
+          <div class="keywords-section">
             @foreach($keywords as $k)
-              <span class="pill">{{ $k }}</span>
+              <span class="keyword">{{ $k }}</span>
             @endforeach
           </div>
         @endif
@@ -114,29 +110,29 @@
         <div class="reviews-summary">
           <div class="summary-header">
             <img class="stars-large" src="{{ $product->stars_image }}" alt="rating">
-            <span class="average-text">{{ number_format($starsValue, 1) }} out of 5</span>
+            <span class="average-text">{{ $product->stars_average }} out of 5</span>
           </div>
-          <p class="total-count">{{ $ratingCount }} global ratings</p>  
+          <p class="total-count">{{ $product->rating_count }} global ratings</p>  
         </div>
     
         <div class="reviews-list">
           <h3>Top reviews</h3>
           
-          @forelse($product->ratings as $review)
+          @forelse($product->ratings as $rating)
             <div class="review-item">
               <div class="user-info">
                 <img src="{{ asset('images/icons/default-user-icon.png') }}" class="avatar">
-                <span class="username">{{ $review->user->name }}</span>
+                <span class="username">{{ $rating->user->name }}</span>
               </div>
               
               <div class="review-rating">
-                <img src="{{ $review->stars_image }}" class="stars-small">
+                <img src="{{ $rating->stars_image }}" class="stars-small">
               </div>
               
-              <div class="review-date">Reviewed on {{ $review->created_at->format('M d, Y') }}</div>
+              <div class="review-date">Reviewed on {{ $rating->created_at->format('M d, Y') }}</div>
               
               <div class="review-body">
-                <p>{{ $review->comment }}</p>
+                <p>{{ $rating->comment }}</p>
               </div>
             </div>
           @empty
@@ -146,6 +142,4 @@
       </div>
     </div>
   </div>
-
-
 </x-layouts.front-layout>

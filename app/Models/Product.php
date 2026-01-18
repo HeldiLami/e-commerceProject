@@ -19,19 +19,23 @@ class Product extends Model
     protected $casts = [
         'keywords' => 'array',
         'rating_stars' => 'float',
-
         'price_cents' => 'integer',
     ];
 
-    public function getStarsImageAttribute()
+    public function getStarsAverageAttribute(): string
     {
-        $avg = $this->ratings()->avg('stars') ?? 0;
-        $stars = round($avg * 2) / 2;
-        $starsFile = (int) ($stars * 10);
-    
-      return asset("images/ratings/rating-{$starsFile}.png");
+        $avg = $this->rating_avg ?? 0;
+
+        $rounded = round($avg * 2) / 2;
+
+        return number_format($rounded, 1);
     }
 
+    public function getStarsImageAttribute(): string
+    {
+        $stars = round(($this->rating_avg ?? 0) * 2) / 2;
+        return asset('images/ratings/rating-' . ((int) ($stars * 10)) . '.png');
+    }
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
