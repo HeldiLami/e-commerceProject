@@ -10,12 +10,10 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\TrackingController;
 use App\Http\Controllers\StatisticsController;
-
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,10 +55,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/checkout/cancel', [StripePaymentController::class, 'cancel'])->name('checkout.cancel');
 
     // Users
-    Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
-    Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
-    Route::patch('/users/{user}', [UserController::class, 'update'])->name('users.update');
-    Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+    Route::resource('users', UserController::class)->only(['show','edit','update','destroy']);
 
     // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -86,14 +81,10 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
 
     Route::get('/', function () {
-        return view('admin.overview');
+        return view('admin.users');
     })->name('overview');
 
-    // ✅ Kjo është e saktë: controller e sjell $stats
     Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics');
 
-    Route::get('/users', function () {
-        $users = User::latest()->get();
-        return view('admin.users', ['users' => $users]);
-    })->name('users');
+    Route::get('/users', [UserController::class, 'index'])->name('users');
 });

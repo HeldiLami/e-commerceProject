@@ -22,6 +22,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
         'comment'
       ];
 
+      public function getStarsImageAttribute(): string
+      {
+          return asset('images/ratings/rating-' . ((int) round($this->stars * 10)) . '.png');
+      }
+
       public function user(): BelongsTo
       {
           return $this->belongsTo(User::class);

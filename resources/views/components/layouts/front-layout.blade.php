@@ -7,20 +7,19 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    @vite(['resources/js/session-timeout.js'])
-
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-
-    @vite(['resources/css/general.css', 'resources/css/amazon-header.css'])
     
+    @vite(['resources/js/session-timeout.js'])
+    @vite(['resources/css/general.css', 'resources/css/amazon-header.css'])
     {{ $css ?? '' }}
   </head>
   <body>
     <div class="amazon-header">
       <div class="amazon-header-left-section">
-        <a href="{{ url('/') }}" class="header-link">
+        <a href="{{ route('home') }}" class="header-link">
           <img class="amazon-logo" src="{{ asset('images/amazon-logo-white.png') }}">
         </a>
 
@@ -51,32 +50,36 @@
 
       <div class="amazon-header-right-section">
         @auth
-        @can('is-verified')
-          <a class="orders-link header-link" href="{{ url('/orders') }}">
+          @can('is-verified')
+            <a class="orders-link header-link" href="{{ route('orders.index') }}">
               <span class="returns-text">Returns</span>
               <span class="orders-text">& Orders</span>
-          </a>
-  
-          <a class="cart-link header-link" href="{{ url('/cart') }}">
+            </a>
+      
+            <a class="cart-link header-link" href="{{ route('cart.index') }}">
               <img class="cart-icon" src="{{ asset('images/icons/cart-icon.png') }}">
               <div class="cart-quantity js-cart-quantity">0</div>
               <div class="cart-text">Cart</div>
-          </a>
-          
-          <form method="POST" action="{{ route('logout') }}" class="inline js-logout-form">
-              @csrf
-              <button type="submit" class="button-gold">
-                  Log Out
-              </button>
-          </form>
+            </a>
+          @else
+            <span class="verify-message" style="color: #febd69; font-size: 12px; margin-right: 10px;">
+              Please verify email
+            </span>
           @endcan
+      
+          <form method="POST" action="{{ route('logout') }}" class="inline js-logout-form">
+            @csrf
+            <button type="submit" class="button-gold">
+              Log Out
+            </button>
+          </form>
         @endauth
-    
-        @if(auth()->guest() || auth()->user()->cannot('is-verified'))
+      
+        @guest
           <a href="{{ route('login') }}" class="button-silver">Sign in</a>
           <a href="{{ route('register') }}" class="button-gold">Sign Up</a>
-        @endif
-    </div>
+        @endguest
+      </div>
     </div>
 
     <div class="main">

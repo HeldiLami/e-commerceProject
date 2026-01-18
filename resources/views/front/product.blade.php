@@ -37,7 +37,7 @@
         <h1 class="title">{{ $product->name }}</h1>
 
         <div class="rating">
-          <img class="stars" src="{{ asset($ratingFile) }}"  alt="rating">
+          <img class="stars" src="{{ $product->stars_image }}"  alt="rating">
           <span class="count">{{ (int) $ratingCount }} ratings</span>
         </div>
 
@@ -113,7 +113,7 @@
       <div class="reviews-grid">
         <div class="reviews-summary">
           <div class="summary-header">
-            <img class="stars-large" src="{{ asset($ratingFile) }}" alt="rating">
+            <img class="stars-large" src="{{ $product->stars_image }}" alt="rating">
             <span class="average-text">{{ number_format($starsValue, 1) }} out of 5</span>
           </div>
           <p class="total-count">{{ $ratingCount }} global ratings</p>  
@@ -130,7 +130,7 @@
               </div>
               
               <div class="review-rating">
-                <img src="{{ asset('images/ratings/rating-' . ((int) round($review->stars * 10)) . '.png') }}" class="stars-small">
+                <img src="{{ $review->stars_image }}" class="stars-small">
               </div>
               
               <div class="review-date">Reviewed on {{ $review->created_at->format('M d, Y') }}</div>

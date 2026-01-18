@@ -19,8 +19,18 @@ class Product extends Model
     protected $casts = [
         'keywords' => 'array',
         'rating_stars' => 'float',
+
         'price_cents' => 'integer',
     ];
+
+    public function getStarsImageAttribute()
+    {
+        $avg = $this->ratings()->avg('stars') ?? 0;
+        $stars = round($avg * 2) / 2;
+        $starsFile = (int) ($stars * 10);
+    
+      return asset("images/ratings/rating-{$starsFile}.png");
+    }
 
     public function user(): BelongsTo
     {

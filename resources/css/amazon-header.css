@@ -19,12 +19,6 @@
     width: 180px;
 }
 
-@media (max-width: 800px) {
-    .amazon-header-left-section {
-        width: unset;
-    }
-}
-
 .header-link {
     display: inline-block;
     padding: 6px;
@@ -45,18 +39,6 @@
 
 .amazon-mobile-logo {
     display: none;
-}
-
-@media (max-width: 575px) {
-    .amazon-logo {
-        display: none;
-    }
-
-    .amazon-mobile-logo {
-        display: block;
-        height: 35px;
-        margin-top: 5px;
-    }
 }
 
 .amazon-header-middle-section {
@@ -110,6 +92,12 @@
     width: auto;
     min-width: 180px;
     margin-right: 5px;
+}
+
+.verify-message {
+    color: #febd69; 
+    font-size: 12px; 
+    margin-right: 10px;
 }
 
 .orders-link {

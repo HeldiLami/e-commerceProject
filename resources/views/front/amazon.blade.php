@@ -12,21 +12,13 @@
                 </a>
                 </div>
 
-
-               <div class="product-name limit-text-to-2-lines">
+               <div class="product-name">
                 <a class="product-link" href="{{ route('product.show', $product) }}">
                     {{ $product->name }}
                 </a>
                </div>
-
-
                 <div class="product-rating-container">
-                    @php
-                        $avg = $product->rating_avg ?? 0;
-                        $roundedRating = round($avg * 2) / 2;
-                        $starsFile = (int) round($roundedRating * 10);
-                    @endphp
-                    <img class="product-rating-stars" src="{{ asset("images/ratings/rating-{$starsFile}.png") }}">
+                <img class="product-rating-stars" src="{{ $product->stars_image }}">
                     <div class="product-rating-count link-primary">
                         {{ $product->rating_count }}
                     </div>
