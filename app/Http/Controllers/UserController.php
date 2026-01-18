@@ -14,11 +14,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::latest()->get();
-        
-        return view('admin.users', [
-            'users' => $users
-        ]);
+        // ✅ Merr users nga databaza (më të fundit të parët)
+        $users = User::orderByDesc('created_at')->get();
+
+        // ✅ Kthen faqen admin.users me users
+        return view('admin.users', compact('users'));
     }
 
     /**
@@ -45,7 +45,7 @@ class UserController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(User $user)
-    {   
+    {
         return view('users.edit', [
             'user' => $user
         ]);
@@ -60,10 +60,10 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => ['required', 'email', 'unique:users,email,' . $user->id],
             'password' => [
-            'nullable',
-            'confirmed',
-            Password::min(8)->letters()->numbers()->symbols()
-        ],
+                'nullable',
+                'confirmed',
+                Password::min(8)->letters()->numbers()->symbols()
+            ],
         ]);
 
         if (!empty($attributes['password'])) {
@@ -71,7 +71,9 @@ class UserController extends Controller
         } else {
             unset($attributes['password']);
         }
+
         $user->update($attributes);
+
         return redirect('/users/' . $user->id)->with('success', 'User updated!');
     }
 
@@ -79,8 +81,15 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(User $user)
-    {
-        $user->delete();
-        // return redirect('/users')->with('success', 'User deleted successfully.');
+{
+    // Mos lejo fshirjen e adminëve
+    if ($user->is_admin) {
+        return back()->with('error', 'Nuk mund të fshish një admin.');
     }
+
+    $user->delete();
+
+    return back()->with('success', 'User u fshi me sukses.');
+}
+
 }

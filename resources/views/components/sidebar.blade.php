@@ -38,6 +38,16 @@
                 </svg>
                 <span class="nav-text">Sales</span>
             </a>
+            <a href="{{ route('admin.products.create') }}"
+            class="nav-item {{ request()->is('admin/products/create') ? 'active' : '' }}">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 8l-9-5-9 5 9 5 9-5z"></path>
+                    <path d="M3 10v10l9 5 9-5V10"></path>
+                    <path d="M12 15v9"></path>
+                </svg>
+                <span class="nav-text">Products</span>
+</a>
+
         </nav>
 
         <div class="sidebar-footer">
