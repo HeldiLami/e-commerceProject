@@ -3,67 +3,106 @@ body {
   color: rgb(33, 33, 33);
   margin: 0;
 }
+
 p {
   margin: 0;
 }
 
-button {
-  cursor: pointer;
-}
-
-select {
-  cursor: pointer;
-}
-
-input, select, button {
+input, select, button, a {
   font-family: Roboto, Arial;
 }
 
-.button-primary {
+.button-yellow, 
+.button-yellow-link {
   color: rgb(33, 33, 33);
   background-color: rgb(255, 216, 20);
   border: 1px solid rgb(252, 210, 0);
   border-radius: 8px;
   cursor: pointer;
   box-shadow: 0 2px 5px rgba(213, 217, 217, 0.5);
+  
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  box-sizing: border-box; 
+  padding: 6px 10px;
+  font-size: 13px;
 }
 
-.button-primary:hover {
+.button-yellow:hover,
+.button-yellow-link:hover {
   background-color: rgb(247, 202, 0);
   border: 1px solid rgb(242, 194, 0);
 }
 
-.button-primary:active {
+.button-yellow:active,
+.button-yellow-link:active {
   background: rgb(255, 216, 20);
   border-color: rgb(252, 210, 0);
   box-shadow: none;
 }
 
-.button-secondary {
+/* --- Gold Button & Link (Buy Now style) --- */
+.button-gold,
+.button-gold-link {
+  color: rgb(33, 33, 33);
+  background-color: rgb(255, 164, 28);
+  border: 1px solid rgb(238, 148, 0);
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(213, 217, 217, 0.5);
+
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  box-sizing: border-box;
+  padding: 6px 10px;
+  font-size: 13px;
+}
+
+.button-gold:hover,
+.button-gold-link:hover {
+  background-color: rgb(250, 150, 0);
+  border: 1px solid rgb(215, 130, 0);
+}
+
+.button-silver,
+.button-silver-link {
   color: rgb(33, 33, 33);
   background: white;
   border: 1px solid rgb(213, 217, 217);
   border-radius: 8px;
   cursor: pointer;
   box-shadow: 0 2px 5px rgba(213, 217, 217, 0.5);
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  box-sizing: border-box;
+  padding: 6px 10px;
+  font-size: 13px;
 }
 
-.button-secondary:hover {
+.button-silver:hover,
+.button-silver-link:hover {
   background-color: rgb(247, 250, 250);
 }
 
-.button-secondary:active {
+.button-silver:active,
+.button-silver-link:active {
   background-color: rgb(237, 253, 255);
   box-shadow: none;
 }
 
-.link-primary {
-  color: rgb(1, 124, 182);
-  cursor: pointer;
+.w100 {
+  width: 100%;
 }
 
-.link-primary:hover {
-  color: rgb(196, 80, 0);
+.verify-message {
+  color: #c40000;
+  font-size: 13px;
+  margin-top: 8px;
+  text-align: center;
+  font-weight: 500;
 }
 
 select {
@@ -80,4 +119,15 @@ select {
 select:focus,
 input:focus {
   outline: 2px solid rgb(255, 153, 0);
+}
+
+.link-primary {
+  color: rgb(1, 124, 182);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.link-primary:hover {
+  color: rgb(196, 80, 0);
+  text-decoration: underline;
 }

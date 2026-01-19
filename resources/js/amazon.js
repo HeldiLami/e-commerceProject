@@ -1,4 +1,6 @@
 import { addToCart, updateCartQuantity } from "./cart.js";
+import { addedToCart } from "./utils/addedToCartDisplay.js";
+
 
 export function setupAddToCartButtons() {
   document.querySelectorAll('.js-add-to-cart')
@@ -9,6 +11,7 @@ export function setupAddToCartButtons() {
         const quantity = quantitySelector ? Number(quantitySelector.value) : 1;
         addToCart(productId, quantity);
         updateCartQuantity('.js-cart-quantity');
+        addedToCart(productId);
       });
     });
 }

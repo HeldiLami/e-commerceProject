@@ -1,5 +1,5 @@
 <x-layouts.front-layout title="Amazon Project">
-    <x-slot name="css">
+    <x-slot:css>
         @vite(['resources/css/pages/amazon.css'])
     </x-slot>
 
@@ -37,8 +37,12 @@
                 </div>
 
                 <div class="product-spacer"></div>
+                <div class="added-to-cart js-added-to-cart-{{ $product->id }}">
+                    <img src="/images/icons/checkmark.png" style="width: 20px; margin-right: 5px;">
+                    Added
+                </div>
             @auth    
-                <button class="add-to-cart-button button-primary js-add-to-cart" 
+                <button class="add-to-cart-button button-yellow js-add-to-cart" 
                         data-product-id="{{ $product->id }}">
                     Add to Cart
                 </button>

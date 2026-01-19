@@ -122,13 +122,16 @@
   align-items: center;
   margin-bottom: 8px;
 
-  /* Dont forget to add the js for this */
   opacity: 0;
 }
 
 .added-to-cart img {
   height: 20px;
   margin-right: 5px;
+}
+
+.added-to-cart-visible {
+  opacity: 1;
 }
 
 .add-to-cart-button {

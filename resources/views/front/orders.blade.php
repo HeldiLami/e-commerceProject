@@ -26,7 +26,7 @@
                             <form method="POST" action="{{ route('checkout.session.redirect') }}" style="margin-right: 8px;">
                                 @csrf
                                 <input type="hidden" name="order_id" value="{{ $order->id }}">
-                                <button type="submit" class="track-package-button button-primary">Pay now</button>
+                                <button type="submit" class="track-package-button button-yellow">Pay now</button>
                             </form>
                         @endif
                     </div>
@@ -50,7 +50,7 @@
                             <div class="product-quantity">Quantity: {{ $product->pivot->quantity }}</div>
                             <button
                                 type="button"
-                                class="buy-again-button button-primary js-buy"
+                                class="buy-again-button button-yellow js-buy"
                                 data-product-id="{{ $product->id }}"
                                 data-quantity="{{ $product->pivot->quantity }}"
                             >
@@ -60,7 +60,7 @@
                         </div>
                         <div class="product-actions">
                             <a href="{{ route('tracking', ['order_id' => $order->id, 'product_id' => $product->id]) }}">
-                                <button class="track-package-button button-secondary">Track package</button>
+                                <button class="track-package-button button-silver">Track package</button>
                             </a>
                         </div>
                     @endforeach

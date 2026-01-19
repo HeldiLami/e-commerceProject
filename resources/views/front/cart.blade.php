@@ -10,7 +10,7 @@
             <div class="cart-items js-cart-items"></div>
 
             <div class="cart-summary js-cart-summary">
-                <button class="place-order-button button-primary js-place-order" type="button" disabled>
+                <button class="place-order-button button-yellow js-place-order" type="button" disabled>
                     Place order
                 </button>
             </div>

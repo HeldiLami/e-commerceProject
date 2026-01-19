@@ -61,27 +61,40 @@
             </select>
 
           </div>
-          @auth
-          <button
-              class="button-primary w100 js-add-to-cart"
+          @can('is-verified')
+            <button
+              class="button-yellow w100 js-add-to-cart" 
+              style="border-radius: 50px; font-size: 15px"
               type="button"
               data-product-id="{{ $product->id }}"
             >
               Add to Cart
             </button>
-            @else
-              <a href="{{ route('login') }}" class="add-to-cart-button" >
-                    Add to Cart
-                </a>
-            @endauth
+          @else
+            <a href="{{ route('login') }}" class="button-yellow-link w100" style="border-radius: 50px;">
+              Add to Cart
+            </a>
+          @endcan
 
+          <div style="margin-top: 8px;">
+            @can('is-verified')
               <button 
                 class="button-gold w100 js-buy" 
                 type="button"
                 data-product-id="{{ $product->id }}"
               >
-                Buy Now
+                Buy Now 
               </button>
+            @else
+              <a href="{{ route('login') }}" class="button-gold ">
+                Buy Now
+              </a>
+              @auth
+              <div class="verify-message">
+                Please verify your email
+              </div>
+            @endauth
+            @endcan
         </div>
 
         @if(count($keywords))
@@ -99,7 +112,7 @@
       
       <div class="reviews-header">
         <h2 class="reviews-main-title">Customer Reviews</h2>
-        <button id="openReviewBtn" class="button-review">
+        <button id="openReviewBtn" class="button-gold">
             Write review
         </button>
       </div>

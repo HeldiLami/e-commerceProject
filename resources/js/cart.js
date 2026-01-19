@@ -340,7 +340,7 @@ function getSummaryHtml(totalQuantity, totalCents, isEmpty = false) {
         <span>Total</span>
         <span>$${formatCurrency(totalCents)}</span>
       </div>
-      <button class="place-order-button button-primary ${!isEmpty ? 'js-place-order' : ''}" 
+      <button class="place-order-button button-yellow ${!isEmpty ? 'js-place-order' : ''}" 
               type="button" ${isEmpty ? 'disabled' : ''}>
         Place order
       </button>
