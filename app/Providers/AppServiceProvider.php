@@ -23,37 +23,29 @@ class AppServiceProvider extends ServiceProvider
             return $user->email_verified_at !== null;
         });
         
+
         Event::listen(Failed::class, function (Failed $event) {
-            $email = $event->credentials['email'] ?? 'unknown';
+        $email = $event->credentials['email'] ?? 'unknown';
 
-            $existing = DB::table('login_logs')->where('email', $email)->first();
-
-        if ($existing) {
-            DB::table('login_logs')->where('email', $email)->update([
-                'attempts' => $existing->attempts + 1,
-                'event_type' => 'failed',
-                'ip_address' => request()->ip(),
-                'updated_at' => now(),
-            ]);
-        } else {
-            DB::table('login_logs')->insert([
-                'email' => $email,
-                'attempts' => 1,
+        DB::table('login_logs')->updateOrInsert(
+            ['email' => $email],
+            [
+                'attempts'   => DB::raw('attempts + 1'),
                 'event_type' => 'failed',
                 'ip_address' => request()->ip(),
                 'user_agent' => request()->userAgent(),
+                'updated_at' => now(),
                 'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-        }
+            ]
+        );
     });
-
-        Event::listen(Login::class, function (Login $event) {
-            DB::table('login_logs')->where('email', $event->user->email)->update([
-                'attempts' => 0,
-                'event_type' => 'success',
-                'updated_at' => now(),
-            ]);
-        });
-    }
+    
+    Event::listen(Login::class, function (Login $event) {
+        DB::table('login_logs')->where('email', $event->user->email)->update([
+            'attempts'   => 0,
+            'event_type' => 'success',
+            'updated_at' => now(),
+        ]);
+    });
+}
 }

@@ -18,7 +18,7 @@
 
 .page-header h1::after {
   content: "";
-  display: block;
+  display: inline-block;
   width: 70px;
   height: 4px;
   background: #febd69;
@@ -27,7 +27,7 @@
 }
 
 .page-header .sub {
-  font-size: 15px;
+  font-size: 25px;
   color: #555;
   max-width: 520px;
   margin: 12px auto 0;
