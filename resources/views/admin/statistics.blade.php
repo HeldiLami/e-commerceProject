@@ -1,12 +1,8 @@
 <x-layouts.admin-layout>
-    <x-slot:title>Admin • Statistics</x-slot>
+    <x-slot:title>Admin Dashboard</x-slot>
 
     @vite(['resources/css/admin/statistics.css'])
     
-    <x-slot:title>Admin • Statistics</x-slot:title>
-
-    @vite(['resources/css/admin/statistics.css'])
-
     @php
         // $stats vjen nga controller (Collection)
         $prettyType = function ($type) {
@@ -18,7 +14,7 @@
 
     <div class="page-header">
         <h1>Statistics</h1>
-        <h2 class="subtitle">Përmbledhje e shitjeve sipas kategorisë dhe produktit.</h2>
+        <h2 class="sub">Përmbledhje e shitjeve sipas kategorisë dhe produktit.</h2>
     </div>
 
     <div class="stats-card">
