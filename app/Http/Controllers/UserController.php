@@ -39,7 +39,6 @@ class UserController extends Controller
             ],
         ]);
 
-        // photo: bosh => null
         $attributes['photo'] = isset($attributes['photo']) && trim($attributes['photo']) !== ''
             ? trim($attributes['photo'])
             : null;
@@ -52,7 +51,7 @@ class UserController extends Controller
 
         $user->update($attributes);
 
-        return redirect('/users/' . $user->id)->with('success', 'User updated!');
+        return redirect('/users' . $user->id)->with('success', 'User updated!');
     }
 
     public function adminEdit(User $user)
@@ -81,7 +80,7 @@ class UserController extends Controller
         if (!empty($attributes['password'])) {
             $attributes['password'] = Hash::make($attributes['password']);
         } else {
-            unset($attributes['password']);
+            unset($attributes['password']);//unset e heq nga array kete fushe qe mos ti bej update null ne db
         }
 
         if ($user->id === $request->user()->id && (int)$attributes['is_admin'] === 0) {
@@ -92,7 +91,7 @@ class UserController extends Controller
 
         return redirect()->route('admin.users.edit', $user)->with('success', 'User updated!');
     }
-
+}
     public function destroy(User $user)
     {
         if ($user->is_admin) {

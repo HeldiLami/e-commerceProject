@@ -72,11 +72,11 @@ Route::middleware(['auth', 'admin'])
     ->name('admin.')
     ->group(function () {
 
+    Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics');
+
     Route::get('/', function () {
         return redirect()->route('admin.users');
-    });
-
-    Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics');
+    })->name('overview');
 
     Route::get('/users', [UserController::class, 'index'])->name('users');
     Route::get('/users/{user}/edit', [UserController::class, 'adminEdit'])->name('users.edit');
