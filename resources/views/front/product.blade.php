@@ -88,10 +88,10 @@
             @endcan
         </div>
 
-        @if(count($keywords))
+        @if($product->keywords && count($product->keywords) > 0)
           <div class="keywords-section">
-            @foreach($keywords as $k)
-              <span class="keyword">{{ $k }}</span>
+            @foreach($product->keywords as $keyword)
+              <span class="keyword">{{ $keyword }}</span>
             @endforeach
           </div>
         @endif
