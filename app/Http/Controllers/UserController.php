@@ -99,7 +99,7 @@ class UserController extends Controller
 
         return redirect()->route('admin.users.edit', $user)->with('success', 'User updated!');
     }
-
+}
     public function destroy(User $user)
     {
         if ($user->is_admin) {
