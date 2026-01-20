@@ -1,46 +1,46 @@
-import { loadCartFromStorage, updateCartQuantity } from "./cart.js";
+import { loadCartFromStorage, updateCartQuantityHTML } from "./cart.js";
 import "./amazon.js";
-import "./orders.js"
+import "./orders.js";
 
 function setupProductButtons() {
-  loadCartFromStorage();
-  updateCartQuantity(".js-cart-quantity");
-  setupReviewModal();
-  //addToCartButton button inicializohet direkte nga amazon.js 
-  //e hoqa se psj inicializohej 2 here dhe jepte do jepte dyfishin
-  //nuk eshte zgjidhja me e mire besoj 
+    loadCartFromStorage();
+    updateCartQuantityHTML();
+    setupReviewModal();
+    //addToCartButton button inicializohet direkte nga amazon.js
+    //e hoqa se psj inicializohej 2 here dhe jepte do jepte dyfishin
+    //nuk eshte zgjidhja me e mire besoj
 
-  //same thing per setupBuyButton
+    //same thing per setupBuyButton
 }
 
 function setupReviewModal() {
-  const modal = document.getElementById("reviewModal");
-  const openBtn = document.getElementById("openReviewBtn");
-  const closeBtn = document.querySelector(".close-modal");
+    const modal = document.getElementById("reviewModal");
+    const openBtn = document.getElementById("openReviewBtn");
+    const closeBtn = document.querySelector(".close-modal");
 
-  if (openBtn && modal) {
-    openBtn.addEventListener("click", () => {
-      modal.style.display = "block";
-      document.body.style.overflow = "hidden"; 
-    });
+    if (openBtn && modal) {
+        openBtn.addEventListener("click", () => {
+            modal.style.display = "block";
+            document.body.style.overflow = "hidden";
+        });
 
-    if (closeBtn) {
-      closeBtn.addEventListener("click", () => {
-        closeModal(modal);
-      });
+        if (closeBtn) {
+            closeBtn.addEventListener("click", () => {
+                closeModal(modal);
+            });
+        }
+
+        window.addEventListener("click", (event) => {
+            if (event.target === modal) {
+                closeModal(modal);
+            }
+        });
     }
-
-    window.addEventListener("click", (event) => {
-      if (event.target === modal) {
-        closeModal(modal);
-      }
-    });
-  }
 }
 
 function closeModal(modalElement) {
-  modalElement.style.display = "none";
-  document.body.style.overflow = "auto";
+    modalElement.style.display = "none";
+    document.body.style.overflow = "auto";
 }
 
 setupProductButtons();
