@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -16,7 +17,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'is_admin',
-        'photo', // ✅ SHTOJE KETE
+        'photo', 
     ];
 
     protected $hidden = [
@@ -39,10 +40,6 @@ class User extends Authenticatable implements MustVerifyEmail
             return asset('images/icons/default-user-icon.png');
         }
 
-        if (str_starts_with($this->photo, 'http://') || str_starts_with($this->photo, 'https://')) {
-            return $this->photo;
-        }
-
-        return asset(ltrim($this->photo, '/'));
+        return Storage::url($this->photo);
     }
 }

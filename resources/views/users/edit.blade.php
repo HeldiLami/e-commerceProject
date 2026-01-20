@@ -6,13 +6,9 @@
     <div class="profile-card">
         <h1 class="profile-title">Update Your Information</h1>
 
-        @if (session('success'))
-            <div class="alert alert--success">{{ session('success') }}</div>
-        @endif
-
         @if ($errors->any())
-            <div class="alert alert--error">
-                <ul class="alert__list">
+            <div class="alert-list">
+                <ul class="alert">
                     @foreach ($errors->all() as $e)
                         <li>{{ $e }}</li>
                     @endforeach
@@ -20,35 +16,31 @@
             </div>
         @endif
 
-        <form id="userEditForm" action="{{ route('users.update', $user) }}" method="POST">
+        <form id="userEditForm" action="{{ route('users.update', $user) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PATCH')
-
-            {{-- Photo URL + Preview --}}
             <div class="info-item">
-                <label for="photo" class="info-label">Photo URL (optional)</label>
-                <input
-                    type="url"
-                    name="photo"
-                    id="photo"
-                    value="{{ old('photo', $user->photo) }}"
-                    class="profile-input @error('photo') input-error @enderror"
-                    placeholder="https://... ose /images/users/user1.png (ose lëre bosh për default)"
-                >
-                @error('photo')
-                    <span class="error-message">{{ $message }}</span>
-                @enderror
-
-                <div class="hint">Nëse është bosh, shfaqet default icon.</div>
-
+                <label class="info-label">Profile Photo</label>
                 <div class="photo-preview">
                     <img
                         id="photoPreviewImg"
-                        src="{{ $user->photoUrl() }}"
-                        data-default-src="{{ asset('images/icons/default-user-icon.png') }}"
+                        src="{{ $user->photoUrl() }}" 
+                        style="width: 150px; height: 150px; object-fit: cover; border-radius: 10px;"
                         alt="Profile photo preview"
                     >
                 </div>
+                <input
+                    type="file"
+                    name="photo"
+                    id="photo"
+                    accept="image/*"
+                    class="profile-input @error('photo') input-error @enderror"
+                >
+                <span id="photo-error" class="error-message">
+                    @error('photo')
+                        {{ $message }}
+                    @enderror
+                </span>
             </div>
 
             <div class="info-item">

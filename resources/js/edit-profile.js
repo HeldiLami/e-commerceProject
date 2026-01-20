@@ -1,30 +1,39 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const input = document.getElementById("photo");
-  const img = document.getElementById("photoPreviewImg");
-  if (!input || !img) return;
+  const photoInput = document.getElementById("photo");
+  const photoPreview = document.getElementById("photoPreviewImg");
+  const errorSpan = document.getElementById("photo-error");
 
-  const defaultSrc = img.dataset.defaultSrc;
+  if (!photoInput || !photoPreview) return;
 
-  function setPreview() {
-    const val = (input.value || "").trim();
+  const originalSrc = photoPreview.src;
 
-    if (!val) {
-      img.src = defaultSrc;
-      return;
-    }
+  photoInput.addEventListener("change", function(event) {
+  const file = event.target.files[0];
 
-    if (val.startsWith("/")) {
-      img.src = `${window.location.origin}${val}`;
-      return;
-    }
-
-    img.src = val;
+  if (errorSpan) {
+    errorSpan.textContent = "";
   }
 
-  img.addEventListener("error", () => {
-    img.src = defaultSrc;
-  });
+  if (!file) {
+    photoPreview.src = originalSrc;
+    return;
+  }
 
-  input.addEventListener("input", setPreview);
-  setPreview();
+  if (!file.type.startsWith("image/")) {
+    if (errorSpan) {
+      errorSpan.textContent = "Ju lutem zgjidhni një skedar imazhi (JPG, PNG, etj).";
+    }
+    this.value = ""; 
+    photoPreview.src = originalSrc;
+    return;
+  }
+
+  const reader = new FileReader();
+  
+  reader.onload = function(e) {
+    photoPreview.src = e.target.result;
+  };
+  
+  reader.readAsDataURL(file);
+  });
 });

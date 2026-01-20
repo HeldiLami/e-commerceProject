@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -28,10 +29,10 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
-        $attributes = $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => ['required', 'email', 'max:255', 'unique:users,email,' . $user->id],
-            'photo' => ['nullable', 'string', 'max:2048'],
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'password' => [
                 'nullable',
                 'confirmed',
@@ -39,18 +40,24 @@ class UserController extends Controller
             ],
         ]);
 
-        // photo: bosh => null
-        $attributes['photo'] = isset($attributes['photo']) && trim($attributes['photo']) !== ''
-            ? trim($attributes['photo'])
-            : null;
+        if ($request->hasFile('photo')) {
+            if ($user->photo) {
+                Storage::disk('public')->delete($user->photo);
+            }
+            $path = $request->file('photo')->store('photos', 'public');
 
-        if (!empty($attributes['password'])) {
-            $attributes['password'] = Hash::make($attributes['password']);
+            $validated['photo'] = $path;
         } else {
-            unset($attributes['password']);
+            unset($validated['photo']);
         }
 
-        $user->update($attributes);
+        if (!empty($validated['password'])) {
+            $validated['password'] = Hash::make($validated['password']);
+        } else {
+            unset($validated['password']);
+        }
+
+        $user->update($validated);
 
         return redirect('/users/' . $user->id)->with('success', 'User updated!');
     }
