@@ -47,7 +47,7 @@ export default defineConfig({
         port: 5174,
         strictPort: true,
         hmr: {
-            host: "0.0.0.0",
+            host: "localhost",
             port: 5174,
         },
         watch: {

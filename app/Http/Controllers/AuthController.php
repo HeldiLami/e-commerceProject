@@ -78,11 +78,10 @@ class AuthController extends Controller
     }
 
     public function logout(Request $request){
-      //removes all of the user data from the current session
       Auth::logout();
-      //removes any other data related with the session
+
       $request->session()->invalidate();
-      //regenerates CSRF token so requests from the prev sessions dont get accepted
+      
       $request->session()->regenerateToken();
 
       return redirect()->route('home');
