@@ -152,29 +152,7 @@
 
 
 .add-to-cart-button {
-  /* 1. Dimensionet dhe Hapësira */
   width: 100%;
   padding: 8px;
-  border-radius: 50px;
-  
-  /* 2. Ngjyrat (Amazon Style) */
-  background-color: rgb(255, 216, 20);
-  border: 1px solid rgb(252, 210, 0);
-  color: black; /* Teksti gjithmonë i zi */
-  
-  /* 3. Sjellja (Kjo është kryesorja) */
-  display: flex;            
-  align-items: center;      
-  justify-content: center;  
-  text-decoration: none;    
-  cursor: pointer;          
-  
-  font-family: Arial;
-  font-size: 13px;
-}
-
-.add-to-cart-button:hover {
-  background-color: rgb(247, 202, 0);
-  color: black;
-  text-decoration: none;
+  border-radius: 50px; 
 }

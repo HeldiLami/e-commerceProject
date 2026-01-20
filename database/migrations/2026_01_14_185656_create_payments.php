@@ -15,19 +15,11 @@ return new class extends Migration {
                 ->cascadeOnDelete();
 
             $table->unsignedInteger('amount_cents');
-
-            // p.sh: 'card', 'paypal', 'cash'
             $table->string('provider')->default('card');
-
-            // 'pending', 'success', 'failed', 'refunded'
             $table->string('status')->default('pending');
-
             $table->string('transaction_ref')->nullable();
             $table->timestamp('paid_at')->nullable();
-
             $table->timestamps();
-
-            // nëse do 1 payment për 1 order
             $table->unique('order_id');
         });
     }

@@ -8,17 +8,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserMiddleware
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
     public function handle(Request $request, Closure $next): Response
     {
         $user = $request->user();
 
         if ($user && $user->is_admin) {
-            return redirect()->route('admin.overview');
+            return redirect()->route('admin.users');
         }
 
         return $next($request);

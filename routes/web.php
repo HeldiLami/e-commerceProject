@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
@@ -15,11 +14,12 @@ use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-/*
-|--------------------------------------------------------------------------
-| RRUGËT PUBLIKE (pa login)
-|--------------------------------------------------------------------------
-*/
+// RRUGET PUBLIKEE
+
+// Stripe webhook publik (pa CSRF)?
+Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle'])
+    ->withoutMiddleware([ValidateCsrfToken::class])
+    ->name('stripe.webhook');
 
 //routet per userat
 Route::middleware(['user'])->group(function () {
@@ -29,30 +29,23 @@ Route::middleware(['user'])->group(function () {
     Route::get('/search', [ProductController::class, 'search'])->name('products.search');
 });
 
-// Stripe webhook publik (pa CSRF)?
-Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle'])
-    ->withoutMiddleware([ValidateCsrfToken::class])
-    ->name('stripe.webhook');
-
-
 /*
 |--------------------------------------------------------------------------
 | RRUGËT E MBROJTURA (auth)
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'user'])->group(function () {
-
-    // Orders?
+    // Orders
     Route::get('/orders', [OrderController::class, 'index'])->name('orders');
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
     Route::delete('/orders/{order}', [OrderController::class, 'destroy'])->name('orders.destroy');
 
-    // Cart & Tracking?
+    // Cart dhe Tracking
     Route::get('/cart', [CartController::class, 'index'])->name('cart');
     Route::get('/tracking', [TrackingController::class, 'show'])->name('tracking');
     Route::view('/checkout', 'front.checkout')->name('checkout');
 
-    // Stripe Payments?
+    // Stripe 
     Route::post('/checkout/session', [StripePaymentController::class, 'createCheckoutSession'])->name('checkout.session');
     Route::post('/checkout/session/redirect', [StripePaymentController::class, 'redirectToCheckout'])->name('checkout.session.redirect');
     Route::get('/checkout/success', [StripePaymentController::class, 'success'])->name('checkout.success');
@@ -73,11 +66,7 @@ Route::middleware(['auth', 'user'])->group(function () {
 });
 
 
-/*
-|--------------------------------------------------------------------------
-| ADMIN (auth + admin)
-|--------------------------------------------------------------------------
-*/
+// Admin
 Route::middleware(['auth', 'admin'])
     ->prefix('admin')
     ->name('admin.')
@@ -85,17 +74,15 @@ Route::middleware(['auth', 'admin'])
 
     Route::get('/', function () {
         return redirect()->route('admin.users');
-    })->name('overview');
+    });
 
     Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics');
 
-        // ✅ USERS (vetëm nga controller)
-        Route::get('/users', [UserController::class, 'index'])->name('users');
-        Route::get('/users/{user}/edit', [UserController::class, 'adminEdit'])->name('users.edit');
-        Route::patch('/users/{user}', [UserController::class, 'adminUpdate'])->name('users.update');
-        Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+    Route::get('/users', [UserController::class, 'index'])->name('users');
+    Route::get('/users/{user}/edit', [UserController::class, 'adminEdit'])->name('users.edit');
+    Route::patch('/users/{user}', [UserController::class, 'adminUpdate'])->name('users.update');
+    Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 
-        // ✅ Products (Admin)
-        Route::get('/products/create', [ProductController::class, 'adminCreate'])->name('products.create');
-        Route::post('/products', [ProductController::class, 'adminStore'])->name('products.store');
-    });
+    Route::get('/products/create', [ProductController::class, 'adminCreate'])->name('products.create');
+    Route::post('/products', [ProductController::class, 'adminStore'])->name('products.store');
+});

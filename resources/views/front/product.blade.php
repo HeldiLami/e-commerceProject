@@ -1,12 +1,3 @@
-@php
-  $keywords = $product->keywords;
-  if (is_string($keywords)) {
-    $decoded = json_decode($keywords, true);
-    $keywords = is_array($decoded) ? $decoded : [];
-  }
-  if (!is_array($keywords)) $keywords = [];
-@endphp
-
 <x-layouts.front-layout title="{{ $product->name }}">
   <x-slot name="css">
   @vite(['resources/css/product.css'])
@@ -63,7 +54,7 @@
           </div>
           @can('is-verified')
             <button
-              class="button-yellow w100 js-add-to-cart" 
+              class="add-to-cart-button button-yellow  js-add-to-cart" 
               style="border-radius: 50px; font-size: 15px"
               type="button"
               data-product-id="{{ $product->id }}"
@@ -71,7 +62,7 @@
               Add to Cart
             </button>
           @else
-            <a href="{{ route('login') }}" class="button-yellow-link w100" style="border-radius: 50px;">
+            <a href="{{ route('login') }}" class="add-to-cart-button button-yellow" style="border-radius: 50px;">
               Add to Cart
             </a>
           @endcan

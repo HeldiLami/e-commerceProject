@@ -13,21 +13,22 @@ class Product extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
-    protected $guarded = [];
-
-    protected $casts = [
-        'keywords' => 'array',
-        'rating_stars' => 'float',
-        'price_cents' => 'integer',
+    protected $fillable = [
+        'id',
+        'name',
+        'image',
+        'type',
+        'price_cents',
+        'quantity',
+        'keywords',
     ];
+
+    protected $casts = ['keywords' => 'array'];
 
     public function getStarsAverageAttribute(): string
     {
-        $avg = $this->rating_avg ?? 0;
-
-        $rounded = round($avg * 2) / 2;
-
-        return number_format($rounded, 1);
+        $stars = round(($this->rating_avg ?? 0) * 2) / 2;
+        return number_format($stars, 1);
     }
 
     public function getStarsImageAttribute(): string

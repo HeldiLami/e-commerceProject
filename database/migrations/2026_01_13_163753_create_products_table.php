@@ -9,17 +9,12 @@ return new class extends Migration {
     {
         Schema::create('products', function (Blueprint $table) {
             $table->uuid('id')->primary();
-
             $table->string('name');
             $table->string('image');
             $table->string('type')->default('product');
-
             $table->integer('price_cents');
-
             $table->integer('quantity')->default(1); 
-
             $table->json('keywords')->nullable();
-
             $table->timestamps();
         });
     }

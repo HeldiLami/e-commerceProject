@@ -10,7 +10,14 @@ class Payment extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'order_id', 
+        'amount_cents', 
+        'provider', 
+        'status', 
+        'transaction_ref', 
+        'paid_at'
+    ];
 
     public function order(): BelongsTo
     {

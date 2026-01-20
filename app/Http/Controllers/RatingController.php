@@ -45,7 +45,6 @@ class RatingController extends Controller
 
     public function getStats($productId)
     {
-        // Llogarisim te dhenat direkt nga tabela ratings
         $stats = Rating::where('product_id', $productId)
             ->selectRaw('AVG(stars) as average, COUNT(*) as count')
             ->first();

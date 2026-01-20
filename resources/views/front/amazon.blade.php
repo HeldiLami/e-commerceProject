@@ -38,7 +38,7 @@
 
                 <div class="product-spacer"></div>
                 <div class="added-to-cart js-added-to-cart-{{ $product->id }}">
-                    <img src="/images/icons/checkmark.png" style="width: 20px; margin-right: 5px;">
+                    <img src="/images/icons/checkmark.png">
                     Added
                 </div>
             @auth    
@@ -47,7 +47,7 @@
                     Add to Cart
                 </button>
             @else
-                <a href="{{ route('login') }}" class="add-to-cart-button">
+                <a href="{{ route('login') }}" class="add-to-cart-button button-yellow">
                     Add to Cart
                 </a>
             @endauth

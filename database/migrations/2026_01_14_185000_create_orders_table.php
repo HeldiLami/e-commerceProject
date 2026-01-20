@@ -15,10 +15,7 @@ return new class extends Migration {
                 ->cascadeOnDelete();
 
             $table->unsignedInteger('total_cents');
-
-            // p.sh: 'pending', 'paid', 'shipped', 'completed', 'cancelled'
             $table->string('status')->default('pending');
-
             $table->timestamps();
         });
     }

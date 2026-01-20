@@ -12,7 +12,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::orderByDesc('created_at')->get();
-        return view('admin.users', compact('users'));
+        return view('admin.users', ['users' => $users]);
     }
 
     public function show(Request $request)
@@ -31,7 +31,7 @@ class UserController extends Controller
         $attributes = $request->validate([
             'name' => 'required|string|max:255',
             'email' => ['required', 'email', 'max:255', 'unique:users,email,' . $user->id],
-            'photo' => ['nullable', 'string', 'max:2048'], // ✅ mos e detyro url nese do path lokal
+            'photo' => ['nullable', 'string', 'max:2048'],
             'password' => [
                 'nullable',
                 'confirmed',
@@ -65,7 +65,7 @@ class UserController extends Controller
         $attributes = $request->validate([
             'name' => 'required|string|max:255',
             'email' => ['required', 'email', 'max:255', 'unique:users,email,' . $user->id],
-            'photo' => ['nullable', 'string', 'max:2048'], // ✅ mos e detyro url nese do path lokal
+            'photo' => ['nullable', 'string', 'max:2048'],
             'is_admin' => ['required', 'boolean'],
             'password' => [
                 'nullable',
@@ -84,7 +84,7 @@ class UserController extends Controller
             unset($attributes['password']);
         }
 
-        if ((int)$user->id === (int)auth()->id() && (int)$attributes['is_admin'] === 0) {
+        if ($user->id === $request->user()->id && (int)$attributes['is_admin'] === 0) {
             return back()->with('error', 'Nuk mund ta heqësh veten nga admin.');
         }
 

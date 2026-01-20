@@ -12,37 +12,33 @@ input, select, button, a {
   font-family: Roboto, Arial;
 }
 
-.button-yellow, 
-.button-yellow-link {
-  color: rgb(33, 33, 33);
+.button-yellow {
   background-color: rgb(255, 216, 20);
   border: 1px solid rgb(252, 210, 0);
-  border-radius: 8px;
+  color: rgb(33, 33, 33);
   cursor: pointer;
-  box-shadow: 0 2px 5px rgba(213, 217, 217, 0.5);
-  
-  display: inline-block;
-  text-align: center;
-  text-decoration: none;
-  box-sizing: border-box; 
-  padding: 6px 10px;
+  font-family: Arial;
   font-size: 13px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  transition: background-color 0.15s, box-shadow 0.1s;
 }
 
-.button-yellow:hover,
-.button-yellow-link:hover {
+.button-yellow:hover {
   background-color: rgb(247, 202, 0);
-  border: 1px solid rgb(242, 194, 0);
+  border-color: rgb(242, 194, 0);
+  text-decoration: none;
+  color: rgb(33, 33, 33);
 }
 
-.button-yellow:active,
-.button-yellow-link:active {
-  background: rgb(255, 216, 20);
-  border-color: rgb(252, 210, 0);
-  box-shadow: none;
+.button-yellow:active {
+  background-color: rgb(242, 194, 0);
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.1);
 }
-
-/* --- Gold Button & Link (Buy Now style) --- */
+/* --- Gold Button */
 .button-gold,
 .button-gold-link {
   color: rgb(33, 33, 33);

@@ -56,10 +56,6 @@ class ProductController extends Controller
         return view('admin.products-create');
     }
 
-    /**
-     * ADMIN: store product
-     * POST /admin/products
-     */
     public function adminStore(Request $request)
     {
         $data = $request->validate([
@@ -71,10 +67,8 @@ class ProductController extends Controller
             'keywords' => 'nullable|string|max:1000',
         ]);
 
-        // price (€) -> price_cents
         $priceCents = (int) round(((float)$data['price']) * 100);
 
-        // keywords "a, b, c" -> ["a","b","c"]
         $keywordsArr = [];
         if (!empty($data['keywords'])) {
             $keywordsArr = collect(explode(',', $data['keywords']))
