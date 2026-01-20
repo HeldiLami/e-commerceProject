@@ -12,45 +12,46 @@
                 </a>
                 </div>
 
-               <div class="product-name">
-                <a class="product-link" href="{{ route('product.show', $product) }}">
-                    {{ $product->name }}
-                </a>
-               </div>
+                <div class="product-name">
+                    <a class="product-link" href="{{ route('product.show', $product) }}">
+                        {{ $product->name }}
+                    </a>
+                </div>
+                
                 <div class="product-rating-container">
-                <img class="product-rating-stars" src="{{ $product->stars_image }}">
-                    <div class="product-rating-count link-primary">
-                        {{ $product->rating_count }}
+                    <img class="product-rating-stars" src="{{ $product->stars_image }}">
+                        <a href="{{ route('product.show', $product) }}#reviews" class="product-rating-count link-primary">
+                            {{ $product->rating_count }}
+                        </a>
                     </div>
-                </div>
 
-                <div class="product-price">
-                    ${{ number_format($product->price_cents / 100, 2) }}
-                </div>
+                    <div class="product-price">
+                        ${{ number_format($product->price_cents / 100, 2) }}
+                    </div>
 
-                <div class="product-quantity-container">
-                    <select class="js-quantity-selector-{{ $product->id }}">
-                        @for ($i = 1; $i <= 10; $i++)
-                            <option value="{{ $i }}">{{ $i }}</option>
-                        @endfor
-                    </select>
-                </div>
+                    <div class="product-quantity-container">
+                        <select class="js-quantity-selector-{{ $product->id }}">
+                            @for ($i = 1; $i <= 10; $i++)
+                                <option value="{{ $i }}">{{ $i }}</option>
+                            @endfor
+                        </select>
+                    </div>
 
-                <div class="product-spacer"></div>
-                <div class="added-to-cart js-added-to-cart-{{ $product->id }}">
-                    <img src="/images/icons/checkmark.png">
-                    Added
-                </div>
-            @auth    
-                <button class="add-to-cart-button button-yellow js-add-to-cart" 
-                        data-product-id="{{ $product->id }}">
-                    Add to Cart
-                </button>
-            @else
-                <a href="{{ route('login') }}" class="add-to-cart-button button-yellow">
-                    Add to Cart
-                </a>
-            @endauth
+                    <div class="product-spacer"></div>
+                    <div class="added-to-cart js-added-to-cart-{{ $product->id }}">
+                        <img src="/images/icons/checkmark.png">
+                        Added
+                    </div>
+                @auth    
+                    <button class="add-to-cart-button button-yellow js-add-to-cart" 
+                            data-product-id="{{ $product->id }}">
+                        Add to Cart
+                    </button>
+                @else
+                    <a href="{{ route('login') }}" class="add-to-cart-button button-yellow">
+                        Add to Cart
+                    </a>
+                @endauth
             </div>
         @endforeach
     </div>

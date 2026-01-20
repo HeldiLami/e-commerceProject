@@ -133,9 +133,3 @@
   opacity: 0.92;
 }
 
-/* Responsive */
-@media (max-width: 720px) {
-  .row2 {
-    grid-template-columns: 1fr;
-  }
-}

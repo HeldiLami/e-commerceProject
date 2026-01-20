@@ -98,7 +98,7 @@
       </div>
     </div>
 
-    <div class="reviews-section">
+    <div id="reviews" class="reviews-section">
       <hr class="section-divider">
       
       <div class="reviews-header">
