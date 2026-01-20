@@ -31,7 +31,7 @@ class UserController extends Controller
         $attributes = $request->validate([
             'name' => 'required|string|max:255',
             'email' => ['required', 'email', 'max:255', 'unique:users,email,' . $user->id],
-            'photo' => ['nullable', 'string', 'max:2048'], // ✅ mos e detyro url nese do path lokal
+            'photo' => ['nullable', 'string', 'max:2048'], 
             'password' => [
                 'nullable',
                 'confirmed',
@@ -65,7 +65,7 @@ class UserController extends Controller
         $attributes = $request->validate([
             'name' => 'required|string|max:255',
             'email' => ['required', 'email', 'max:255', 'unique:users,email,' . $user->id],
-            'photo' => ['nullable', 'string', 'max:2048'], // ✅ mos e detyro url nese do path lokal
+            'photo' => ['nullable', 'string', 'max:2048'],
             'is_admin' => ['required', 'boolean'],
             'password' => [
                 'nullable',
@@ -81,7 +81,7 @@ class UserController extends Controller
         if (!empty($attributes['password'])) {
             $attributes['password'] = Hash::make($attributes['password']);
         } else {
-            unset($attributes['password']);
+            unset($attributes['password']);//unset e heq nga array kete fushe qe mos ti bej update null ne db
         }
 
         if ((int)$user->id === (int)auth()->id() && (int)$attributes['is_admin'] === 0) {

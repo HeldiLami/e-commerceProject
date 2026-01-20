@@ -83,11 +83,11 @@ Route::middleware(['auth', 'admin'])
     ->name('admin.')
     ->group(function () {
 
+    Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics');
+
     Route::get('/', function () {
         return redirect()->route('admin.users');
     })->name('overview');
-
-    Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics');
 
         // ✅ USERS (vetëm nga controller)
         Route::get('/users', [UserController::class, 'index'])->name('users');
