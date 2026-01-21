@@ -12,7 +12,6 @@
             <label class="searchbar">
                 <span class="searchbar__hint">Search</span>
                 <input id="userSearchInput" type="text" placeholder="Kërko: emër / email..." />
-                <button id="userSearchBtn" type="button">Search</button>
             </label>
         </div>
 

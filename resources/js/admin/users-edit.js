@@ -1,54 +1,44 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const input = document.getElementById("photo");
-  const img = document.getElementById("photoPreviewImg");
-  const placeholder = document.getElementById("photoPlaceholder");
-  if (!input || !img || !placeholder) return;
+  const photoInput = document.getElementById("photo");
+  const photoPreview = document.getElementById("photoPreviewImg");
+  const errorSpan = document.getElementById("photo-error");
 
-  const defaultSrc = img.dataset.defaultSrc;
+  if (!photoInput || !photoPreview) return;
 
-  function showPlaceholder(msg) {
-    placeholder.textContent = msg;
-    placeholder.style.display = "grid";
-    img.style.display = "none";
-  }
+  const originalSrc = photoPreview.src;
 
-  function showImg(src) {
-    img.src = src;
-    img.style.display = "block";
-    placeholder.style.display = "none";
-  }
+  photoInput.addEventListener("change", function (event) {
+    const file = event.target.files && event.target.files[0];
 
-  function normalizeValue(v) {
-    v = (v || "").trim();
-    if (!v) return "";
-
-    // nëse është path lokal pa /, e bëjmë relative nga root
-    if (!/^https?:\/\//i.test(v) && !v.startsWith("/")) {
-      v = "/" + v;
-    }
-    return v;
-  }
-
-  function update() {
-    const v = normalizeValue(input.value);
-
-    if (!v) {
-      return showImg(defaultSrc);
+    if (errorSpan) {
+      errorSpan.textContent = "";
     }
 
-    // basic check: duhet të jetë http(s) ose /path
-    if (!/^https?:\/\//i.test(v) && !v.startsWith("/")) {
-      return showPlaceholder("URL jo e vlefshme. Përdor https://... ose /path");
+    // Nëse user-i nuk zgjodhi file (ose e hoqi zgjedhjen)
+    if (!file) {
+      photoPreview.src = originalSrc;
+      return;
     }
 
-    showImg(v);
-  }
+    // Kontrollo që është imazh
+    if (!file.type || !file.type.startsWith("image/")) {
+      if (errorSpan) {
+        errorSpan.textContent =
+          "Ju lutem zgjidhni një skedar imazhi (JPG, PNG, etj).";
+      }
 
-  input.addEventListener("input", update);
+      // Pastro input-in që të mos mbetet file i gabuar
+      this.value = "";
+      photoPreview.src = originalSrc;
+      return;
+    }
 
-  img.addEventListener("error", () => {
-    showPlaceholder("S’u ngarkua imazhi. Kontrollo URL/path.");
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+      photoPreview.src = e.target.result;
+    };
+
+    reader.readAsDataURL(file);
   });
-
-  update();
 });
