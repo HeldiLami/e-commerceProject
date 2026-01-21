@@ -16,12 +16,12 @@ use Illuminate\Support\Facades\Log;
 
 // RRUGET PUBLIKEE
 
-// Stripe webhook publik (pa CSRF)?
+// stripe webhook publik 
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle'])
     ->withoutMiddleware([ValidateCsrfToken::class])
     ->name('stripe.webhook');
 
-//routet per userat
+//routet vetem per userat, pa nevojne per login dhe smund te jesh admin
 Route::middleware(['user'])->group(function () {
     Route::get('/', [ProductController::class, 'index'])->name('home');
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
@@ -29,11 +29,8 @@ Route::middleware(['user'])->group(function () {
     Route::get('/search', [ProductController::class, 'search'])->name('products.search');
 });
 
-/*
-|--------------------------------------------------------------------------
-| RRUGËT E MBROJTURA (auth)
-|--------------------------------------------------------------------------
-*/
+
+//rruget qe kemi mbrojt me auth dhe user middleware
 Route::middleware(['auth', 'user'])->group(function () {
     // Orders
     Route::get('/orders', [OrderController::class, 'index'])->name('orders');
@@ -66,7 +63,7 @@ Route::middleware(['auth', 'user'])->group(function () {
 });
 
 
-// Admin
+// rruget qe kemi mbrojt me auth dhe admin middleware
 Route::middleware(['auth', 'admin'])
     ->prefix('admin')
     ->name('admin.')

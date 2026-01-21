@@ -48,10 +48,10 @@
                             tabindex="0"
                             data-name="{{ strtolower($user->name ?? '') }}"
                             data-email="{{ strtolower($user->email ?? '') }}"
-                            onclick="window.location='{{ route('admin.users.edit', $user) }}'"
+                            onclick='window.location="{{ route("admin.users.edit", $user) }}"'
                             onkeydown="if(event.key==='Enter'){ window.location='{{ route('admin.users.edit', $user) }}' }"
                             style="cursor:pointer;">
-                            <td>
+                            <td>    
                                 <div class="userCell">
                                     <div class="avatar" aria-hidden="true"></div>
                                     <div class="nameEmail">
