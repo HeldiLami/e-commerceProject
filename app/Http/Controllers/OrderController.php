@@ -93,7 +93,6 @@ class OrderController extends Controller
         });
     }
 
-
     public function destroy(Request $request, Order $order)
     {
         if ($order->user_id !== $request->user()->id) {
