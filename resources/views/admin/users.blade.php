@@ -44,11 +44,9 @@
 
                         <tr class="js-user-row"
                             role="button"
-                            tabindex="0"
                             data-name="{{ strtolower($user->name ?? '') }}"
                             data-email="{{ strtolower($user->email ?? '') }}"
                             onclick="window.location='{{ route('admin.users.edit', $user) }}'"
-                            onkeydown="if(event.key==='Enter'){ window.location='{{ route('admin.users.edit', $user) }}' }"
                             style="cursor:pointer;">
                             <td>
                                <div class="userCell">
@@ -109,8 +107,6 @@
 
     <script>
         const input = document.getElementById('userSearchInput');
-        const btn = document.getElementById('userSearchBtn');
-
         function filterUsers() {
             const q = (input.value || '').trim().toLowerCase();
             document.querySelectorAll('.js-user-row').forEach(row => {
@@ -120,8 +116,6 @@
                 row.style.display = ok ? '' : 'none';
             });
         }
-
-        btn?.addEventListener('click', filterUsers);
         input?.addEventListener('input', filterUsers);
     </script>
 </x-layouts.admin-layout>
