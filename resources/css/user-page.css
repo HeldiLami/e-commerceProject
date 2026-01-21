@@ -1,9 +1,17 @@
 .profile-card {
-  max-width: 600px;
+  width: 70%; 
   background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  padding: 3.5rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  margin: 3rem auto;
+}
+
+.profile-body {
+  display: flex;
+  gap: 3rem;
+  align-items: flex-start;
+  margin-top: 30px;
 }
 
 .profile-title {
@@ -15,11 +23,15 @@
 }
 
 .profile-info-group {
-  margin-top: 20px;
+  flex: 1;
+}
+
+.photo-section {
+  text-align: center;
 }
 
 .info-item {
-  margin-bottom: 15px;
+  margin-bottom: 24px;
 }
 
 .info-label {
@@ -32,7 +44,7 @@
 }
 
 .info-value {
-  font-size: 18px;
+  font-size: 20px;
   color: #444;
   margin: 5px 0;
 }
@@ -88,4 +100,34 @@
   text-decoration: none;
   font-weight: bold;
   text-align: center;
+}
+
+
+.photo-preview{
+  margin-top: 12px;
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(0,0,0,.02);
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.photo-preview.square {
+  width: 250px;
+  aspect-ratio: 1 / 1;
+}
+
+.photo-preview.landscape {
+  width: 450px;
+  aspect-ratio: 16 / 9;
+}
+
+.photo-preview img{
+  width:100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }

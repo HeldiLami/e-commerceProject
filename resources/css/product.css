@@ -129,6 +129,7 @@
 .reviews-section {
   margin-top: 40px;
   padding-bottom: 50px;
+  grid-column: span 2;
 }
 
 .reviews-header {
@@ -170,7 +171,7 @@
   margin: 40px 0;
 }
 
-.reviews-grid {
+.reviews-main {
   padding: 0px 16px;
 }
 
@@ -222,7 +223,9 @@
   margin-top: 10px;
   line-height: 1.5;
 }
-
+.reviews-header, .reviews-list {
+  width: 100%;
+}
 
 /* Review modal */
 .modal-overlay {

@@ -1,6 +1,6 @@
 <x-layouts.user-layout title="Edit Profile">
     <x-slot name="css">
-        @vite(['resources/css/pages/edit-profile.css'])
+        @vite(['resources/css/user-page.css'])
     </x-slot>
 
     <div class="profile-card">
@@ -21,11 +21,10 @@
             @method('PATCH')
             <div class="info-item">
                 <label class="info-label">Profile Photo</label>
-                <div class="photo-preview">
+                <div class="photo-preview landscape">
                     <img
                         id="photoPreviewImg"
-                        src="{{ $user->photoUrl() }}" 
-                        style="width: 150px; height: 150px; object-fit: cover; border-radius: 10px;"
+                        src="{{ $user->photo_url }}" 
                         alt="Profile photo preview"
                     >
                 </div>

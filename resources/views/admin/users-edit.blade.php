@@ -64,7 +64,7 @@
                                     class="photoPreview__img"
                                     alt="Preview"
                                     data-default-src="{{ asset('images/icons/default-user-icon.png') }}"
-                                    src="{{ $user->photoUrl() }}"
+                                    src="{{ $user->photo_url }}"
                                 >
                             </div>
                         </div>

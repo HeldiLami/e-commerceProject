@@ -25,12 +25,12 @@
         </a>
 
         @can('is-verified')
-            <a href="{{ route('users.show', auth()->id()) }}" class="header-user-avatar">
-                <img 
-                  src="{{ asset('images/icons/default-user-icon.png') }}"
-                  alt="User Avatar"
-                >
-            </a>
+          <a href="{{ route('users.show', auth()->id()) }}" class="header-user-avatar">
+            <img 
+              src="{{ auth()->user()->photo_url }}" 
+              alt="{{ auth()->user()->name }}"
+          >
+          </a>
         @endcan
       </div>
 

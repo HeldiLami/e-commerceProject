@@ -59,7 +59,7 @@ class UserController extends Controller
 
         $user->update($validated);
 
-        return redirect('/users' . $user->id)->with('success', 'User updated!');
+        return redirect('/users/' . $user->id)->with('success', 'User updated!');
     }
 
     public function adminEdit(User $user)

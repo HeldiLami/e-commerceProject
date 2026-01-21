@@ -20,9 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (!file.type.startsWith("image/")) {
-    if (errorSpan) {
-      errorSpan.textContent = "Ju lutem zgjidhni një skedar imazhi (JPG, PNG, etj).";
-    }
+    errorSpan.textContent = "Ju lutem zgjidhni një skedar imazhi (JPG, PNG, etj).";
     this.value = ""; 
     photoPreview.src = originalSrc;
     return;

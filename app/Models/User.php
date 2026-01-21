@@ -34,7 +34,7 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-    public function photoUrl(): string
+    public function getPhotoUrlAttribute(): string
     {
         if (empty($this->photo)) {
             return asset('images/icons/default-user-icon.png');

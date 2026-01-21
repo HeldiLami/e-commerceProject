@@ -206,6 +206,15 @@
     margin-left: 20px;
     display: flex;
     align-items: center;
+    
+}
+
+.header-user-avatar img {
+    width: 45px;
+    height: 45px;
+    object-fit: cover;   
+    border-radius: 50%;
+    border: 2px solid #febd69;     
 }
 
 .header-user-avatar:hover {

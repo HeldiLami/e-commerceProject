@@ -1,12 +1,12 @@
 <x-layouts.front-layout title="{{ $product->name }}">
-  <x-slot name="css">
+  <x-slot:css>
   @vite(['resources/css/product.css'])
   @vite(['resources/css/pages/amazon.css'])
-</x-slot>
+</x-slot:css>
 
-<x-slot name="scripts">
+<x-slot:scripts>
   @vite(['resources/js/product-page.js'])
-</x-slot>
+</x-slot:scripts>
 
 
   <div style="margin-top: 100px;"></div>
@@ -110,7 +110,7 @@
 
       <x-review-modal :product="$product" />
 
-      <div class="reviews-grid">
+      <div class="reviews-main">
         <div class="reviews-summary">
           <div class="summary-header">
             <img class="stars-large" src="{{ $product->stars_image }}" alt="rating">
