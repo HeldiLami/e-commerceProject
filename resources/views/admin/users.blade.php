@@ -51,9 +51,13 @@
                             onkeydown="if(event.key==='Enter'){ window.location='{{ route('admin.users.edit', $user) }}' }"
                             style="cursor:pointer;">
                             <td>
-                                <div class="userCell">
-                                    <div class="avatar" aria-hidden="true"></div>
-                                    <div class="nameEmail">
+                               <div class="userCell">
+                                        <img
+                                            class="avatar"
+                                            src="{{ $user->photoUrl() }}"
+                                            alt="{{ $user->name }} avatar"
+                                            loading="lazy"
+                                        />
                                         <div class="name">{{ $user->name ?? 'No name' }}</div>
                                         <div class="email">{{ $user->email }}</div>
                                     </div>
