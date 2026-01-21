@@ -23,22 +23,20 @@ class ProductController extends Controller
     public function search(Request $request)
     {
         $query = trim((string) $request->query('q', ''));
+        //ben ndarjen e fjaleve sipas hapsirave ose presjeve
         $terms = collect(preg_split('/[\s,]+/', $query, -1, PREG_SPLIT_NO_EMPTY))
             ->map(fn ($term) => mb_strtolower($term))
             ->values();
 
         $products = Product::withAvg('ratings as rating_avg', 'stars')
             ->withCount('ratings as rating_count')
-            ->when($terms->isNotEmpty(), function ($builder) use ($terms) {
-                $builder->where(function ($subquery) use ($terms) {
-                    foreach ($terms as $term) {
-                        $like = '%' . $term . '%';
-                        $subquery->orWhere('name', 'like', $like)
-                            ->orWhereJsonContains('keywords', $term)
-                            ->orWhere('keywords', 'like', $like);
-                    }
-                });
-            })
+            ->when($terms->isNotEmpty(), fn($query) => 
+            $query->where(function ($sub) use ($terms) {
+                foreach ($terms as $term) {
+                    $sub->orWhere('name', 'like', "%$term%")
+                        ->orWhereJsonContains('keywords', $term);
+                }
+            }))
             ->get();
 
         return view('front.amazon', [
@@ -97,7 +95,6 @@ class ProductController extends Controller
      */
     public function create()
     {
-        // nëse një ditë do CRUD normal (jo adminCreate), mund ta përdorësh këtu
         return redirect()->route('admin.products.create');
     }
 
@@ -106,7 +103,6 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        // nëse do ta përdorësh si resource controller normal
         return redirect()->route('admin.products.create');
     }
 
@@ -116,8 +112,10 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         $product->loadAvg('ratings as rating_avg', 'stars')
-        ->loadCount('ratings as rating_count')
-        ->load(['ratings.user']);
+                ->loadCount('ratings as rating_count')
+                ->load(['ratings' => function ($query){
+                    $query->latest()->with('user');
+                }]);
         return view('front.product', [
             'product' => $product,
         ]);
@@ -128,7 +126,6 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        // opsionale: nëse do faqe edit në admin në të ardhmen
         return view('admin.products-edit', ['product' => $product]);
     }
 
