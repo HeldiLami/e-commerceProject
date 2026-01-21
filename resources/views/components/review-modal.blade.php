@@ -29,8 +29,15 @@
             </div>
 
             <div class="form-group">
-                <label class="modal-label">Add a written review</label>
-                <textarea name="comment" rows="4" class="review-input" placeholder="What did you like or dislike?"></textarea>
+                <label class="modal-label">Add a Review</label>
+                <textarea 
+                    name="comment" 
+                    rows="4" 
+                    maxlength="1000" 
+                    class="review-input" 
+                    placeholder="What did you like or dislike?"
+                    >
+                </textarea>
             </div>
 
             <button type="submit" class="button-review w100">Submit Review</button>

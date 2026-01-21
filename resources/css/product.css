@@ -348,9 +348,8 @@ textarea.review-input {
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.1s ease;
   margin-top: 10px;
-  display: inline-block;
 }
 
 .btn-delete-rating:hover {
