@@ -9,11 +9,9 @@ return new class extends Migration {
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-
             $table->foreignId('order_id')
                 ->constrained()
                 ->cascadeOnDelete();
-
             $table->unsignedInteger('amount_cents');
             $table->string('provider')->default('card');
             $table->string('status')->default('pending');

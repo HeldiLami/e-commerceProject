@@ -123,25 +123,40 @@
           <h3>Top reviews</h3>
           
           @forelse($product->ratings as $rating)
-            <div class="review-item">
+          <div class="review-item">
               <div class="user-info">
-                <img src="{{ asset('images/icons/default-user-icon.png') }}" class="avatar">
-                <span class="username">{{ $rating->user->name }}</span>
+                  <img src="{{ asset('images/icons/default-user-icon.png') }}" class="avatar">
+                  <span class="username">
+                      {{ $rating->user->name }}
+                      @if(Auth::id() === $rating->user_id) 
+                          <strong>(Your Review)</strong> 
+                      @endif
+                  </span>
               </div>
               
               <div class="review-rating">
-                <img src="{{ $rating->stars_image }}" class="stars-small">
+                  <img src="{{ $rating->stars_image }}" class="stars-small">
               </div>
               
               <div class="review-date">Reviewed on {{ $rating->created_at->format('M d, Y') }}</div>
               
               <div class="review-body">
-                <p>{{ $rating->comment }}</p>
+                  <p>{{ $rating->comment }}</p>
               </div>
-            </div>
-          @empty
-            <p class="no-reviews">No reviews yet. Be the first to review this product!</p>
-          @endforelse
+      
+              @if(Auth::id() === $rating->user_id)
+                  <form action="{{ route('ratings.destroy', $rating) }}" method="POST">
+                      @csrf
+                      @method('DELETE')
+                      <button type="submit" class="btn-delete-rating">
+                          Delete
+                      </button>
+                  </form>
+              @endif
+          </div>
+      @empty
+          <p class="no-reviews">No reviews yet. Be the first to review this product!</p>
+      @endforelse
         </div>
       </div>
     </div>

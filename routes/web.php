@@ -63,6 +63,7 @@ Route::middleware(['auth', 'user'])->group(function () {
     })->middleware('verified');
 
     Route::post('/ratings/store', [RatingController::class, 'store'])->name('ratings.store');
+    Route::delete('/ratings/{rating}', [RatingController::class, 'destroy'])->name('ratings.destroy');
 });
 
 

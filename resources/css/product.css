@@ -338,3 +338,22 @@ textarea.review-input {
   font-weight: 500;
   line-height: 1.3;
 }
+
+.btn-delete-rating {
+  background-color: transparent;
+  color: #e74c3c;
+  border: 1px solid #e74c3c;
+  padding: 5px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 10px;
+  display: inline-block;
+}
+
+.btn-delete-rating:hover {
+  background-color: #e74c3c;
+  color: white;
+}
