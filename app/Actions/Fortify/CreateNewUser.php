@@ -29,13 +29,14 @@ class CreateNewUser implements CreatesNewUsers
                 Rule::unique(User::class),
             ],
             'password' => $this->passwordRules(),
+            'is_admin' => ['sometimes', 'boolean'],
         ])->validate();
 
         return User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
-            'is_admin' => 0,
+            'is_admin' => $input['is_admin'] ?? 0,
         ]);
     }
 }

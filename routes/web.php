@@ -21,6 +21,10 @@ Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle'])
     ->withoutMiddleware([ValidateCsrfToken::class])
     ->name('stripe.webhook');
 
+Route::get('/admin/register', function () {
+    return redirect('/register')->with('is_admin', true);
+});
+
 //routet vetem per userat, pa nevojne per login dhe smund te jesh admin
 Route::middleware(['user'])->group(function () {
     Route::get('/', [ProductController::class, 'index'])->name('home');
