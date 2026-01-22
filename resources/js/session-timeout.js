@@ -31,4 +31,4 @@ activityEvents.forEach(event => {
     window.addEventListener(event, resetTimer, false);
 });
 
-setInterval(timerIncrement, 60000);
+setInterval(timerIncrement, 60000); // 1 minutshi ne milisekonda
