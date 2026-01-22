@@ -9,17 +9,17 @@ class TrackingController extends Controller
 {
     public function show(Request $request)
     {
-        $data = $request->validate([
+        $validated = $request->validate([
             'order_id' => ['required', 'integer', 'exists:orders,id'],
             'product_id' => ['required', 'uuid'],
         ]);
 
         $order = Order::with('products')
-            ->where('id', $data['order_id'])
+            ->where('id', $validated['order_id'])
             ->where('user_id', $request->user()->id)
             ->firstOrFail();
 
-        $product = $order->products->firstWhere('id', $data['product_id']);
+        $product = $order->products->firstWhere('id', $validated['product_id']);
         if (!$product) {
             abort(404);
         }
