@@ -9,7 +9,7 @@ class CartController extends Controller
 {
     public function index()
     {
-        $products = Product::all()->map(function ($product) {
+        $products = Product::all()->map(function ($product) {//Kalon secilin produkt dhe e kthen ne nje struktur te re array
             return [
                 'id' => $product->id,
                 'name' => $product->name,
@@ -18,6 +18,7 @@ class CartController extends Controller
             ];
         });
 
-        return view('front.cart', ['products' => $products]);
+        return view('front.cart', ['products' => $products]);//array asocativ 
+                                                            //Krijon variabel products 
     }
 }

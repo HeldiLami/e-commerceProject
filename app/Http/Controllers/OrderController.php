@@ -21,7 +21,7 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
+        $data = $request->validate([//validon inputin
             'items' => ['required', 'array', 'min:1'],
             'items.*.product_id' => ['required', 'uuid', 'exists:products,id'],
             'items.*.quantity' => ['required', 'integer', 'min:1'],
@@ -29,8 +29,8 @@ class OrderController extends Controller
         $items = $data['items'];
 
         return DB::transaction(function () use ($request, $items) {
-            $productIds = collect($items)->pluck('product_id')->unique()->values();
-
+            $productIds = collect($items)->pluck('product_id')->unique()->values();//pluck kthen vtm nje fushe nga cdo element
+                                    
             // Lock products to avoid stock conflicts.
             $products = Product::whereIn('id', $productIds)
                 ->lockForUpdate()

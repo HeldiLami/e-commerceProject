@@ -40,8 +40,6 @@ class StripeWebhookController extends Controller
             $order = Order::lockForUpdate()->find($orderId);
             if (!$order) return;
 
-            if ($order->status === 'paid') return;
-
             $items = DB::table('order_product')
                 ->where('order_id', $orderId)
                 ->get();

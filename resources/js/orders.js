@@ -1,5 +1,5 @@
 import { addToCart, updateCartQuantityHTML } from "./cart.js";
-
+//logjika per butonin buy
 export function setupBuyButton() {
     document.querySelectorAll(".js-buy").forEach((button) => {
         button.addEventListener("click", () => {
@@ -7,7 +7,7 @@ export function setupBuyButton() {
             const quantity = Number(button.dataset.quantity) || 1;
             addToCart(productId, quantity);
             updateCartQuantityHTML();
-            window.location.href = "/cart";
+            window.location.href = "/cart"; //ben ridirect tek /cart
         });
     });
 }
