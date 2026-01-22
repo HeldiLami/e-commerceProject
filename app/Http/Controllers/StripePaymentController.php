@@ -7,6 +7,8 @@ use App\Models\Payment;
 use Illuminate\Http\Request;
 use Stripe\StripeClient;
 
+//Merr order_id dhe kontrollon nese eshte pending porosia. Krijon Checkout Session dhe kthen JSON me checkoutUrl.
+
 class StripePaymentController extends Controller
 {
     public function createCheckoutSession(Request $request)

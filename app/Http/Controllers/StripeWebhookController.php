@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+//Verifikon nenshkrimin e webhook
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -40,9 +40,9 @@ class StripeWebhookController extends Controller
             $order = Order::lockForUpdate()->find($orderId);
             if (!$order) return;
 
-            $items = DB::table('order_product')
+            $items = DB::table('order_product')//Mer nga db te gjithe rreshtat qe i perkasin nje porosie
                 ->where('order_id', $orderId)
-                ->get();
+                ->get();//i kthen rreshtat si koleksion
 
             foreach ($items as $item) {
                 $product = Product::lockForUpdate()->find($item->product_id);
