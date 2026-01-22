@@ -23,17 +23,11 @@ function setupReviewModal() {
             modal.style.display = "block";
             document.body.style.overflow = "hidden";
         });
+    }
 
-        if (closeBtn) {
-            closeBtn.addEventListener("click", () => {
-                closeModal(modal);
-            });
-        }
-
-        window.addEventListener("click", (event) => {
-            if (event.target === modal) {
-                closeModal(modal);
-            }
+    if (closeBtn && modal) {
+        closeBtn.addEventListener("click", () => {
+            closeModal(modal);
         });
     }
 }

@@ -1,29 +1,9 @@
 import { updateCartQuantityHTML } from "../cart.js";
 
-// Update cart quantity display on page load
-function updateCartDisplay() {
-    updateCartQuantityHTML(".js-cart-quantity");
-}
-
-function setupLogoutHandler() {
-    const logoutForm = document.querySelector(".js-logout-form");
-    if (!logoutForm) {
-        return;
-    }
-
-    logoutForm.addEventListener("submit", () => {
-        localStorage.removeItem("cart");
-    });
-}
-
-// If DOM is already loaded, update immediately
 if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", () => {
-        updateCartDisplay();
-        setupLogoutHandler();
+        updateCartQuantityHTML(".js-cart-quantity");
     });
 } else {
-    // DOM is already loaded
-    updateCartDisplay();
-    setupLogoutHandler();
+    updateCartQuantityHTML(".js-cart-quantity");
 }
