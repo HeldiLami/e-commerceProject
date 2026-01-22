@@ -7,7 +7,6 @@
   <form action="{{ route('register') }}" method="POST" class="space-y-4 js-register-form">
       @csrf 
       
-      <input type="hidden" name="is_admin" value="1">
 
       <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>

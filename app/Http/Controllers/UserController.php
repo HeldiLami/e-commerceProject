@@ -8,12 +8,13 @@ use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
+
 class UserController extends Controller
 {
     public function index()
     {
         $users = User::orderByDesc('created_at')->get();
-        return view('admin.users', ['users' => $users]);
+        return view('admin.users', compact('users'));
     }
 
     public function show(Request $request)
@@ -59,7 +60,7 @@ class UserController extends Controller
 
         $user->update($validated);
 
-        return redirect('/users' . $user->id)->with('success', 'User updated!');
+        return redirect('/users/' . $user->id)->with('success', 'User updated!');
     }
 
     public function adminEdit(User $user)
@@ -67,38 +68,45 @@ class UserController extends Controller
         return view('admin.users-edit', ['user' => $user]);
     }
 
-    public function adminUpdate(Request $request, User $user)
-    {
-        $attributes = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => ['required', 'email', 'max:255', 'unique:users,email,' . $user->id],
-            'photo' => ['nullable', 'string', 'max:2048'],
-            'is_admin' => ['required', 'boolean'],
-            'password' => [
-                'nullable',
-                'confirmed',
-                Password::min(8)->letters()->numbers()->symbols()
-            ],
-        ]);
+        public function adminUpdate(Request $request, User $user)
+{
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => ['required', 'email', 'max:255', 'unique:users,email,' . $user->id],
+        'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        'is_admin' => ['required', 'boolean'],
+        'password' => [
+            'nullable',
+            'confirmed',
+            Password::min(8)->letters()->numbers()->symbols()
+        ],
+    ]);
 
-        $attributes['photo'] = isset($attributes['photo']) && trim($attributes['photo']) !== ''
-            ? trim($attributes['photo'])
-            : null;
-
-        if (!empty($attributes['password'])) {
-            $attributes['password'] = Hash::make($attributes['password']);
-        } else {
-            unset($attributes['password']);//unset e heq nga array kete fushe qe mos ti bej update null ne db
+    if ($request->hasFile('photo')) {
+        if ($user->photo) {
+            Storage::disk('public')->delete($user->photo);
         }
 
-        if ($user->id === $request->user()->id && (int)$attributes['is_admin'] === 0) {
-            return back()->with('error', 'Nuk mund ta heqësh veten nga admin.');
-        }
+        $path = $request->file('photo')->store('photos', 'public');
+        $validated['photo'] = $path;
+    } else {
+        unset($validated['photo']);
+    }
 
-        $user->update($attributes);
+    if (!empty($validated['password'])) {
+        $validated['password'] = Hash::make($validated['password']);
+    } else {
+        unset($validated['password']);
+    }
+
+    if ((int)$user->id === (int)$request->user()->id && (int)$validated['is_admin'] === 0) {
+        return back()->with('error', 'Nuk mund ta heqësh veten nga admin.');
+    }
+
+    $user->update($validated);
 
         return redirect()->route('admin.users.edit', $user)->with('success', 'User updated!');
-    }
+}
 
     public function destroy(User $user)
     {

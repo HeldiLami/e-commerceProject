@@ -37,37 +37,38 @@
                     <a class="linkBack" href="{{ route('admin.users') }}">← Back to users</a>
                 </div>
 
-                <form id="adminUserEditForm" action="{{ route('admin.users.update', $user) }}" method="POST">
+                <form id="adminUserEditForm" action="{{ route('admin.users.update', $user) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PATCH')
 
-                    <div class="grid">
-                        {{-- PHOTO + PREVIEW (zë 2 kolona) --}}
+                        {{-- PHOTO UPLOAD --}}
                         <div class="field field--full">
-                            <label for="photo">Photo URL (optional)</label>
-                            <input
-                                type="text"
-                                name="photo"
-                                id="photo"
-                                value="{{ old('photo', $user->photo) }}"
-                                class="@error('photo') is-error @enderror"
-                                placeholder="https://... ose /images/users/user1.png (ose bosh për default)"
-                            >
-                            @error('photo') <div class="field__error">{{ $message }}</div> @enderror
-                            <div class="hint">Nëse është bosh, shfaqet default icon.</div>
+                            <label for="photo">Profile Photo (optional)</label>
 
                             <div class="photoPreview">
-                                <div id="photoPlaceholder" class="photoPreview__placeholder">Vendos URL/path sipër</div>
-
                                 <img
                                     id="photoPreviewImg"
                                     class="photoPreview__img"
-                                    alt="Preview"
-                                    data-default-src="{{ asset('images/icons/default-user-icon.png') }}"
                                     src="{{ $user->photoUrl() }}"
+                                    alt="Profile photo preview"
+                                    data-default-src="{{ asset('images/icons/default-user-icon.png') }}"
                                 >
                             </div>
+
+                            <input
+                                type="file"
+                                name="photo"
+                                id="photo"
+                                accept="image/*"
+                                class="@error('photo') is-error @enderror"
+                            >
+
+                            @error('photo')
+                                <div class="field__error">{{ $message }}</div>
+                            @enderror
                         </div>
+
+
 
                         {{-- NAME --}}
                         <div class="field">
