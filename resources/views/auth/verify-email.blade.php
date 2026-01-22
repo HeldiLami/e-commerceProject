@@ -4,7 +4,7 @@
     </x-slot:heading>
 
     <div class="verify-container">
-        <p>Click the link to continue.</p>
+        <p>Click the link to resend email.</p>
 
         @if (session('status') == 'verification-link-sent')
             <div class="pill">Link Sent!</div>
