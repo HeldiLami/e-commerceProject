@@ -1,5 +1,5 @@
 import { addToCart, updateCartQuantityHTML } from "./cart.js";
-
+//aktivizon butonat add to cart ne faqet e produkteve
 export function setupAddToCartButtons() {
     document.querySelectorAll(".js-add-to-cart").forEach((button) => {
         button.addEventListener("click", () => {

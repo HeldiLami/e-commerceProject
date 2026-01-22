@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+//Menaxhon porosit duke shfaqur listen e produkteve,krijuar porosi te reja, fshin porosi te shfletuesit
 
 class OrderController extends Controller
 {
@@ -21,7 +22,7 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
+        $data = $request->validate([//validon inputin
             'items' => ['required', 'array', 'min:1'],
             'items.*.product_id' => ['required', 'uuid', 'exists:products,id'],
             'items.*.quantity' => ['required', 'integer', 'min:1'],
@@ -29,16 +30,16 @@ class OrderController extends Controller
         $items = $data['items'];
 
         return DB::transaction(function () use ($request, $items) {
-            $productIds = collect($items)->pluck('product_id')->unique()->values();
+            $productIds = collect($items)->pluck('product_id')->unique()->values();//pluck kthen vtm nje fushe nga cdo element
 
             // Lock products to avoid stock conflicts.
-            $products = Product::whereIn('id', $productIds)
-                ->lockForUpdate()
+            $products = Product::whereIn('id', $productIds)//merr nga db tgjitha produktet qe kan ins ne $productIds.
+                ->lockForUpdate()//bllokon rreshtat per update
                 ->get()
-                ->keyBy('id');
+                ->keyBy('id');//ben te aksesushem me celes id
 
             foreach ($items as $item) {
-                $product = $products->get($item['product_id']);
+                $product = $products->get($item['product_id']);//merr produktet e kerkuar ne porosi
 
                 if (!$product) {
                     return response()->json([
@@ -46,7 +47,7 @@ class OrderController extends Controller
                     ], 404);
                 }
 
-                $requestedQty = (int) $item['quantity'];
+                $requestedQty = (int) $item['quantity'];//sasin e ekruar e kthen ne integer
 
                 if ($requestedQty > (int) $product->quantity) {
                     return response()->json([
@@ -65,7 +66,7 @@ class OrderController extends Controller
 
                 $totalCents += $product->price_cents * $qty;
 
-                $orderItems[] = [
+                $orderItems[] = [//te dhenat qe do te duten ne tabelen order_product
                     'order_id' => null,
                     'product_id' => $product->id,
                     'quantity' => $qty,
@@ -85,7 +86,7 @@ class OrderController extends Controller
                 $orderItem['order_id'] = $order->id;
             }
 
-            DB::table('order_product')->insert($orderItems);
+            DB::table('order_product')->insert($orderItems);//Ben insert te gjitha rreshtat ne tabelen order_product
 
             return response()->json([
                 'order_id' => $order->id,
@@ -95,7 +96,7 @@ class OrderController extends Controller
 
     public function destroy(Request $request, Order $order)
     {
-        if ($order->user_id !== $request->user()->id) {
+        if ($order->user_id !== $request->user()->id) {//Kontrollon nese porosia nuk eshte e perdorusit
             abort(403);
         }
 

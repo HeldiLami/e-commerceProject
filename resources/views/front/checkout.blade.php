@@ -13,7 +13,8 @@
     
     <script>
         // Global variable for asset base URL
-        window.assetBaseUrl = '{{ asset('') }}';
+        window.assetBaseUrl = '{{ asset('') }}';//asset kthen bazen e public url http://localhost:8000/
+                                                //window.assetBaseUrl e ruan ne window qe ta perdor javascript
     </script>
   </head>
   <body>

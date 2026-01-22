@@ -19,7 +19,7 @@
 
     <x-slot name="scripts">
         <script>
-            window.cartProductsData = @json($products);
+            window.cartProductsData = @json($products);//Kthen products ne json
         </script>
         @vite(['resources/js/cart.js'])
     </x-slot>

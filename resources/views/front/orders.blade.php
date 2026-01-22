@@ -67,7 +67,7 @@
                     <div class="order-remove-cell">
                         <form method="POST" action="{{ route('orders.destroy', $order) }}">
                             @csrf
-                            @method('DELETE')
+                            @method('DELETE') {{--metode spoofing qe te bej metoda delete pasi html mbeshtet vtm get dhe post--}}
                             <button type="submit" class="order-remove-button" aria-label="Remove order">
                                 <svg class="order-remove-icon" viewBox="0 0 24 24" aria-hidden="true">
                                     <path d="M9 3h6l1 2h4v2H4V5h4l1-2zM6 9h12l-1 11H7L6 9zm3 2h2v7H9v-7zm4 0h2v7h-2v-7z" fill="currentColor"/>
@@ -77,7 +77,7 @@
                     </div>
                 </div>
             </div>
-        @empty
+        @empty {{--direktive blade qe kontrollon nese nje variabel bosh--}}
             <div class="order-container">
                 <div class="order-header">
                     <div class="order-header-left-section">
