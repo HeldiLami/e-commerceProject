@@ -12,7 +12,6 @@
             <label class="searchbar">
                 <span class="searchbar__hint">Search</span>
                 <input id="userSearchInput" type="text" placeholder="Kërko: emër / email..." />
-                <button id="userSearchBtn" type="button">Search</button>
             </label>
         </div>
 
@@ -45,16 +44,18 @@
 
                         <tr class="js-user-row"
                             role="button"
-                            tabindex="0"
                             data-name="{{ strtolower($user->name ?? '') }}"
                             data-email="{{ strtolower($user->email ?? '') }}"
-                            onclick='window.location="{{ route("admin.users.edit", $user) }}"'
-                            onkeydown="if(event.key==='Enter'){ window.location='{{ route('admin.users.edit', $user) }}' }"
+                            onclick="window.location='{{ route('admin.users.edit', $user) }}'"
                             style="cursor:pointer;">
-                            <td>    
-                                <div class="userCell">
-                                    <div class="avatar" aria-hidden="true"></div>
-                                    <div class="nameEmail">
+                            <td>
+                               <div class="userCell">
+                                        <img
+                                            class="avatar"
+                                            src="{{ $user->photoUrl() }}"
+                                            alt="{{ $user->name }} avatar"
+                                            loading="lazy"
+                                        />
                                         <div class="name">{{ $user->name ?? 'No name' }}</div>
                                         <div class="email">{{ $user->email }}</div>
                                     </div>
@@ -106,8 +107,6 @@
 
     <script>
         const input = document.getElementById('userSearchInput');
-        const btn = document.getElementById('userSearchBtn');
-
         function filterUsers() {
             const q = (input.value || '').trim().toLowerCase();
             document.querySelectorAll('.js-user-row').forEach(row => {
@@ -117,8 +116,6 @@
                 row.style.display = ok ? '' : 'none';
             });
         }
-
-        btn?.addEventListener('click', filterUsers);
         input?.addEventListener('input', filterUsers);
     </script>
 </x-layouts.admin-layout>
