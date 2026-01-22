@@ -8,9 +8,7 @@ use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource (FRONT).
-     */
+
     public function index(Request $request)
     {
         $products = Product::withAvg('ratings as rating_avg', 'stars')
@@ -20,12 +18,25 @@ class ProductController extends Controller
         return view('front.amazon', ['products' => $products]);
     }
 
+    public function show(Product $product)
+    {
+        $product->loadAvg('ratings as rating_avg', 'stars')
+                ->loadCount('ratings as rating_count')
+                ->load(['ratings' => function ($query){
+                    $query->latest()->with('user');
+                }]);
+        return view('front.product', [
+            'product' => $product,
+        ]);
+    }
+
     public function search(Request $request)
     {
         $query = trim((string) $request->query('q', ''));
         //ben ndarjen e fjaleve sipas hapsirave ose presjeve
         $terms = collect(preg_split('/[\s,]+/', $query, -1, PREG_SPLIT_NO_EMPTY))
             ->map(fn ($term) => mb_strtolower($term))
+            //ben secure qe arrayit te mos i ndryshoj renditja e indekseve
             ->values();
 
         $products = Product::withAvg('ratings as rating_avg', 'stars')
@@ -106,20 +117,6 @@ class ProductController extends Controller
         return redirect()->route('admin.products.create');
     }
 
-    /**
-     * Display the specified resource (FRONT).
-     */
-    public function show(Product $product)
-    {
-        $product->loadAvg('ratings as rating_avg', 'stars')
-                ->loadCount('ratings as rating_count')
-                ->load(['ratings' => function ($query){
-                    $query->latest()->with('user');
-                }]);
-        return view('front.product', [
-            'product' => $product,
-        ]);
-    }
 
     /**
      * Show the form for editing the specified resource (ADMIN optional).

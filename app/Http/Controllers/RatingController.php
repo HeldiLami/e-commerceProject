@@ -27,7 +27,7 @@ class RatingController extends Controller
             ]
         );
     
-        return back()->with('success', 'Review saved successfully!');
+        return back()->withFragment('reviews');
     }
 
     public function destroy(Rating $rating)
@@ -39,17 +39,5 @@ class RatingController extends Controller
         $rating->delete();
 
         return back()->with('success', 'Rating removed.');
-    }
-
-    public function getStats($productId)
-    {
-        $stats = Rating::where('product_id', $productId)
-            ->selectRaw('AVG(stars) as average, COUNT(*) as count')
-            ->first();
-
-        return [
-            'average' => round($stats->average * 2) / 2,
-            'count'   => (int) $stats->count
-        ];
     }
 }

@@ -33,7 +33,7 @@
                 <textarea 
                     name="comment" 
                     rows="4" 
-                    maxlength="1000" 
+                    maxlength="1000"
                     class="review-input" 
                     placeholder="What did you like or dislike?"
                     ></textarea>
