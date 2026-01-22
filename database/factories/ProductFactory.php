@@ -17,11 +17,19 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
+        $type = fake()->randomElement(['product', 'clothing', 'appliance']);
+
+        $keyword = match($type) {
+            'product'   => 'tech',
+            'clothing'  => 'outfit',
+            'appliance' => 'appliance',
+            default     => 'abstract',
+        };
         return [
             'id' => (string) Str::uuid(), 
             'name' => fake()->words(3, true),
-            'image' => 'https://loremflickr.com/640/480/' . fake()->randomElement(['tech', 'fashion', 'appliance']),
-            'type' => fake()->randomElement(['product', 'clothing', 'appliance']),
+            'image' => "https://loremflickr.com/640/480/{$keyword}?random=" . fake()->numberBetween(1, 1000),
+            'type' => $type,
             'price_cents' => fake()->numberBetween(500, 10000),
             'keywords' => [fake()->word(), fake()->word(), fake()->word()],
             'quantity' => fake()->numberBetween(0, 50),

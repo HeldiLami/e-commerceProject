@@ -11,7 +11,8 @@
     @vite([
         'resources/css/admin/sidebar.css', 
         'resources/js/admin/menuBtn.js',
-        'resources/js/session-timeout.js'
+        // 'resources/js/session-timeout.js'
+        //no need mqs kemi SESSION_LIFETIME te vendosur ne 15min
     ])
 </head>
 <body>

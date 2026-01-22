@@ -36,8 +36,7 @@
                     maxlength="1000" 
                     class="review-input" 
                     placeholder="What did you like or dislike?"
-                    >
-                </textarea>
+                    ></textarea>
             </div>
 
             <button type="submit" class="button-review w100">Submit Review</button>

@@ -19,18 +19,12 @@ class RatingFactory extends Factory
     public function definition(): array
     {
         return [
-            // Krijon një përdorues të ri ose lidhet me një ekzistues
             'user_id' => User::factory(),
-            
-            // Krijon një produkt të ri (me UUID) ose lidhet me një ekzistues
-            'product_id' => Product::factory(),
-            
-            // Gjeneron vlerat: 1.0, 1.5, 2.0, ..., 5.0
+            'product_id' => Product::factory(),  
             'stars' => fake()->randomElement([
                 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0
-            ]),
-            
-            'comment' => fake()->optional(0.7)->sentence(), // 70% shans të ketë koment
+            ]),     
+            'comment' => fake()->optional(0.7)->sentence(),
             'created_at' => fake()->dateTimeBetween('-1 year', 'now'),
             'updated_at' => now(),
         ];

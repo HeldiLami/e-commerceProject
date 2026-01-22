@@ -13,7 +13,8 @@
       <link rel="icon" type="image/png" href="images/icons/upt_logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     
-    @vite(['resources/js/session-timeout.js'])
+    {{-- @vite(['resources/js/session-timeout.js']) --}}\
+    {{-- repldced --}}
     @vite(['resources/css/general.css', 'resources/css/amazon-header.css'])
     {{ $css ?? '' }}
   </head>

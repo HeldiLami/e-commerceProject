@@ -12,7 +12,7 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 60px;
+    height: 80px;
 }
 
 .amazon-header-left-section {
@@ -206,15 +206,17 @@
     margin-left: 20px;
     display: flex;
     align-items: center;
+    height: 100%
     
 }
 
 .header-user-avatar img {
-    width: 45px;
+    width:45px;
     height: 45px;
+    background-color: #fff;
     object-fit: cover;   
     border-radius: 50%;
-    border: 2px solid #febd69;     
+    border: 3px solid #febd69;     
 }
 
 .header-user-avatar:hover {
@@ -223,13 +225,4 @@
 
 .header-user-avatar:active {
     transform: scale(0.92);
-}
-
-.header-user-avatar img {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    border: 1px solid #febd69;
-    padding: 2px;
-    object-fit: contain;
 }
